@@ -1,0 +1,46 @@
+{
+  "name": "client-management-system-nextjs",
+  "version": "0.0.1",
+  "author": "Jeff Summers",
+  "description": "A production-ready Client Management System to assist Personal Service Professionals (i.e. personal trainers, dog trainers, coaching, mentors, freelancers) in tracking client information.",
+  "bugs": {
+    "url": "https://github.com/nvme0/client-management-system-nextjs/issues"
+  },
+  "homepage": "https://github.com/nvme0/client-management-system-nextjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nvme0/client-management-system-nextjs.git"
+  },
+  "scripts": {
+    "develop": "next",
+    "build": "next build",
+    "start": "next start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@chakra-ui/core": "^0.8.0",
+    "@emotion/core": "^10.0.28",
+    "@emotion/styled": "^10.0.27",
+    "@graphql-modules/core": "^0.7.17",
+    "apollo-server-micro": "^2.16.1",
+    "dotenv": "^8.2.0",
+    "emotion-theming": "^10.0.27",
+    "graphql": "^15.3.0",
+    "next": "^9.5.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "reflect-metadata": "^0.1.13",
+    "type-graphql": "^1.0.0-rc.3",
+    "typeorm": "^0.2.25"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.10.5",
+    "@testing-library/jest-dom": "^5.11.2",
+    "@testing-library/react": "^10.4.7",
+    "@types/node": "^14.0.27",
+    "@types/react": "^16.9.44",
+    "babel-jest": "^26.2.2",
+    "jest": "^26.2.2",
+    "typescript": "^3.9.7"
+  }
+}
