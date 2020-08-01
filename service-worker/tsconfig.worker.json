@@ -1,0 +1,13 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "noImplicitAny": false,
+    "baseUrl": "./service-worker",
+    "outDir": "./build",
+    "module": "CommonJS",
+    "removeComments": true,
+    "lib": ["ESNext", "WebWorker"]
+  },
+  "include": ["./src"]
+}

@@ -1,0 +1,65 @@
+{
+  "name": "client-management-system-nextjs",
+  "version": "0.0.1",
+  "author": "Jeff Summers",
+  "description": "A production-ready Client Management System to assist Personal Service Professionals (i.e. personal trainers, dog trainers, coaching, mentors, freelancers) in tracking client information.",
+  "bugs": {
+    "url": "https://github.com/nvme0/client-management-system-nextjs/issues"
+  },
+  "homepage": "https://github.com/nvme0/client-management-system-nextjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nvme0/client-management-system-nextjs.git"
+  },
+  "scripts": {
+    "clean:prebuild": "rm -rf ./service-worker/build",
+    "clean:build": "rm -rf .next/*",
+    "prebuild:build": "tsc --project ./service-worker/tsconfig.worker.json",
+    "prebuild": "npm run clean:prebuild && npm run prebuild:build",
+    "build": "npm run prebuild && npm run clean:build && next build",
+    "develop": "npm run clean:build && next dev",
+    "develop:sw": "tsc --watch --preserveWatchOutput --project ./service-worker/tsconfig.worker.json",
+    "start": "next start",
+    "db:save": "prisma migrate save --experimental",
+    "db:up": "prisma migrate up --experimental",
+    "db:gen": "prisma generate",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@chakra-ui/core": "^0.8.0",
+    "@emotion/core": "^10.0.28",
+    "@emotion/styled": "^10.0.27",
+    "@prisma/client": "^2.4.1",
+    "apollo-server-micro": "^2.16.1",
+    "emotion-theming": "^10.0.27",
+    "graphql": "^15.3.0",
+    "graphql-request": "^3.0.0",
+    "idb": "^5.0.4",
+    "mysql": "^2.18.1",
+    "next": "^9.5.1",
+    "next-pwa": "^3.1.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-query": "^2.5.13",
+    "reflect-metadata": "^0.1.13",
+    "type-graphql": "^1.0.0-rc.3",
+    "uuid": "^8.3.0",
+    "yup": "^0.29.3"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-proposal-decorators": "^7.10.5",
+    "@prisma/cli": "^2.4.1",
+    "@testing-library/jest-dom": "^5.11.2",
+    "@testing-library/react": "^10.4.7",
+    "@types/node": "^14.0.27",
+    "@types/react": "^16.9.44",
+    "@types/uuid": "^8.0.1",
+    "@types/yup": "^0.29.4",
+    "babel-jest": "^26.2.2",
+    "babel-plugin-transform-typescript-metadata": "^0.3.0",
+    "jest": "^26.2.2",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  }
+}
