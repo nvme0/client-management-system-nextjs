@@ -35,12 +35,14 @@
     "typeorm": "^0.2.25"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/plugin-proposal-decorators": "^7.10.5",
     "@testing-library/jest-dom": "^5.11.2",
     "@testing-library/react": "^10.4.7",
     "@types/node": "^14.0.27",
     "@types/react": "^16.9.44",
     "babel-jest": "^26.2.2",
+    "babel-plugin-transform-typescript-metadata": "^0.3.0",
     "jest": "^26.2.2",
     "typescript": "^3.9.7"
   }
