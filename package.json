@@ -12,34 +12,45 @@
     "url": "git+https://github.com/nvme0/client-management-system-nextjs.git"
   },
   "scripts": {
-    "develop": "next",
+    "develop": "next dev",
     "build": "next build",
     "start": "next start",
+    "db:save": "prisma migrate save --experimental",
+    "db:up": "prisma migrate up --experimental",
+    "db:gen": "prisma generate",
     "test": "jest"
   },
   "dependencies": {
+    "@apollo/client": "^3.1.3",
     "@chakra-ui/core": "^0.8.0",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
-    "@graphql-modules/core": "^0.7.17",
+    "@prisma/client": "^2.4.1",
+    "apollo-cache-persist-dev": "^0.2.1",
     "apollo-server-micro": "^2.16.1",
-    "dotenv": "^8.2.0",
     "emotion-theming": "^10.0.27",
     "graphql": "^15.3.0",
+    "localforage": "^1.9.0",
+    "mysql": "^2.18.1",
     "next": "^9.5.1",
+    "next-offline": "^5.0.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^1.0.0-rc.3",
-    "typeorm": "^0.2.25"
+    "yup": "^0.29.3"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/plugin-proposal-decorators": "^7.10.5",
+    "@prisma/cli": "^2.4.1",
     "@testing-library/jest-dom": "^5.11.2",
     "@testing-library/react": "^10.4.7",
     "@types/node": "^14.0.27",
     "@types/react": "^16.9.44",
+    "@types/yup": "^0.29.4",
     "babel-jest": "^26.2.2",
+    "babel-plugin-transform-typescript-metadata": "^0.3.0",
     "jest": "^26.2.2",
     "typescript": "^3.9.7"
   }

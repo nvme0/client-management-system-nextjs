@@ -1,26 +1,34 @@
 import "reflect-metadata";
-import { ApolloServer } from "apollo-server-micro";
-import { buildSchema, Resolver, Query } from "type-graphql";
+import path from "path";
 import { NextApiRequest, NextApiResponse } from "next";
+import { buildSchema } from "type-graphql";
+import { ApolloServer } from "apollo-server-micro";
+
+import { HelloResolver } from "./hello/hello.resolver";
 
 let apolloServerHandler: (req: any, res: any) => Promise<void>;
 
 export const config = { api: { bodyParser: false } };
 
-@Resolver()
-export class HelloResolver {
-  @Query(() => String!)
-  async hello() {
-    return "Hello!";
-  }
-}
-
 const getApolloServerHandler = async () => {
   if (!apolloServerHandler) {
     const schema = await buildSchema({
-      resolvers: [HelloResolver]
+      resolvers: [HelloResolver],
+      emitSchemaFile: process.cwd() + "/schema.gql"
     });
-    apolloServerHandler = new ApolloServer({ schema }).createHandler({
+
+    const isDevelopment = process.env.NODE_ENV === "development";
+    apolloServerHandler = new ApolloServer({
+      schema,
+      playground: isDevelopment
+        ? {
+            settings: {
+              "request.credentials": "include"
+            }
+          }
+        : false,
+      debug: isDevelopment
+    }).createHandler({
       path: "/api/graphql"
     });
   }
