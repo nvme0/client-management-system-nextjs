@@ -1,1 +1,1 @@
-module.exports = require("./service-worker/build");
+module.exports = require("./.worker");

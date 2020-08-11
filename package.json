@@ -12,7 +12,7 @@
     "url": "git+https://github.com/nvme0/client-management-system-nextjs.git"
   },
   "scripts": {
-    "clean:prebuild": "rm -rf ./service-worker/build",
+    "clean:prebuild": "rm -rf ./.worker",
     "clean:build": "rm -rf .next/*",
     "prebuild:build": "tsc --project ./service-worker/tsconfig.worker.json",
     "prebuild": "npm run clean:prebuild && npm run prebuild:build",

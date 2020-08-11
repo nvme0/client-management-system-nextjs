@@ -4,10 +4,10 @@
     "noEmit": false,
     "noImplicitAny": false,
     "baseUrl": "./service-worker",
-    "outDir": "./build",
+    "outDir": "../.worker",
     "module": "CommonJS",
     "removeComments": true,
     "lib": ["ESNext", "WebWorker"]
   },
-  "include": ["./src"]
+  "include": ["."]
 }

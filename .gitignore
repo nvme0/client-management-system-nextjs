@@ -81,4 +81,5 @@ typings/
 .env*
 
 .next
-service-worker/build*
+.worker/*
+# prisma/migrations*
