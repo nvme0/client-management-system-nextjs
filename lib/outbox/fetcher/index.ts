@@ -1,31 +1,27 @@
-import { RequestDocument, Variables } from "graphql-request/dist/types";
-import { request } from "../request";
+import { GraphQLClient } from "graphql-request";
+import { Variables, RequestDocument } from "graphql-request/dist/types";
+import { getStore } from "../store";
 
-export interface QueueItem<T = any, V = Variables> {
-  query: RequestDocument;
-  variables?: V;
-  resolve: (value?: T) => void;
-  reject: (reason?: any) => void;
-}
+const getGraphQLClient = () =>
+  new GraphQLClient(
+    process.env.NEXT_PUBLIC_GRAPHQL_URL || "http://localhost:3000/api/graphql",
+    {
+      credentials: "same-origin"
+    }
+  );
 
-export class Queue {
-  private static queue: QueueItem[] = [];
-  private static ready = true;
+export const request = async <T = any, V = Variables>(
+  query: RequestDocument,
+  variables?: V
+) => getGraphQLClient().request<T>(query, variables);
 
-  static getQueueLength() {
-    return this.queue.length;
-  }
+export const getFetcher = async () => ({
+  ready: true,
+  store: await getStore(),
 
-  static eraseQueue() {
-    this.queue = [];
-  }
-
-  static enqueue<T = any, V = Variables>(
-    query: RequestDocument,
-    variables?: V
-  ) {
+  enqueue<T = any, V = Variables>(query: RequestDocument, variables?: V) {
     return new Promise<T>((resolve, reject) => {
-      this.queue.push({
+      this.store.push({
         query,
         variables,
         resolve,
@@ -33,13 +29,13 @@ export class Queue {
       });
       this.dequeue();
     });
-  }
+  },
 
-  static dequeue() {
+  async dequeue() {
     if (!this.ready || !navigator.onLine) {
       return false;
     }
-    const item = this.queue.shift();
+    const item = await this.store.shift();
     if (!item) {
       return false;
     }
@@ -60,7 +56,7 @@ export class Queue {
             const response: Response = error.response;
             switch (response.status) {
               case 502:
-                this.queue.unshift(item);
+                this.store.unshift(item);
                 return;
 
               default:
@@ -78,4 +74,4 @@ export class Queue {
     }
     return true;
   }
-}
+});
