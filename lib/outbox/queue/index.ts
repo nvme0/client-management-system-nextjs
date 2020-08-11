@@ -55,6 +55,19 @@ export class Queue {
         .catch((error) => {
           // TODO - handle cases, some warrant a retry
           this.ready = true;
+
+          if (error.response && error.response.status) {
+            const response: Response = error.response;
+            switch (response.status) {
+              case 502:
+                this.queue.unshift(item);
+                return;
+
+              default:
+                break;
+            }
+          }
+
           reject(error);
           this.dequeue();
         });
