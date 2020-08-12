@@ -1,15 +1,18 @@
 import { useEffect } from "react";
-import { useQuery, QueryOptions } from "react-query";
+import { useQuery as q, QueryOptions } from "react-query";
 import { Variables, RequestDocument } from "graphql-request/dist/types";
-import { Queue } from "../queue";
+import { useOutbox } from "..";
 
 const useGqlQuery = <T = any, V = Variables, E = Error>(
   query: RequestDocument,
   variables?: V,
   queryOptions?: QueryOptions<T, E>
-) => useQuery([query], () => Queue.enqueue(query, variables), queryOptions);
+) => {
+  const { fetcher } = useOutbox();
+  return q([query], () => fetcher.enqueue(query, variables), queryOptions);
+};
 
-export const usePersistedQuery = <T = any, V = Variables, E = Error>(
+export const useQuery = <T = any, V = Variables, E = Error>(
   key: string,
   query: RequestDocument,
   variables?: V,

@@ -1,63 +1,67 @@
-import { openDB, DBSchema } from "idb";
+import localForage from "localforage";
 import { RequestDocument, Variables } from "graphql-request/dist/types";
+import { Await } from "..";
 
-enum Store {
-  OUTBOX = "outbox",
-  QUEUE = "queue"
+enum Config {
+  NAME = "iwdcms",
+  STORENAME = "outbox",
+  KEY = "queue",
+  VERSION = 1
 }
 
+const config: LocalForageOptions = {
+  name: Config.NAME as string,
+  storeName: Config.STORENAME as string,
+  version: Config.VERSION as number,
+  description: "Outbox queue",
+  driver: localForage.LOCALSTORAGE // Force localStorage until FF private browsing supports indexedDB
+};
+
 export interface QueueItem<T = any, V = Variables> {
+  id: string;
   query: RequestDocument;
   variables?: V;
-  resolve: (value?: T) => void;
-  reject: (reason?: any) => void;
 }
 
 export type Queue = QueueItem[];
 
-export interface OutboxDBSchema extends DBSchema {
-  outbox: {
-    key: string;
-    value: Queue;
-  };
-}
-
-export const getStore = async () => ({
-  db: await openDB<OutboxDBSchema>(Store.OUTBOX, 1, {
-    upgrade(_db) {
-      _db.createObjectStore(Store.OUTBOX, {
-        autoIncrement: true,
-        keyPath: "id"
-      });
-    }
-  }),
+export const getStore = () => ({
+  store: localForage.createInstance(config),
   async push(item: QueueItem) {
-    return (await this.getQueue()).push(item);
+    const queue = await this.getQueue();
+    queue.push(item);
+    return this.store.setItem(Config.KEY, queue);
   },
   async unshift(item: QueueItem) {
-    return (await this.getQueue()).unshift(item);
+    const queue = await this.getQueue();
+    queue.unshift(item);
+    return this.store.setItem(Config.KEY, queue);
   },
   async shift() {
-    return (await this.getQueue()).shift();
+    const queue = await this.getQueue();
+    const item = queue.shift();
+    this.store.setItem(Config.KEY, queue);
+    return item;
   },
   async peek() {
     const queue = await this.getQueue();
     return queue && queue.length > 0 ? queue[0] : undefined;
   },
   async clear() {
-    await this.getQueue();
-    this.db.put(Store.OUTBOX, [], Store.QUEUE);
+    this.store.setItem<Queue>(Config.KEY, []);
   },
   async length() {
     const queue = await this.getQueue();
     return queue ? queue.length : -1;
   },
   async getQueue() {
-    const queue = await this.db.get(Store.OUTBOX, Store.QUEUE);
+    const queue = await this.store.getItem<Queue>(Config.KEY);
     if (!queue) {
-      await this.db.put(Store.OUTBOX, [], Store.QUEUE);
+      await this.store.setItem<Queue>(Config.KEY, []);
       return [];
     }
     return queue;
   }
 });
+
+export type Store = Await<ReturnType<typeof getStore>>;

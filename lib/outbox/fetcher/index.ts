@@ -1,6 +1,19 @@
 import { GraphQLClient } from "graphql-request";
 import { Variables, RequestDocument } from "graphql-request/dist/types";
+import { v4 as uuid } from "uuid";
 import { getStore } from "../store";
+import { Await } from "..";
+
+const resolverNoop = (value?: any) => {};
+
+export interface Resolver {
+  resolve: typeof resolverNoop;
+  reject: typeof resolverNoop;
+}
+
+export interface Resolvers {
+  [id: string]: Resolver;
+}
 
 const getGraphQLClient = () =>
   new GraphQLClient(
@@ -15,20 +28,39 @@ export const request = async <T = any, V = Variables>(
   variables?: V
 ) => getGraphQLClient().request<T>(query, variables);
 
-export const getFetcher = async () => ({
+export const getFetcher = () => ({
   ready: true,
-  store: await getStore(),
+  store: getStore(),
+  resolvers: {} as Resolvers,
 
   enqueue<T = any, V = Variables>(query: RequestDocument, variables?: V) {
-    return new Promise<T>((resolve, reject) => {
-      this.store.push({
-        query,
-        variables,
-        resolve,
-        reject
+    if (this.store) {
+      return new Promise<T>((resolve, reject) => {
+        const id = uuid();
+        // store resolvers in memory
+        this.resolvers[id] = {
+          resolve,
+          reject
+        };
+        // store query & variables in offline store
+        this.store
+          .push({
+            id,
+            query,
+            variables
+          })
+          .then(() => {
+            this.dequeue();
+          })
+          .catch((e) => {
+            delete this.resolvers[id];
+            console.error(e);
+            reject();
+          });
       });
-      this.dequeue();
-    });
+    } else {
+      return request(query, variables);
+    }
   },
 
   async dequeue() {
@@ -39,7 +71,10 @@ export const getFetcher = async () => ({
     if (!item) {
       return false;
     }
-    const { query, variables, reject, resolve } = item;
+    const { id, query, variables } = item;
+    const resolve = this.resolvers[id]?.resolve || resolverNoop;
+    const reject = this.resolvers[id]?.reject || resolverNoop;
+
     try {
       this.ready = false;
       request(query, variables)
@@ -75,3 +110,5 @@ export const getFetcher = async () => ({
     return true;
   }
 });
+
+export type Fetcher = Await<ReturnType<typeof getFetcher>>;
