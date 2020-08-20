@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Body renders 1`] = `
+<DocumentFragment>
+  <div
+    class="css-1wlss37"
+  >
+    <div
+      class="card css-1a397r5"
+    >
+      <table
+        class="css-13rbvqk"
+        role="table"
+      >
+        <tbody
+          class="css-0"
+          role="rowgroup"
+        >
+          <tr
+            class="css-1exea8t"
+            data-testid="row-4ce723a1-d977-49a6-8bdf-08f9cfe082d0"
+            role="row"
+          >
+            <td
+              class="css-1989049"
+              role="cell"
+            >
+              Cydney Bayer
+            </td>
+            <td
+              class="css-1989049"
+              role="cell"
+            >
+              Llewellyn.Walker@yahoo.com
+            </td>
+            <td
+              class="css-1989049"
+              role="cell"
+            >
+              180.989.3846 x09734
+            </td>
+            <td
+              class="css-1989049"
+              role="cell"
+            >
+              2019-10-10T00:53:43.549Z
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</DocumentFragment>
+`;

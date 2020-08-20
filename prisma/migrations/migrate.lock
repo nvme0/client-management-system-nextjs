@@ -1,3 +1,4 @@
 # Prisma Migrate lockfile v1
 
 20200815030351-initial-schema
+20200815043753-make-service-expires-a-date-time-value

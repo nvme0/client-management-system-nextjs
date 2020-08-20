@@ -4,12 +4,17 @@ import { Variables, RequestDocument } from "graphql-request/dist/types";
 import { useOutbox } from "..";
 
 const useGqlQuery = <T = any, V = Variables, E = Error>(
+  key: string,
   query: RequestDocument,
   variables?: V,
   queryOptions?: QueryOptions<T, E>
 ) => {
   const { fetcher } = useOutbox();
-  return q([query], () => fetcher.enqueue(query, variables), queryOptions);
+  return q<T, string, E>(
+    key,
+    () => fetcher.enqueue(query, variables),
+    queryOptions
+  );
 };
 
 export const useQuery = <T = any, V = Variables, E = Error>(
@@ -18,7 +23,7 @@ export const useQuery = <T = any, V = Variables, E = Error>(
   variables?: V,
   queryOptions?: QueryOptions<T, E>
 ) => {
-  const queryResult = useGqlQuery(query, variables, {
+  const queryResult = useGqlQuery(key, query, variables, {
     ...queryOptions,
     initialData: () => {
       try {

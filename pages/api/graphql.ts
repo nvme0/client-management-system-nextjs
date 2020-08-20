@@ -1,18 +1,24 @@
 import "reflect-metadata";
 import { NextApiRequest, NextApiResponse } from "next";
-import { buildSchema } from "type-graphql";
+import { buildSchema, BuildSchemaOptions } from "type-graphql";
 import { ApolloServer } from "apollo-server-micro";
+import { PrismaClient } from "@prisma/client";
 
-import { HelloResolver } from "./hello/hello.resolver";
+import { ServiceResolver } from "./service/service.resolver";
 
 let apolloServerHandler: (req: any, res: any) => Promise<void>;
 
 export const config = { api: { bodyParser: false } };
 
+export const createSchema = (options?: Omit<BuildSchemaOptions, "resolvers">) =>
+  buildSchema({
+    resolvers: [ServiceResolver],
+    ...options
+  });
+
 const getApolloServerHandler = async () => {
   if (!apolloServerHandler) {
-    const schema = await buildSchema({
-      resolvers: [HelloResolver],
+    const schema = await createSchema({
       emitSchemaFile: process.cwd() + "/schema.gql"
     });
 
@@ -26,7 +32,12 @@ const getApolloServerHandler = async () => {
             }
           }
         : false,
-      debug: isDevelopment
+      debug: isDevelopment,
+      context: ({ req, res, connection }) => {
+        return {
+          prisma: new PrismaClient({ log: ["query"] })
+        };
+      }
     }).createHandler({
       path: "/api/graphql"
     });

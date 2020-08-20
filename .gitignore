@@ -82,4 +82,6 @@ typings/
 
 .next
 .worker/*
+storybook-static
+storybook-static.zip
 # prisma/migrations*
