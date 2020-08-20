@@ -1,13 +1,14 @@
-import { ThemeProvider, CSSReset, Heading } from "@chakra-ui/core";
+import { Heading } from "@chakra-ui/core";
 
-import Header from "pages/app/components/Header";
+import Header from "components/Header";
 
-export default () => {
+const Index = () => {
   return (
-    <ThemeProvider>
-      <CSSReset />
+    <>
       <Header />
       <Heading>Welcome to the App!</Heading>
-    </ThemeProvider>
+    </>
   );
 };
+
+export default Index;
