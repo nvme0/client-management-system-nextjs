@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header renders 1`] = `
+<DocumentFragment>
+  <div
+    class="css-1wlss37"
+  >
+    <div
+      class="card css-1a397r5"
+    >
+      <table
+        class="css-13rbvqk"
+        role="table"
+      >
+        <thead
+          class="css-0"
+        >
+          <tr
+            class="css-1exea8t"
+            role="row"
+          >
+            <th
+              class="css-wcj3c1"
+              colspan="1"
+              role="columnheader"
+            >
+              <div
+                class="chakra-stack css-mpfrnm"
+              >
+                <span>
+                  Name
+                </span>
+                <span />
+              </div>
+            </th>
+            <th
+              class="css-wcj3c1"
+              colspan="1"
+              role="columnheader"
+            >
+              <div
+                class="chakra-stack css-mpfrnm"
+              >
+                <span>
+                  Email
+                </span>
+                <span />
+              </div>
+            </th>
+            <th
+              class="css-wcj3c1"
+              colspan="1"
+              role="columnheader"
+            >
+              <div
+                class="chakra-stack css-mpfrnm"
+              >
+                <span>
+                  Number
+                </span>
+                <span />
+              </div>
+            </th>
+            <th
+              class="css-wcj3c1"
+              colspan="1"
+              role="columnheader"
+            >
+              <div
+                class="chakra-stack css-mpfrnm"
+              >
+                <span>
+                  Member Since
+                </span>
+                <span />
+              </div>
+            </th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</DocumentFragment>
+`;
