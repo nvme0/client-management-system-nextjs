@@ -1,15 +1,22 @@
 import { Resolver, Query, Mutation, Arg } from "type-graphql";
 
 import { Service } from "./service.model";
-import { db } from "decorators/GetPrismaClient";
+import { db } from "decorators/getPrismaClient.decorator";
 import { PrismaClient } from "@prisma/client";
+import { AuthGuard } from "decorators/auth.guard";
+import { CurrentUser } from "decorators/currentUser.decorator";
+import { checkEntryForUpsert, checkEntryForDelete } from "lib/checkEntry";
 
 @Resolver(() => Service)
 export class ServiceResolver {
   @Query(() => [Service])
-  async getServices(@db() prisma: PrismaClient): Promise<Service[]> {
+  @AuthGuard()
+  async getServices(
+    @db() prisma: PrismaClient,
+    @CurrentUser() userId: string
+  ): Promise<Service[]> {
     try {
-      return await prisma.service.findMany();
+      return await prisma.service.findMany({ where: { userId } });
     } catch (error) {
       return [];
     } finally {
@@ -18,22 +25,37 @@ export class ServiceResolver {
   }
 
   @Mutation(() => Service, { nullable: true })
+  @AuthGuard()
   async upsertService(
     @db() prisma: PrismaClient,
+    @CurrentUser() userId: string,
     @Arg("serviceInput") service: Service
   ): Promise<Service | null> {
     try {
-      const entry = await prisma.service.findOne({ where: { id: service.id } });
-      if (entry && entry.updatedAt > service.updatedAt) {
+      const entry = await prisma.service.findOne({
+        where: { id: service.id }
+      });
+
+      if (!checkEntryForUpsert<Service>(service, { entry, userId })) {
         return entry;
       }
 
       return await prisma.service.upsert({
         create: {
-          ...service
+          ...service,
+          user: {
+            connect: {
+              id: userId
+            }
+          }
         },
         update: {
-          ...service
+          ...service,
+          user: {
+            connect: {
+              id: userId
+            }
+          }
         },
         where: {
           id: service.id
@@ -48,14 +70,16 @@ export class ServiceResolver {
   }
 
   @Mutation(() => Boolean)
+  @AuthGuard()
   async deleteService(
     @db() prisma: PrismaClient,
+    @CurrentUser() userId: string,
     @Arg("id") id: string,
     @Arg("deletedAt") deletedAt: Date
   ): Promise<Boolean> {
     try {
       const entry = await prisma.service.findOne({ where: { id } });
-      if (entry && entry.updatedAt > deletedAt) {
+      if (!checkEntryForDelete<Service>(deletedAt, { entry, userId })) {
         return false;
       }
       return !!(await prisma.service.delete({
