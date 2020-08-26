@@ -1,9 +1,16 @@
 import { createMethodDecorator } from "type-graphql";
 import { NextApiRequest, NextApiResponse } from "next";
+import { gql } from "graphql-request";
+
 import { verify } from "jsonwebtoken";
 import { configuration } from "lib/config";
 import { fetchWithToken } from "lib/fetchWithToken";
-import { GQL_REFRESH } from "gql/Auth";
+
+const GQL_REFRESH = gql`
+  mutation Refresh {
+    refresh
+  }
+`;
 
 export interface Request extends NextApiRequest {
   user: string;

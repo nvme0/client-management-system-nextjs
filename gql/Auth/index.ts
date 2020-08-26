@@ -31,9 +31,3 @@ export const GQL_REGISTER = gql`
     }
   }
 `;
-
-export const GQL_REFRESH = gql`
-  mutation {
-    refresh
-  }
-`;
