@@ -20,7 +20,7 @@ import {
   GetServices_getServices
 } from "gql/__generated__/GetServices";
 import { DeleteService } from "gql/__generated__/DeleteService";
-import { optimisticUpsert, optimisticDelete } from "utils/optimisticHelpers";
+import { optimisticUpsert, optimisticDelete } from "lib/optimisticHelpers";
 
 type Service = Omit<GetServices_getServices, "__typename">;
 
