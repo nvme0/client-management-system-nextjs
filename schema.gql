@@ -10,11 +10,21 @@ scalar DateTime
 
 type Mutation {
   deleteService(deletedAt: DateTime!, id: String!): Boolean!
+  login(email: String!, password: String!): MutationResponse!
+  logout: Boolean!
+  register(email: String!, password: String!): MutationResponse!
   upsertService(serviceInput: ServiceInput!): Service
+}
+
+type MutationResponse {
+  errors: [YupError]!
+  payload: String
+  status: Int!
 }
 
 type Query {
   getServices: [Service!]!
+  me: User!
 }
 
 type Service {
@@ -35,4 +45,17 @@ input ServiceInput {
   name: String!
   notes: String
   updatedAt: DateTime!
+}
+
+type User {
+  confirmed: Boolean!
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  updatedAt: DateTime!
+}
+
+type YupError {
+  message: String!
+  path: String!
 }
