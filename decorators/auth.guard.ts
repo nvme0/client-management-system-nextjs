@@ -2,7 +2,7 @@ import { createMethodDecorator } from "type-graphql";
 import { NextApiRequest, NextApiResponse } from "next";
 import { verify } from "jsonwebtoken";
 import { configuration } from "lib/config";
-import { fetchWithAuth } from "lib/fetchWithToken";
+import { fetchWithToken } from "lib/fetchWithToken";
 import { GQL_REFRESH } from "gql/Auth";
 
 export interface Request extends NextApiRequest {
@@ -31,7 +31,7 @@ export const tryRefreshAccessToken = async ({ req }: { req: Request }) => {
     cookies: { refresh_token }
   } = req;
 
-  const { errors, data } = await fetchWithAuth<{ refresh: string }>(
+  const { errors, data } = await fetchWithToken<{ refresh: string }>(
     AUTH_SERVICE_URL,
     refresh_token,
     {

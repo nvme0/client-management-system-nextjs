@@ -7,7 +7,7 @@ import { MutationResponse } from "gql/api/shared/models/MutationResponse.model";
 import { User } from "gql/api/user/models/user.model";
 import { GQL_LOGIN, GQL_LOGOUT, GQL_REGISTER } from "gql/Auth";
 import { configuration } from "lib/config";
-import { fetchWithAuth } from "lib/fetchWithToken";
+import { fetchWithToken } from "lib/fetchWithToken";
 import { ContextGql } from "decorators/contextGql.decorator";
 import { RefreshToken } from "decorators/refreshToken.decorator";
 
@@ -62,7 +62,7 @@ export class AuthResolver {
   async logout(@RefreshToken() refresh_token: string): Promise<boolean> {
     const { AUTH_SERVICE_URL } = configuration;
     try {
-      const { errors, data } = await fetchWithAuth<{ logout: boolean }>(
+      const { errors, data } = await fetchWithToken<{ logout: boolean }>(
         AUTH_SERVICE_URL,
         refresh_token,
         {

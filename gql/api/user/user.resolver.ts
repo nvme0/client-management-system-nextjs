@@ -4,7 +4,7 @@ import { NextApiResponse } from "next";
 import { User } from "./models/user.model";
 import { GQL_ME } from "gql/User";
 import { configuration } from "lib/config";
-import { fetchWithAuth } from "lib/fetchWithToken";
+import { fetchWithToken } from "lib/fetchWithToken";
 import { AccessToken } from "decorators/accessToken.decorator";
 import { ContextGql } from "decorators/contextGql.decorator";
 import {
@@ -23,7 +23,7 @@ export class UserResolver {
     const { AUTH_SERVICE_URL } = configuration;
 
     const getMe = async (token: string) => {
-      const { errors, data } = await fetchWithAuth<{ me: User }>(
+      const { errors, data } = await fetchWithToken<{ me: User }>(
         AUTH_SERVICE_URL,
         token,
         {
