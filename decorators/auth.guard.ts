@@ -9,7 +9,7 @@ export interface Request extends NextApiRequest {
   user: string;
 }
 
-const verifyAccessToken = ({ access_token, JWT_ACCESS_SECRET }) => {
+export const verifyAccessToken = ({ access_token, JWT_ACCESS_SECRET }) => {
   const { sub: id } = verify(access_token, JWT_ACCESS_SECRET) as {
     sub: string;
   };
@@ -25,7 +25,7 @@ const tryAccessToken = ({ req }: { req: Request }) => {
   return verifyAccessToken({ access_token, JWT_ACCESS_SECRET });
 };
 
-const tryRefreshAccessToken = async ({ req }: { req: Request }) => {
+export const tryRefreshAccessToken = async ({ req }: { req: Request }) => {
   const { AUTH_SERVICE_URL } = configuration;
   const {
     cookies: { refresh_token }
@@ -46,6 +46,19 @@ const tryRefreshAccessToken = async ({ req }: { req: Request }) => {
   return data;
 };
 
+export const setXAccessToken = ({
+  res,
+  access_token
+}: {
+  res: NextApiResponse;
+  access_token: string;
+}) => {
+  const { JWT_ACCESS_SECRET } = configuration;
+  const user = verifyAccessToken({ access_token, JWT_ACCESS_SECRET });
+  res.setHeader("x-access-token", access_token);
+  return user;
+};
+
 export const AuthGuard = () =>
   createMethodDecorator(
     async (
@@ -57,12 +70,10 @@ export const AuthGuard = () =>
         req.user = tryAccessToken({ req });
       } catch (e) {
         try {
-          const { JWT_ACCESS_SECRET } = configuration;
           const { refresh: access_token } = await tryRefreshAccessToken({
             req
           });
-          req.user = verifyAccessToken({ access_token, JWT_ACCESS_SECRET });
-          res.setHeader("x-access-token", access_token);
+          req.user = setXAccessToken({ res, access_token });
         } catch (e) {
           throw new Error("Unauthorized");
         }
