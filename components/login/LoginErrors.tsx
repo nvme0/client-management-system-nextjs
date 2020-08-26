@@ -10,14 +10,14 @@ const LoginErrors = ({ loginErrors }: Props) => {
       <Box>
         {loginErrors.type === "auth" && (
           <>
-            <p>
-              <i className={"icon-close icons"} /> Invalid username or password
+            <p style={{ color: "#E53E3E" }}>
+              <i className={"icon-close icons"} /> Invalid email or password
             </p>
           </>
         )}
         {loginErrors.type === "network" && (
           <>
-            <p>
+            <p style={{ color: "#E53E3E" }}>
               <i className={"icon-close icons"} /> Unable to connect to server
             </p>
           </>

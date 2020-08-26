@@ -10,6 +10,8 @@ import {
   Input,
   FormErrorMessage
 } from "@chakra-ui/core";
+import { useMutation } from "react-query";
+import request from "graphql-request";
 
 import AuthLayout from "layouts/AuthLayout";
 import { Button } from "components/Button";
@@ -17,6 +19,13 @@ import Container from "components/login/Container";
 import Header from "components/login/Header";
 import LoginErrors from "components/login/LoginErrors";
 import FormBody from "components/login/FormBody";
+import { GQL_LOGIN } from "gql/Auth";
+import {
+  Login as TLogin,
+  LoginVariables,
+  Login_login_errors
+} from "gql/__generated__/Login";
+import { setAccessToken } from "lib/accessToken";
 
 const schema = yup.object().shape({
   email: yup.string().min(3).max(255).email().required(),
@@ -39,6 +48,15 @@ const Login = () => {
     type: "none"
   });
 
+  const [login] = useMutation<
+    TLogin,
+    LoginVariables,
+    Login_login_errors,
+    () => void
+  >((variables) =>
+    request(process.env.NEXT_PUBLIC_GRAPHQL_URL!, GQL_LOGIN, variables)
+  );
+
   const formik = useFormik<FormInputState>({
     initialValues: {
       email: "",
@@ -47,8 +65,21 @@ const Login = () => {
     validationSchema: schema,
     validateOnBlur: true,
     validateOnChange: true,
-    onSubmit: (values) => {
-      console.log({ values });
+    onSubmit: (values, formikHelpers) => {
+      login(values, {
+        onSuccess: ({ login: { payload, errors } }) => {
+          if (errors.length > 0 || !payload) {
+            setLoginErrors({ type: "auth" });
+            formikHelpers.setFieldError("email", " ");
+            formikHelpers.setFieldError("password", " ");
+            return;
+          }
+          setAccessToken(payload);
+        },
+        onError: () => {
+          setLoginErrors({ type: "network" });
+        }
+      });
     }
   });
 
@@ -113,6 +144,7 @@ const Login = () => {
                 <FormLabel>Password</FormLabel>
                 <Input
                   {...{
+                    type: "password",
                     placeholder: "Password",
                     ...formik.getFieldProps("password"),
                     onInput: () => {
