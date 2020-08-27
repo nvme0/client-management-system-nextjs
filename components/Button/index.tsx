@@ -7,7 +7,8 @@ export interface Props extends ButtonProps {
     | "secondary"
     | "secondary-outline"
     | "danger"
-    | "danger-outline";
+    | "danger-outline"
+    | "login";
 }
 
 export const Button = ({ children, templateStyle, ...props }: Props) => {
@@ -38,6 +39,11 @@ export const Button = ({ children, templateStyle, ...props }: Props) => {
     case "danger-outline":
       colorScheme = "red";
       variant = "outline";
+      break;
+    case "login":
+      colorScheme = "blue";
+      variant = "solid";
+      props = { ...props, width: "100%" };
       break;
   }
 

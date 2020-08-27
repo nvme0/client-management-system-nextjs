@@ -1,0 +1,30 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "DeleteModel",
+      "model": "UserProfile"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "User",
+      "field": "profile"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "User",
+      "field": "userProfileId"
+    },
+    {
+      "tag": "DeleteDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    }
+  ]
+}

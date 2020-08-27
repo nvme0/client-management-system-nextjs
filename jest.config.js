@@ -10,5 +10,6 @@ module.exports = {
   transformIgnorePatterns: ["/node_modules/"],
   modulePaths: ["<rootDir>"],
 
-  snapshotResolver: "./snapshotResolver.js"
+  snapshotResolver: "./snapshotResolver.js",
+  setupFiles: ["<rootDir>/.jest/setEnvVars.js"]
 };

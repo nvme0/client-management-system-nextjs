@@ -1,9 +1,11 @@
 import { v4 as uuid } from "uuid";
 import { ApolloServer } from "apollo-server-micro";
 import { createTestClient } from "apollo-server-testing";
+import { sign } from "jsonwebtoken";
+import { PrismaClient, PrismaClientOptions } from "@prisma/client";
 
 import { deleteService } from "test-utils/cleanDB";
-import { getApolloTestServer } from "test-utils/getApolloTestServer";
+import { createApolloTestServer } from "test-utils/createApolloTestServer";
 import {
   GQL_UPSERT_SERVICE,
   GQL_DELETE_SERVICE,
@@ -11,17 +13,38 @@ import {
 } from "gql/Service";
 import { ServiceInput } from "gql/__generated__/globalTypes";
 import { GetServices_getServices } from "gql/__generated__/GetServices";
+import { configuration } from "lib/config";
+import { createPrismaTestClient } from "test-utils/createPrismaTestClient";
+import { createTestUser } from "test-utils/createTestUser";
+import { User } from "../user/models/user.model";
 
 describe("Service Resolver", () => {
   let apolloServer: ApolloServer;
   const ids: string[] = [];
+  let prisma: PrismaClient<PrismaClientOptions, never>;
+  let user: User;
 
   beforeAll(async () => {
-    apolloServer = await getApolloTestServer();
+    prisma = createPrismaTestClient();
+    const userId = uuid();
+    user = await createTestUser(prisma, userId);
+
+    const access_token = sign(
+      { sub: userId },
+      configuration.JWT_ACCESS_SECRET,
+      {
+        expiresIn: `60s`
+      }
+    );
+    apolloServer = await createApolloTestServer({
+      authorization: `Bearer ${access_token}`
+    });
   });
 
   afterAll(async () => {
     ids.forEach((id) => deleteService(id));
+    await prisma.user.delete({ where: { id: user.id } });
+    prisma.$disconnect();
   });
 
   it("creates a new Service", async () => {

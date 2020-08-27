@@ -1,7 +1,7 @@
-import { getPrismaTestClient } from "./getPrismaTestClient";
+import { createPrismaTestClient } from "./createPrismaTestClient";
 
 export const deleteService = async (id: string) => {
-  const prisma = getPrismaTestClient();
+  const prisma = createPrismaTestClient();
   try {
     return !!(await prisma.service.delete({
       where: { id }

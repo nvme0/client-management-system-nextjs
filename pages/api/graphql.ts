@@ -4,7 +4,10 @@ import { buildSchema, BuildSchemaOptions } from "type-graphql";
 import { ApolloServer } from "apollo-server-micro";
 import { PrismaClient } from "@prisma/client";
 
-import { ServiceResolver } from "./service/service.resolver";
+import { ServiceResolver } from "gql/api/service/service.resolver";
+import { AuthResolver } from "gql/api/auth/auth.resolver";
+import { configuration, validationSchema } from "lib/config";
+import { UserResolver } from "gql/api/user/user.resolver";
 
 let apolloServerHandler: (req: any, res: any) => Promise<void>;
 
@@ -12,7 +15,7 @@ export const config = { api: { bodyParser: false } };
 
 export const createSchema = (options?: Omit<BuildSchemaOptions, "resolvers">) =>
   buildSchema({
-    resolvers: [ServiceResolver],
+    resolvers: [AuthResolver, UserResolver, ServiceResolver],
     ...options
   });
 
@@ -35,6 +38,8 @@ const getApolloServerHandler = async () => {
       debug: isDevelopment,
       context: ({ req, res, connection }) => {
         return {
+          req,
+          res,
           prisma: new PrismaClient({ log: ["query"] })
         };
       }
@@ -46,6 +51,9 @@ const getApolloServerHandler = async () => {
 };
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  validationSchema.isValid(configuration).then((isValid) => {
+    if (!isValid) throw new Error(".env file is not valid");
+  });
   const apolloServerHandler = await getApolloServerHandler();
   return apolloServerHandler(req, res);
 };

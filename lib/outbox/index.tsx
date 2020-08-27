@@ -1,6 +1,6 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect } from "react";
 
-import { detectNetwork } from "lib/network";
+import { useOnlineState } from "lib/network";
 import { getFetcher, Fetcher } from "./fetcher";
 
 export { useQuery } from "./hooks/useQuery";
@@ -13,16 +13,14 @@ export const OutboxContext = createContext<{
 export const useOutbox = () => useContext(OutboxContext);
 
 export const OutboxProvider = ({ children }) => {
-  const [isOnline, setIsOnline] = useState(false);
-
+  const { isOnline } = useOnlineState();
   const fetcher = getFetcher();
 
-  detectNetwork((_isOnline) => {
-    if (_isOnline) {
+  useEffect(() => {
+    if (isOnline) {
       fetcher?.dequeue();
     }
-    setIsOnline(_isOnline);
-  });
+  }, [isOnline]);
 
   return (
     <OutboxContext.Provider {...{ value: { fetcher } }}>
