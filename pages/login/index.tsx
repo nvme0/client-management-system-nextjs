@@ -29,6 +29,7 @@ import {
 } from "gql/__generated__/Login";
 import { setAccessToken } from "lib/accessToken";
 import { useLoggedInState } from "lib/loggedInState";
+import OfflineFallbackWrapper from "components/OfflineFallbackWrapper";
 
 const schema = yup.object().shape({
   email: yup.string().min(3).max(255).email().required(),
@@ -92,110 +93,113 @@ const Login = () => {
   });
 
   return (
-    <Container>
-      <Header>Welcome Back</Header>
-      <Box>
-        <Box
-          {...{
-            display: "flex",
-            justifyContent: "center",
-            p: 4
-          }}
-        >
-          <p className="prose">
-            Don't have an account?{" "}
-            <Link
-              {...{
-                href: `/register`
-              }}
-            >
-              <a className="prose">Sign Up Free</a>
-            </Link>
-          </p>
-        </Box>
-        <form
-          {...{
-            noValidate: true,
-            onSubmit: formik.handleSubmit
-          }}
-        >
-          <FormBody>
-            <Stack {...{ spacing: 4 }}>
-              <FormControl
+    <OfflineFallbackWrapper>
+      <Container>
+        <Header>Welcome Back</Header>
+        <Box>
+          <Box
+            {...{
+              display: "flex",
+              justifyContent: "center",
+              p: 4
+            }}
+          >
+            <p className="prose">
+              Don't have an account?{" "}
+              <Link
                 {...{
-                  isRequired: true,
-                  isInvalid: formik.touched.email && !!formik.errors.email
+                  href: `/register`
                 }}
               >
-                <FormLabel>Email</FormLabel>
-                <Input
+                <a className="prose">Sign Up Free</a>
+              </Link>
+            </p>
+          </Box>
+          <form
+            {...{
+              noValidate: true,
+              onSubmit: formik.handleSubmit
+            }}
+          >
+            <FormBody>
+              <Stack {...{ spacing: 4 }}>
+                <FormControl
                   {...{
-                    placeholder: "Email",
-                    ...formik.getFieldProps("email"),
-                    onInput: () => {
-                      if (loginErrors.type === "auth") {
-                        setLoginErrors({ type: "none" });
-                      }
-                    }
+                    isRequired: true,
+                    isInvalid: formik.touched.email && !!formik.errors.email
                   }}
-                />
-                <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
-              </FormControl>
-            </Stack>
-            <Stack {...{ spacing: 4 }}>
-              <FormControl
-                {...{
-                  isRequired: true,
-                  isInvalid: formik.touched.password && !!formik.errors.password
-                }}
-              >
-                <FormLabel>Password</FormLabel>
-                <Input
-                  {...{
-                    type: "password",
-                    placeholder: "Password",
-                    ...formik.getFieldProps("password"),
-                    onInput: () => {
-                      if (loginErrors.type === "auth") {
-                        setLoginErrors({ type: "none" });
-                      }
-                    }
-                  }}
-                />
-                <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
-              </FormControl>
-            </Stack>
-            <LoginErrors {...{ loginErrors }} />
-            <Stack {...{ isInline: true, spacing: 1 }}>
-              <Button
-                {...{
-                  templateStyle: "login",
-                  type: "submit",
-                  disabled: formik.isSubmitting
-                }}
-              >
-                {formik.isSubmitting ? (
-                  <Spinner
+                >
+                  <FormLabel>Email</FormLabel>
+                  <Input
                     {...{
-                      thickness: "3px",
-                      speed: "0.65s",
-                      size: "md"
+                      placeholder: "Email",
+                      ...formik.getFieldProps("email"),
+                      onInput: () => {
+                        if (loginErrors.type === "auth") {
+                          setLoginErrors({ type: "none" });
+                        }
+                      }
                     }}
                   />
-                ) : (
-                  "Login"
-                )}
-              </Button>
-            </Stack>
-            <p style={{ textAlign: "center" }}>
-              <a className="prose" href="">
-                Forgot your password?
-              </a>
-            </p>
-          </FormBody>
-        </form>
-      </Box>
-    </Container>
+                  <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
+                </FormControl>
+              </Stack>
+              <Stack {...{ spacing: 4 }}>
+                <FormControl
+                  {...{
+                    isRequired: true,
+                    isInvalid:
+                      formik.touched.password && !!formik.errors.password
+                  }}
+                >
+                  <FormLabel>Password</FormLabel>
+                  <Input
+                    {...{
+                      type: "password",
+                      placeholder: "Password",
+                      ...formik.getFieldProps("password"),
+                      onInput: () => {
+                        if (loginErrors.type === "auth") {
+                          setLoginErrors({ type: "none" });
+                        }
+                      }
+                    }}
+                  />
+                  <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
+                </FormControl>
+              </Stack>
+              <LoginErrors {...{ loginErrors }} />
+              <Stack {...{ isInline: true, spacing: 1 }}>
+                <Button
+                  {...{
+                    templateStyle: "login",
+                    type: "submit",
+                    disabled: formik.isSubmitting
+                  }}
+                >
+                  {formik.isSubmitting ? (
+                    <Spinner
+                      {...{
+                        thickness: "3px",
+                        speed: "0.65s",
+                        size: "md"
+                      }}
+                    />
+                  ) : (
+                    "Login"
+                  )}
+                </Button>
+              </Stack>
+              <p style={{ textAlign: "center" }}>
+                <a className="prose" href="">
+                  Forgot your password?
+                </a>
+              </p>
+            </FormBody>
+          </form>
+        </Box>
+      </Container>
+    </OfflineFallbackWrapper>
   );
 };
 
