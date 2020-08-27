@@ -1,26 +1,26 @@
 import { Stack, Box } from "@chakra-ui/core";
 
 export interface Props {
-  loginErrors: { type: "none" | "auth" | "network" };
+  type: "none" | "auth" | "network" | "custom";
+  customMessage?: string;
 }
 
-const LoginErrors = ({ loginErrors }: Props) => {
+const LoginErrors = ({ type, customMessage }: Props) => {
   return (
     <Stack>
       <Box>
-        {loginErrors.type === "auth" && (
+        {type === "auth" && (
           <>
-            <p style={{ color: "#E53E3E" }}>
-              <i className={"icon-close icons"} /> Invalid email or password
-            </p>
+            <p style={{ color: "#E53E3E" }}>Invalid email or password</p>
           </>
         )}
-        {loginErrors.type === "network" && (
+        {type === "network" && (
           <>
-            <p style={{ color: "#E53E3E" }}>
-              <i className={"icon-close icons"} /> Unable to connect to server
-            </p>
+            <p style={{ color: "#E53E3E" }}>Unable to connect to server</p>
           </>
+        )}
+        {type === "custom" && (
+          <p style={{ color: "#E53E3E" }}>{customMessage}</p>
         )}
       </Box>
     </Stack>

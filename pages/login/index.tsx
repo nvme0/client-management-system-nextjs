@@ -19,7 +19,9 @@ import AuthLayout from "layouts/AuthLayout";
 import { Button } from "components/Button";
 import Container from "components/login/Container";
 import Header from "components/login/Header";
-import LoginErrors from "components/login/LoginErrors";
+import LoginErrors, {
+  Props as TLoginErrors
+} from "components/login/LoginErrors";
 import FormBody from "components/login/FormBody";
 import { GQL_LOGIN } from "gql/Auth";
 import {
@@ -43,9 +45,7 @@ export interface FormInputState {
 
 const Login = () => {
   const router = useRouter();
-  const [loginErrors, setLoginErrors] = useState<{
-    type: "none" | "auth" | "network";
-  }>({
+  const [loginErrors, setLoginErrors] = useState<TLoginErrors>({
     type: "none"
   });
 
@@ -87,6 +87,9 @@ const Login = () => {
         },
         onError: () => {
           setLoginErrors({ type: "network" });
+        },
+        onSettled: () => {
+          formikHelpers.setSubmitting(false);
         }
       });
     }
@@ -168,7 +171,7 @@ const Login = () => {
                   <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
                 </FormControl>
               </Stack>
-              <LoginErrors {...{ loginErrors }} />
+              <LoginErrors {...loginErrors} />
               <Stack {...{ isInline: true, spacing: 1 }}>
                 <Button
                   {...{
