@@ -3,6 +3,8 @@ import { Variables, RequestDocument } from "graphql-request/dist/types";
 import { v4 as uuid } from "uuid";
 import { getStore } from "../store";
 import { Await } from "..";
+import { getAccessToken, setAccessToken } from "lib/accessToken";
+import { setIsLoggedIn, getIsLoggedIn } from "lib/loggedInState";
 
 const resolverNoop = (value?: any) => {};
 
@@ -23,7 +25,21 @@ const getGraphQLClient = () =>
 export const request = async <T = any, V = Variables>(
   query: RequestDocument,
   variables?: V
-) => getGraphQLClient().request<T>(query, variables);
+) => {
+  const client = getGraphQLClient();
+  client.setHeader("authorization", `Bearer ${getAccessToken()}`);
+
+  const { data, headers } = await client.rawRequest<T>(
+    query as string,
+    variables
+  );
+
+  const accessToken = headers.get("x-access-token");
+  if (accessToken) {
+    setAccessToken(accessToken);
+  }
+  return data;
+};
 
 export const getFetcher = () => ({
   ready: true,
@@ -81,23 +97,32 @@ export const getFetcher = () => ({
           this.dequeue();
         })
         .catch((error) => {
-          // TODO - handle cases, some warrant a retry
           this.ready = true;
 
-          if (error.response && error.response.status) {
-            const response: Response = error.response;
-            switch (response.status) {
-              case 502:
-                this.store.unshift(item);
-                return;
+          if (error.response) {
+            // server is unreachable
+            if (error.response.status === 502) {
+              this.store.unshift(item);
+              return;
+            }
 
-              default:
-                break;
+            if (error.response.errors) {
+              error.response.errors.forEach((error) => {
+                // user is not logged in
+                if (error.message === "Unauthorized") {
+                  setIsLoggedIn(false);
+                  this.store.unshift(item);
+                  return;
+                }
+              });
             }
           }
 
-          reject(error);
-          this.dequeue();
+          // don't reject promise if user is not logged in
+          if (getIsLoggedIn() === true) {
+            reject(error);
+            this.dequeue();
+          }
         });
     } catch (error) {
       this.ready = true;
