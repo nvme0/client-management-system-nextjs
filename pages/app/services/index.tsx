@@ -23,6 +23,7 @@ import { DeleteService } from "gql/__generated__/DeleteService";
 import { optimisticUpsert, optimisticDelete } from "lib/optimisticHelpers";
 import LoginModal from "components/modals/LoginModal";
 import { useLoggedInState } from "lib/loggedInState";
+import { useOnlineState } from "lib/network";
 
 type Service = Omit<GetServices_getServices, "__typename">;
 
@@ -31,6 +32,7 @@ enum QueryKeys {
 }
 
 export const Services = () => {
+  const { isOnline } = useOnlineState();
   const { isLoggedIn } = useLoggedInState();
   const [state, setState] = useState<{
     Modal?: () => JSX.Element;
@@ -203,7 +205,7 @@ export const Services = () => {
       <LoginModal
         {...{
           modalProps: {
-            isOpen: !isLoggedIn,
+            isOpen: !isLoggedIn && isOnline,
             onClose: () => {}
           }
         }}
