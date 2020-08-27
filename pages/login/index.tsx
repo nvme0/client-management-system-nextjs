@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import {
   Stack,
@@ -8,7 +9,8 @@ import {
   FormControl,
   FormLabel,
   Input,
-  FormErrorMessage
+  FormErrorMessage,
+  Spinner
 } from "@chakra-ui/core";
 import { useMutation } from "react-query";
 import request from "graphql-request";
@@ -26,15 +28,12 @@ import {
   Login_login_errors
 } from "gql/__generated__/Login";
 import { setAccessToken } from "lib/accessToken";
+import { useLoggedInState } from "lib/loggedInState";
 
 const schema = yup.object().shape({
   email: yup.string().min(3).max(255).email().required(),
   password: yup.string().min(7).max(255).required()
 });
-
-export interface Props {
-  url: string;
-}
 
 export interface FormInputState {
   email: string;
@@ -42,11 +41,19 @@ export interface FormInputState {
 }
 
 const Login = () => {
+  const router = useRouter();
   const [loginErrors, setLoginErrors] = useState<{
     type: "none" | "auth" | "network";
   }>({
     type: "none"
   });
+
+  const { isLoggedIn, setIsLoggedIn } = useLoggedInState();
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.push("/app/services");
+    }
+  }, [isLoggedIn]);
 
   const [login] = useMutation<
     TLogin,
@@ -75,6 +82,7 @@ const Login = () => {
             return;
           }
           setAccessToken(payload);
+          setIsLoggedIn(true);
         },
         onError: () => {
           setLoginErrors({ type: "network" });
@@ -162,10 +170,21 @@ const Login = () => {
               <Button
                 {...{
                   templateStyle: "login",
-                  type: "submit"
+                  type: "submit",
+                  disabled: formik.isSubmitting
                 }}
               >
-                Login
+                {formik.isSubmitting ? (
+                  <Spinner
+                    {...{
+                      thickness: "3px",
+                      speed: "0.65s",
+                      size: "md"
+                    }}
+                  />
+                ) : (
+                  "Login"
+                )}
               </Button>
             </Stack>
             <p style={{ textAlign: "center" }}>
