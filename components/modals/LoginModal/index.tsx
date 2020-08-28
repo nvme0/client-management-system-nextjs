@@ -158,7 +158,7 @@ const LoginModal = ({ modalProps }: Props) => {
                     </FormErrorMessage>
                   </FormControl>
                 </Stack>
-                <LoginErrors {...{ loginErrors }} />
+                <LoginErrors {...loginErrors} />
               </Stack>
             </ModalBody>
             <ModalFooter {...{ justifyContent: "space-between" }}>

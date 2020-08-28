@@ -3,7 +3,6 @@ import { v4 as uuid } from "uuid";
 
 import { Button } from "components/Button";
 import EditServiceModal from "./EditServiceModal";
-import { Service } from "pages/api/service/service.model";
 
 export default {
   title: "Modals/EditServiceModal",
