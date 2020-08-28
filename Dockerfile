@@ -4,6 +4,9 @@ ADD ./ /cms
 
 WORKDIR /cms
 
+# install
+RUN npm install
+
 # generate db types
 RUN npm run db:gen
 
