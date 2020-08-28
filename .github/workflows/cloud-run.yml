@@ -1,0 +1,21 @@
+name: Build and Deploy to Cloud Run
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: docker build
+        run: |
+          docker build -t inspirewebdesigns/client_management_system:latest .
+        env:
+          AUTH_SERVICE_URL: ${{ secrets.AUTH_SERVICE_URL }}
+          JWT_ACCESS_SECRET: ${{ secrets.JWT_ACCESS_SECRET }}
+          JWT_REFRESH_AGE_S: ${{ secrets.JWT_REFRESH_AGE_S }}
+          NEXT_PUBLIC_GRAPHQL_URL: ${{ secrets.NEXT_PUBLIC_GRAPHQL_URL }}
