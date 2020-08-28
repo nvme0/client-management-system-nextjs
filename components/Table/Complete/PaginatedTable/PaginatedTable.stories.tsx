@@ -3,7 +3,8 @@ import { useMemo } from "react";
 import { PaginatedTable } from ".";
 import {
   generateFakeData,
-  getFakeTableDataColumns
+  getFakeTableDataColumns,
+  DataType
 } from "components/Table/test-utils/generateFakeTableData";
 
 export default {
@@ -44,8 +45,8 @@ export const Selectable = () => {
   const data = useMemo(() => generateFakeData(15), []);
   const columns = useMemo(getFakeTableDataColumns, []);
 
-  const onRowSelectHandler = (id: string) => () => {
-    alert("id: " + id);
+  const onRowSelectHandler = (original: DataType) => () => {
+    alert("id: " + original.id);
   };
 
   return (
