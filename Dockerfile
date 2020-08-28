@@ -13,4 +13,4 @@ RUN npm run db:gen
 # build application
 RUN npm run build
 
-CMD ["npm", "start"]
+CMD ["npm", "start", "--", "-p", "80"]

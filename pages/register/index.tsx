@@ -115,6 +115,7 @@ const Register = () => {
         },
         onError: () => {
           setLoginErrors({ type: "network" });
+          formikHelpers.setSubmitting(false);
         }
       });
     }

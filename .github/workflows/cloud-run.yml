@@ -2,20 +2,47 @@ name: Build and Deploy to Cloud Run
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      - name: docker build
+      - name: Setup GCP Service Account
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: "latest"
+          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+
+      - name: Configure Docker
         run: |
-          docker build -t inspirewebdesigns/client_management_system:latest .
+          gcloud auth configure-docker
+
+      - name: Docker Build
+        run: |
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/cms:latest .
         env:
           AUTH_SERVICE_URL: ${{ secrets.AUTH_SERVICE_URL }}
           JWT_ACCESS_SECRET: ${{ secrets.JWT_ACCESS_SECRET }}
           JWT_REFRESH_AGE_S: ${{ secrets.JWT_REFRESH_AGE_S }}
           NEXT_PUBLIC_GRAPHQL_URL: ${{ secrets.NEXT_PUBLIC_GRAPHQL_URL }}
+
+      - name: Docker Push
+        run: |
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/cms:latest
+
+      - name: Deploy
+        run: |
+          gcloud run deploy cms \
+          --port 80 \
+          --region asia-east1 \
+          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/cms:latest \
+          --platform managed \
+          --allow-unauthenticated \
+          --project ${{ secrets.GCP_PROJECT_ID }}
