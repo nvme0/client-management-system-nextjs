@@ -7,7 +7,7 @@ export const OnlineContext = createContext<{ isOnline: boolean }>(undefined!);
 export const useOnlineState = () => useContext(OnlineContext);
 
 export const OnlineStateProvider = ({ children }) => {
-  const [isOnline, setIsOnline] = useState(false);
+  const [isOnline, setIsOnline] = useState(true);
   detectNetwork((_isOnline) => setIsOnline(_isOnline));
   return (
     <OnlineContext.Provider
