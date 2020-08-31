@@ -24,7 +24,7 @@ jobs:
         run: |
           gcloud auth configure-docker
 
-      - name: Create .env file
+      - name: Create main .env file
         run: |
           touch .env
           echo "AUTH_SERVICE_URL=${{ secrets.AUTH_SERVICE_URL }}" >> .env
@@ -32,6 +32,12 @@ jobs:
           echo "JWT_REFRESH_AGE_S=${{ secrets.JWT_REFRESH_AGE_S }}" >> .env
           echo "NEXT_PUBLIC_GRAPHQL_URL=${{ secrets.NEXT_PUBLIC_GRAPHQL_URL }}" >> .env
           cat .env
+
+      - name: Create Prisma .env file
+        run: |
+          touch prisma/.env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}"
+          cat prisma/.env
 
       - name: Docker Build
         run: |
