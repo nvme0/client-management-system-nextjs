@@ -5,42 +5,39 @@ import { useOnlineState } from "lib/network";
 
 const OfflineFallbackWrapper = ({ children }: { children: ReactNode }) => {
   const { isOnline } = useOnlineState();
-  const Component = (): JSX.Element =>
-    isOnline ? (
-      <>{children}</>
-    ) : (
+  return isOnline ? (
+    <>{children}</>
+  ) : (
+    <Box
+      {...{
+        maxW: "lg",
+        position: "relative",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)"
+      }}
+    >
       <Box
         {...{
-          maxW: "lg",
-          position: "relative",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)"
+          m: 4
         }}
       >
         <Box
           {...{
-            m: 4
+            borderWidth: "1px",
+            borderRadius: "lg",
+            overflow: "hidden",
+            backgroundColor: "#FFF",
+            display: "flex",
+            justifyContent: "center",
+            p: 8
           }}
         >
-          <Box
-            {...{
-              borderWidth: "1px",
-              borderRadius: "lg",
-              overflow: "hidden",
-              backgroundColor: "#FFF",
-              display: "flex",
-              justifyContent: "center",
-              p: 8
-            }}
-          >
-            <h2 className="prose">This page is not available offline</h2>
-          </Box>
+          <h2 className="prose">This page is not available offline</h2>
         </Box>
       </Box>
-    );
-
-  return <Component />;
+    </Box>
+  );
 };
 
 export default OfflineFallbackWrapper;
