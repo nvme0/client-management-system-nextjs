@@ -85,6 +85,9 @@ const LoginModal = ({ modalProps }: Props) => {
         },
         onError: () => {
           setLoginErrors({ type: "network" });
+        },
+        onSettled: () => {
+          formikHelpers.setSubmitting(false);
         }
       });
     }
