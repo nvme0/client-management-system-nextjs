@@ -36,7 +36,7 @@ jobs:
       - name: Create Prisma .env file
         run: |
           touch prisma/.env
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}"
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> prisma/.env
           cat prisma/.env
 
       - name: Docker Build

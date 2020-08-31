@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Create Prisma .env file
+        run: |
+          touch prisma/.env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> prisma/.env
+          cat prisma/.env
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Generate Database Types
+        run: npm run db:gen
+
+      - name: Test
+        run: npm run test
