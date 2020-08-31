@@ -24,14 +24,18 @@ jobs:
         run: |
           gcloud auth configure-docker
 
+      - name: Create .env file
+        run: |
+          touch .env
+          echo "AUTH_SERVICE_URL=${{ secrets.AUTH_SERVICE_URL }}" >> .env
+          echo "JWT_ACCESS_SECRET=${{ secrets.JWT_ACCESS_SECRET }}" >> .env
+          echo "JWT_REFRESH_AGE_S=${{ secrets.JWT_REFRESH_AGE_S }}" >> .env
+          echo "NEXT_PUBLIC_GRAPHQL_URL=${{ secrets.NEXT_PUBLIC_GRAPHQL_URL }}" >> .env
+          cat .env
+
       - name: Docker Build
         run: |
           docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/cms:latest .
-        env:
-          AUTH_SERVICE_URL: ${{ secrets.AUTH_SERVICE_URL }}
-          JWT_ACCESS_SECRET: ${{ secrets.JWT_ACCESS_SECRET }}
-          JWT_REFRESH_AGE_S: ${{ secrets.JWT_REFRESH_AGE_S }}
-          NEXT_PUBLIC_GRAPHQL_URL: ${{ secrets.NEXT_PUBLIC_GRAPHQL_URL }}
 
       - name: Docker Push
         run: |
