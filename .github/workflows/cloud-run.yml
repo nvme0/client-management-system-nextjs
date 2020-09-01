@@ -56,3 +56,6 @@ jobs:
           --platform managed \
           --allow-unauthenticated \
           --project ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Run Database Migrations
+        run: npm run db:up

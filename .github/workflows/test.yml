@@ -1,12 +1,34 @@
-name: CI
+name: Test CI
+env:
+  MYSQL_DATABASE: test_ci
+  MYSQL_USER: test_user
+  MYSQL_PASSWORD: password
+  MYSQL_ROOT_PASSWORD: password
+  NODE_ENV: test
 
 on:
   pull_request:
     branches: [master]
 
 jobs:
-  build:
+  ci:
     runs-on: ubuntu-latest
+    services:
+      db:
+        image: mysql:5.7.27
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: ${{ env.MYSQL_DATABASE }}
+          MYSQL_USER: ${{ env.MYSQL_USER }}
+          MYSQL_PASSWORD: ${{ env.MYSQL_PASSWORD }}
+          MYSQL_ROOT_PASSWORD: ${{ env.MYSQL_PASSWORD }}
+        options: >-
+          --name=db
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
 
     steps:
       - name: Checkout
@@ -23,7 +45,7 @@ jobs:
       - name: Create Prisma .env file
         run: |
           touch prisma/.env
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> prisma/.env
+          echo "DATABASE_URL=mysql://${{ env.MYSQL_USER }}:${{ env.MYSQL_PASSWORD }}@localhost:3306/${{ env.MYSQL_DATABASE }}" >> prisma/.env
           cat prisma/.env
 
       - name: Install Dependencies
@@ -31,6 +53,9 @@ jobs:
 
       - name: Generate Database Types
         run: npm run db:gen
+
+      - name: Run Database Migrations
+        run: npm run db:up
 
       - name: Test
         run: npm run test

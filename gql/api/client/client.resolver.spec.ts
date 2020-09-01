@@ -4,21 +4,21 @@ import { createTestClient } from "apollo-server-testing";
 import { sign } from "jsonwebtoken";
 import { PrismaClient, PrismaClientOptions } from "@prisma/client";
 
-import { deleteService } from "test-utils/cleanDB";
+import { deleteClient } from "test-utils/cleanDB";
 import { createApolloTestServer } from "test-utils/createApolloTestServer";
 import {
-  GQL_UPSERT_SERVICE,
-  GQL_DELETE_SERVICE,
-  GQL_GET_SERVICES
-} from "gql/Service";
-import { ServiceInput } from "gql/__generated__/globalTypes";
-import { GetServices_getServices } from "gql/__generated__/GetServices";
+  GQL_UPSERT_CLIENT,
+  GQL_DELETE_CLIENT,
+  GQL_GET_CLIENTS
+} from "gql/Client";
+import { ClientInput } from "gql/__generated__/globalTypes";
+import { GetClients_getClients } from "gql/__generated__/GetClients";
 import { configuration } from "lib/config";
 import { createPrismaTestClient } from "test-utils/createPrismaTestClient";
 import { createTestUser } from "test-utils/createTestUser";
 import { User } from "../user/models/user.model";
 
-describe("Service Resolver", () => {
+describe("Client Resolver", () => {
   let apolloServer: ApolloServer;
   const ids: string[] = [];
   let prisma: PrismaClient<PrismaClientOptions, never>;
@@ -28,7 +28,7 @@ describe("Service Resolver", () => {
     prisma = createPrismaTestClient();
     const userId = uuid();
     user = await createTestUser(prisma, userId, {
-      firstName: "service",
+      firstName: "client",
       lastName: "resolver"
     });
 
@@ -45,270 +45,276 @@ describe("Service Resolver", () => {
   });
 
   afterAll(async () => {
-    ids.forEach((id) => deleteService(id));
+    ids.forEach((id) => deleteClient(id));
     await prisma.user.delete({ where: { id: user.id } });
     prisma.$disconnect();
   });
 
-  it("creates a new Service", async () => {
-    const serviceId = uuid();
-    ids.push(serviceId);
+  it("creates a new Client", async () => {
+    const clientId = uuid();
+    ids.push(clientId);
 
-    const serviceInput: ServiceInput = {
-      id: serviceId,
-      name: "My Service 3",
+    const clientInput: ClientInput = {
+      id: clientId,
+      firstName: "Jimmy",
       createdAt: "2020-08-15T15:09:17.819Z",
       updatedAt: "2020-08-15T15:09:18.819Z"
     };
 
     const { mutate } = createTestClient(apolloServer);
     const response = await mutate({
-      mutation: GQL_UPSERT_SERVICE,
+      mutation: GQL_UPSERT_CLIENT,
       variables: {
-        serviceInput
+        clientInput
       }
     });
 
     expect(response).toMatchObject({
       data: {
-        upsertService: {
-          ...serviceInput,
-          duration: null,
-          expires: null,
+        upsertClient: {
+          ...clientInput,
+          lastName: null,
+          address: null,
+          contactEmail: null,
+          contactNumber: null,
           notes: null
         }
       }
     });
   });
 
-  it("updates a Service", async () => {
-    const serviceId = uuid();
-    ids.push(serviceId);
+  it("updates a Client", async () => {
+    const clientId = uuid();
+    ids.push(clientId);
 
-    const serviceInput1: ServiceInput = {
-      id: serviceId,
-      name: "My Awesome Service 1",
+    const clientInput1: ClientInput = {
+      id: clientId,
+      firstName: "Mark",
       createdAt: "2020-08-15T15:09:17.819Z",
       updatedAt: "2020-08-15T15:09:18.819Z"
     };
 
-    const serviceInput2: ServiceInput = {
-      id: serviceId,
-      name: "My Awesome Service 2",
+    const clientInput2: ClientInput = {
+      id: clientId,
+      firstName: "Sarah",
       createdAt: "2020-08-15T15:09:17.819Z",
       updatedAt: "2020-08-15T15:09:18.819Z"
     };
 
     const { mutate } = createTestClient(apolloServer);
     await mutate({
-      mutation: GQL_UPSERT_SERVICE,
+      mutation: GQL_UPSERT_CLIENT,
       variables: {
-        serviceInput: serviceInput1
+        clientInput: clientInput1
       }
     });
 
     const response = await mutate({
-      mutation: GQL_UPSERT_SERVICE,
+      mutation: GQL_UPSERT_CLIENT,
       variables: {
-        serviceInput: serviceInput2
+        clientInput: clientInput2
       }
     });
 
     expect(response).toMatchObject({
       data: {
-        upsertService: {
-          ...serviceInput2,
-          duration: null,
-          expires: null,
+        upsertClient: {
+          ...clientInput2,
+          lastName: null,
+          address: null,
+          contactEmail: null,
+          contactNumber: null,
           notes: null
         }
       }
     });
   });
 
-  it("does not update a Service", async () => {
-    const serviceId = uuid();
-    ids.push(serviceId);
+  it("does not update a Client", async () => {
+    const clientId = uuid();
+    ids.push(clientId);
 
-    const serviceInput1: ServiceInput = {
-      id: serviceId,
-      name: "My Awesome Service 1",
+    const clientInput1: ClientInput = {
+      id: clientId,
+      firstName: "Howard",
       createdAt: "2020-08-15T15:09:17.819Z",
       updatedAt: "2020-08-15T15:09:18.819Z"
     };
 
-    const serviceInput2: ServiceInput = {
-      id: serviceId,
-      name: "My Awesome Service 2",
+    const clientInput2: ClientInput = {
+      id: clientId,
+      firstName: "Ocean",
       createdAt: "2020-08-15T15:09:17.819Z",
       updatedAt: "2020-08-15T15:09:17.819Z"
     };
 
     const { mutate } = createTestClient(apolloServer);
     await mutate({
-      mutation: GQL_UPSERT_SERVICE,
+      mutation: GQL_UPSERT_CLIENT,
       variables: {
-        serviceInput: serviceInput1
+        clientInput: clientInput1
       }
     });
 
     const response = await mutate({
-      mutation: GQL_UPSERT_SERVICE,
+      mutation: GQL_UPSERT_CLIENT,
       variables: {
-        serviceInput: serviceInput2
+        clientInput: clientInput2
       }
     });
 
     expect(response).toMatchObject({
       data: {
-        upsertService: {
-          ...serviceInput1,
-          duration: null,
-          expires: null,
+        upsertClient: {
+          ...clientInput1,
+          lastName: null,
+          address: null,
+          contactEmail: null,
+          contactNumber: null,
           notes: null
         }
       }
     });
   });
 
-  it("deletes a Service", async () => {
-    const serviceInput: ServiceInput = {
+  it("deletes a Client", async () => {
+    const clientInput: ClientInput = {
       id: uuid(),
-      name: "My Awesome Service 1",
+      firstName: "Kim",
       createdAt: "2020-08-15T15:09:17.819Z",
       updatedAt: "2020-08-15T15:09:18.819Z"
     };
 
     const { mutate } = createTestClient(apolloServer);
     await mutate({
-      mutation: GQL_UPSERT_SERVICE,
+      mutation: GQL_UPSERT_CLIENT,
       variables: {
-        serviceInput: serviceInput
+        clientInput: clientInput
       }
     });
 
     const response = await mutate({
-      mutation: GQL_DELETE_SERVICE,
+      mutation: GQL_DELETE_CLIENT,
       variables: {
-        id: serviceInput.id,
+        id: clientInput.id,
         deletedAt: new Date()
       }
     });
 
     expect(response).toMatchObject({
       data: {
-        deleteService: true
+        deleteClient: true
       }
     });
   });
 
-  it("does not delete a Service", async () => {
-    const serviceId = uuid();
-    ids.push(serviceId);
+  it("does not delete a Client", async () => {
+    const clientId = uuid();
+    ids.push(clientId);
 
-    const serviceInput: ServiceInput = {
-      id: serviceId,
-      name: "My Awesome Service 1",
+    const clientInput: ClientInput = {
+      id: clientId,
+      firstName: "Harry",
       createdAt: "2020-08-15T15:09:17.819Z",
       updatedAt: "2020-08-15T15:09:18.819Z"
     };
 
     const { mutate } = createTestClient(apolloServer);
     await mutate({
-      mutation: GQL_UPSERT_SERVICE,
+      mutation: GQL_UPSERT_CLIENT,
       variables: {
-        serviceInput: serviceInput
+        clientInput: clientInput
       }
     });
 
     const response = await mutate({
-      mutation: GQL_DELETE_SERVICE,
+      mutation: GQL_DELETE_CLIENT,
       variables: {
-        id: serviceInput.id,
+        id: clientInput.id,
         deletedAt: "2020-08-15T15:09:17.819Z"
       }
     });
 
     expect(response).toMatchObject({
       data: {
-        deleteService: false
+        deleteClient: false
       }
     });
   });
 
-  it("lists all services", async () => {
-    const serviceIds = [uuid(), uuid(), uuid()];
-    serviceIds.forEach((serviceId) => ids.push(serviceId));
+  it("lists all clients", async () => {
+    const clientIds = [uuid(), uuid(), uuid()];
+    clientIds.forEach((clientId) => ids.push(clientId));
 
-    const serviceInput1: ServiceInput = {
-      id: serviceIds[0],
-      name: "My Awesome Service 1",
+    const clientInput1: ClientInput = {
+      id: clientIds[0],
+      firstName: "Ryan",
       createdAt: "2020-08-15T15:09:17.819Z",
       updatedAt: "2020-08-15T15:09:18.819Z"
     };
 
-    const serviceInput2: ServiceInput = {
-      id: serviceIds[1],
-      name: "My Awesome Service 2",
+    const clientInput2: ClientInput = {
+      id: clientIds[1],
+      firstName: "Chou",
       createdAt: "2020-08-15T15:09:17.819Z",
       updatedAt: "2020-08-15T15:09:18.819Z"
     };
 
-    const serviceInput3: ServiceInput = {
-      id: serviceIds[2],
-      name: "My Awesome Service 3",
+    const clientInput3: ClientInput = {
+      id: clientIds[2],
+      firstName: "Matty",
       createdAt: "2020-08-15T15:09:17.819Z",
       updatedAt: "2020-08-15T15:09:18.819Z"
     };
 
     const { mutate } = createTestClient(apolloServer);
     await mutate({
-      mutation: GQL_UPSERT_SERVICE,
+      mutation: GQL_UPSERT_CLIENT,
       variables: {
-        serviceInput: serviceInput1
+        clientInput: clientInput1
       }
     });
     await mutate({
-      mutation: GQL_UPSERT_SERVICE,
+      mutation: GQL_UPSERT_CLIENT,
       variables: {
-        serviceInput: serviceInput2
+        clientInput: clientInput2
       }
     });
     await mutate({
-      mutation: GQL_UPSERT_SERVICE,
+      mutation: GQL_UPSERT_CLIENT,
       variables: {
-        serviceInput: serviceInput3
+        clientInput: clientInput3
       }
     });
 
     const response = await mutate({
-      mutation: GQL_GET_SERVICES
+      mutation: GQL_GET_CLIENTS
     });
 
-    const getServices: GetServices_getServices[] = response.data?.getServices;
+    const getClients: GetClients_getClients[] = response.data?.getClients;
 
-    expect(
-      getServices.find((service) => service.id === serviceInput1.id)
-    ).toEqual({
-      ...serviceInput1,
-      duration: null,
-      expires: null,
+    expect(getClients.find((client) => client.id === clientInput1.id)).toEqual({
+      ...clientInput1,
+      lastName: null,
+      address: null,
+      contactEmail: null,
+      contactNumber: null,
       notes: null
     });
-    expect(
-      getServices.find((service) => service.id === serviceInput2.id)
-    ).toEqual({
-      ...serviceInput2,
-      duration: null,
-      expires: null,
+    expect(getClients.find((client) => client.id === clientInput2.id)).toEqual({
+      ...clientInput2,
+      lastName: null,
+      address: null,
+      contactEmail: null,
+      contactNumber: null,
       notes: null
     });
-    expect(
-      getServices.find((service) => service.id === serviceInput3.id)
-    ).toEqual({
-      ...serviceInput3,
-      duration: null,
-      expires: null,
+    expect(getClients.find((client) => client.id === clientInput3.id)).toEqual({
+      ...clientInput3,
+      lastName: null,
+      address: null,
+      contactEmail: null,
+      contactNumber: null,
       notes: null
     });
   });

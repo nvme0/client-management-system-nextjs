@@ -3,16 +3,42 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Client {
+  address: String
+  contactEmail: String
+  contactNumber: String
+  createdAt: DateTime!
+  firstName: String!
+  id: ID!
+  lastName: String
+  notes: String
+  updatedAt: DateTime!
+}
+
+input ClientInput {
+  address: String
+  contactEmail: String
+  contactNumber: String
+  createdAt: DateTime!
+  firstName: String!
+  id: ID!
+  lastName: String
+  notes: String
+  updatedAt: DateTime!
+}
+
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
 scalar DateTime
 
 type Mutation {
+  deleteClient(deletedAt: DateTime!, id: String!): Boolean!
   deleteService(deletedAt: DateTime!, id: String!): Boolean!
   login(email: String!, password: String!): MutationResponse!
   logout: Boolean!
   register(email: String!, password: String!): MutationResponse!
+  upsertClient(clientInput: ClientInput!): Client
   upsertService(serviceInput: ServiceInput!): Service
 }
 
@@ -23,6 +49,7 @@ type MutationResponse {
 }
 
 type Query {
+  getClients: [Client!]!
   getServices: [Service!]!
   me: User!
 }
