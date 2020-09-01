@@ -4,11 +4,13 @@ import { buildSchema, BuildSchemaOptions } from "type-graphql";
 import { ApolloServer } from "apollo-server-micro";
 import { PrismaClient } from "@prisma/client";
 
-import { ServiceResolver } from "gql/api/service/service.resolver";
 import { AuthResolver } from "gql/api/auth/auth.resolver";
 import { configuration, validationSchema } from "lib/config";
 import { UserResolver } from "gql/api/user/user.resolver";
+import { ServiceResolver } from "gql/api/service/service.resolver";
 import { ClientResolver } from "gql/api/client/client.resolver";
+import { ProgramResolver } from "gql/api/program/program.resolver";
+import { CategoryResolver } from "gql/api/category/category.resolver";
 
 let apolloServerHandler: (req: any, res: any) => Promise<void>;
 
@@ -16,7 +18,14 @@ export const config = { api: { bodyParser: false } };
 
 export const createSchema = (options?: Omit<BuildSchemaOptions, "resolvers">) =>
   buildSchema({
-    resolvers: [AuthResolver, UserResolver, ServiceResolver, ClientResolver],
+    resolvers: [
+      AuthResolver,
+      UserResolver,
+      ServiceResolver,
+      ClientResolver,
+      ProgramResolver,
+      CategoryResolver
+    ],
     ...options
   });
 
