@@ -20,6 +20,7 @@ export class Service {
   expires?: Date | null;
 
   @Field(() => String, { nullable: true })
+  @Length(0, 255)
   notes?: string | null;
 
   @Field(() => Date)
