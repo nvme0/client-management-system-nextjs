@@ -3,3 +3,4 @@
 20200815030351-initial-schema
 20200815043753-make-service-expires-a-date-time-value
 20200822104724-remove-user-profile
+20200901054946-remove-client-profile
