@@ -29,7 +29,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@chakra-ui/core": "^1.0.0-rc.2",

@@ -54,6 +54,9 @@ jobs:
       - name: Generate Database Types
         run: npm run db:gen
 
+      - name: Type Check
+        run: npm run type-check
+
       - name: Run Database Migrations
         run: npm run db:up
 

@@ -134,9 +134,11 @@ export const Clients = () => {
           {...{
             client: {
               id: uuid(),
-              name: "",
-              duration: null,
-              expires: null,
+              firstName: "",
+              lastName: "",
+              address: "",
+              contactEmail: "",
+              contactNumber: "",
               notes: "",
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString()
