@@ -7,6 +7,15 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface CategoryInput {
+  createdAt: GqlDateTime;
+  for?: string | null;
+  id: string;
+  name: string;
+  notes?: string | null;
+  updatedAt: GqlDateTime;
+}
+
 export interface ClientInput {
   address?: string | null;
   contactEmail?: string | null;
@@ -15,6 +24,14 @@ export interface ClientInput {
   firstName: string;
   id: string;
   lastName?: string | null;
+  notes?: string | null;
+  updatedAt: GqlDateTime;
+}
+
+export interface ProgramInput {
+  createdAt: GqlDateTime;
+  id: string;
+  name: string;
   notes?: string | null;
   updatedAt: GqlDateTime;
 }
