@@ -57,5 +57,8 @@ jobs:
           --allow-unauthenticated \
           --project ${{ secrets.GCP_PROJECT_ID }}
 
+      - name: Install Dependencies
+        run: npm install
+
       - name: Run Database Migrations
         run: npm run db:up
