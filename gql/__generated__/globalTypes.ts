@@ -7,6 +7,18 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface ClientInput {
+  address?: string | null;
+  contactEmail?: string | null;
+  contactNumber?: string | null;
+  createdAt: GqlDateTime;
+  firstName: string;
+  id: string;
+  lastName?: string | null;
+  notes?: string | null;
+  updatedAt: GqlDateTime;
+}
+
 export interface ServiceInput {
   createdAt: GqlDateTime;
   duration?: string | null;
