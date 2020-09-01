@@ -8,6 +8,7 @@ import { ServiceResolver } from "gql/api/service/service.resolver";
 import { AuthResolver } from "gql/api/auth/auth.resolver";
 import { configuration, validationSchema } from "lib/config";
 import { UserResolver } from "gql/api/user/user.resolver";
+import { ClientResolver } from "gql/api/client/client.resolver";
 
 let apolloServerHandler: (req: any, res: any) => Promise<void>;
 
@@ -15,7 +16,7 @@ export const config = { api: { bodyParser: false } };
 
 export const createSchema = (options?: Omit<BuildSchemaOptions, "resolvers">) =>
   buildSchema({
-    resolvers: [AuthResolver, UserResolver, ServiceResolver],
+    resolvers: [AuthResolver, UserResolver, ServiceResolver, ClientResolver],
     ...options
   });
 
