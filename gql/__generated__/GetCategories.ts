@@ -8,7 +8,6 @@
 // ====================================================
 
 export interface GetCategories_getCategories {
-  __typename: "Category";
   id: string;
   name: string;
   for: string | null;

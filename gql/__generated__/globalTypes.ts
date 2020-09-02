@@ -29,6 +29,7 @@ export interface ClientInput {
 }
 
 export interface ProgramInput {
+  categories?: CategoryInput[] | null;
   createdAt: GqlDateTime;
   id: string;
   name: string;

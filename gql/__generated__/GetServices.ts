@@ -8,7 +8,6 @@
 // ====================================================
 
 export interface GetServices_getServices {
-  __typename: "Service";
   id: string;
   name: string;
   duration: string | null;

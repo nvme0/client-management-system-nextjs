@@ -17,12 +17,10 @@ import {
 } from "gql/Category";
 import {
   GetCategories,
-  GetCategories_getCategories
+  GetCategories_getCategories as Category
 } from "gql/__generated__/GetCategories";
 import { DeleteCategory } from "gql/__generated__/DeleteCategory";
 import { optimisticUpsert, optimisticDelete } from "lib/optimisticHelpers";
-
-type Category = Omit<GetCategories_getCategories, "__typename">;
 
 enum QueryKeys {
   GET_CATEGORIES = "GetCategories"

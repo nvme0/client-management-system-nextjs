@@ -19,10 +19,8 @@ import {
   Stack,
   Textarea
 } from "@chakra-ui/core";
-import { GetClients_getClients } from "gql/__generated__/GetClients";
+import { GetClients_getClients as Client } from "gql/__generated__/GetClients";
 import { Button } from "components/Button";
-
-type Client = Omit<GetClients_getClients, "__typename">;
 
 const schema = yup.object().shape({
   firstName: yup.string().min(1).max(255).required(),

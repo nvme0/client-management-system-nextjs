@@ -10,7 +10,6 @@ import { CategoryInput } from "./globalTypes";
 // ====================================================
 
 export interface UpsertCategory_upsertCategory {
-  __typename: "Category";
   id: string;
   name: string;
   for: string | null;

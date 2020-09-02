@@ -17,15 +17,13 @@ import {
 } from "gql/Client";
 import {
   GetClients,
-  GetClients_getClients
+  GetClients_getClients as Client
 } from "gql/__generated__/GetClients";
 import { DeleteClient } from "gql/__generated__/DeleteClient";
 import { optimisticUpsert, optimisticDelete } from "lib/optimisticHelpers";
 import LoginModal from "components/modals/LoginModal";
 import { useLoggedInState } from "lib/loggedInState";
 import { useOnlineState } from "lib/network";
-
-type Client = Omit<GetClients_getClients, "__typename">;
 
 enum QueryKeys {
   GET_CLIENTS = "GetClients"

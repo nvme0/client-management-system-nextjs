@@ -19,10 +19,8 @@ import {
   Stack,
   Textarea
 } from "@chakra-ui/core";
-import { GetServices_getServices } from "gql/__generated__/GetServices";
+import { GetServices_getServices as Service } from "gql/__generated__/GetServices";
 import { Button } from "components/Button";
-
-type Service = Omit<GetServices_getServices, "__typename">;
 
 const schema = yup.object().shape({
   name: yup.string().min(3).max(255).required(),

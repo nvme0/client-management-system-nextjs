@@ -17,15 +17,13 @@ import {
 } from "gql/Service";
 import {
   GetServices,
-  GetServices_getServices
+  GetServices_getServices as Service
 } from "gql/__generated__/GetServices";
 import { DeleteService } from "gql/__generated__/DeleteService";
 import { optimisticUpsert, optimisticDelete } from "lib/optimisticHelpers";
 import LoginModal from "components/modals/LoginModal";
 import { useLoggedInState } from "lib/loggedInState";
 import { useOnlineState } from "lib/network";
-
-type Service = Omit<GetServices_getServices, "__typename">;
 
 enum QueryKeys {
   GET_SERVICES = "GetServices"

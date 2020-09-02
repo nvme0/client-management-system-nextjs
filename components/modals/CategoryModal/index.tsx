@@ -19,10 +19,8 @@ import {
   Stack,
   Textarea
 } from "@chakra-ui/core";
-import { GetCategories_getCategories } from "gql/__generated__/GetCategories";
+import { GetCategories_getCategories as Category } from "gql/__generated__/GetCategories";
 import { Button } from "components/Button";
-
-type Category = Omit<GetCategories_getCategories, "__typename">;
 
 const schema = yup.object().shape({
   name: yup.string().min(3).max(255).required(),

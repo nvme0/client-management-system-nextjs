@@ -7,13 +7,22 @@
 // GraphQL query operation: GetPrograms
 // ====================================================
 
+export interface GetPrograms_getPrograms_categories {
+  id: string;
+  name: string;
+  for: string | null;
+  notes: string | null;
+  createdAt: GqlDateTime;
+  updatedAt: GqlDateTime;
+}
+
 export interface GetPrograms_getPrograms {
-  __typename: "Program";
   id: string;
   name: string;
   notes: string | null;
   createdAt: GqlDateTime;
   updatedAt: GqlDateTime;
+  categories: GetPrograms_getPrograms_categories[] | null;
 }
 
 export interface GetPrograms {
