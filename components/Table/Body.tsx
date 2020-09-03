@@ -1,6 +1,7 @@
 import { MouseEventHandler } from "react";
-import { TBody, TRow, TCell } from ".";
 import { Row as R, TableBodyPropGetter, TableBodyProps } from "react-table";
+
+import { TBody, TRow, TCell } from ".";
 
 export interface IBody<D extends { id: string }> {
   getTableBodyProps: (propGetter?: TableBodyPropGetter<D>) => TableBodyProps;
@@ -31,9 +32,21 @@ const Body = <D extends { id: string }>({
                 : undefined
             }}
           >
-            {row.cells.map((cell) => (
-              <TCell {...cell.getCellProps()}>{cell.render("Cell")}</TCell>
-            ))}
+            {row.cells.map((cell) => {
+              const {
+                getCellProps,
+                render,
+                column: { id }
+              } = cell;
+              return (
+                <TCell
+                  {...getCellProps()}
+                  {...{ py: id === "actionButtonColumn" ? 1 : 4 }}
+                >
+                  {render("Cell")}
+                </TCell>
+              );
+            })}
           </TRow>
         );
       })}
