@@ -1,5 +1,6 @@
 import { ObjectType, InputType, Field, ID } from "type-graphql";
 import { Length } from "class-validator";
+import { Category } from "../category/category.model";
 
 @ObjectType()
 @InputType("ProgramInput")
@@ -15,6 +16,9 @@ export class Program {
   @Field(() => String, { nullable: true })
   @Length(0, 255)
   notes?: string | null;
+
+  @Field(() => [Category], { defaultValue: [] })
+  categories: Category[];
 
   @Field(() => Date)
   createdAt: Date;

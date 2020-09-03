@@ -4,14 +4,16 @@ import { createTestClient } from "apollo-server-testing";
 import { sign } from "jsonwebtoken";
 import { PrismaClient, PrismaClientOptions } from "@prisma/client";
 
-import { deleteProgram } from "test-utils/cleanDB";
+import { deleteProgram, deleteCategory } from "test-utils/cleanDB";
 import { createApolloTestServer } from "test-utils/createApolloTestServer";
 import {
   GQL_UPSERT_PROGRAM,
   GQL_DELETE_PROGRAM,
   GQL_GET_PROGRAMS
 } from "gql/Program";
+import { GQL_UPSERT_CATEGORY } from "gql/Category";
 import { ProgramInput } from "gql/__generated__/globalTypes";
+import { CategoryInput } from "gql/__generated__/globalTypes";
 import { GetPrograms_getPrograms } from "gql/__generated__/GetPrograms";
 import { configuration } from "lib/config";
 import { createPrismaTestClient } from "test-utils/createPrismaTestClient";
@@ -20,7 +22,8 @@ import { User } from "../user/models/user.model";
 
 describe("Program Resolver", () => {
   let apolloServer: ApolloServer;
-  const ids: string[] = [];
+  const programIds: string[] = [];
+  const categoryIds: string[] = [];
   let prisma: PrismaClient<PrismaClientOptions, never>;
   let user: User;
 
@@ -45,14 +48,15 @@ describe("Program Resolver", () => {
   });
 
   afterAll(async () => {
-    ids.forEach((id) => deleteProgram(id));
+    await Promise.all(programIds.map(async (id) => await deleteProgram(id)));
+    await Promise.all(categoryIds.map(async (id) => await deleteCategory(id)));
     await prisma.user.delete({ where: { id: user.id } });
     prisma.$disconnect();
   });
 
   it("creates a new Program", async () => {
     const programId = uuid();
-    ids.push(programId);
+    programIds.push(programId);
 
     const programInput: ProgramInput = {
       id: programId,
@@ -79,9 +83,58 @@ describe("Program Resolver", () => {
     });
   });
 
+  it("creates a new Program with Categories", async () => {
+    const programId = uuid();
+    programIds.push(programId);
+    const categoryId = uuid();
+    categoryIds.push(categoryId);
+
+    const categoryInput: CategoryInput = {
+      id: categoryId,
+      name: "My Category 3",
+      for: "Program",
+      createdAt: "2020-08-15T15:09:17.819Z",
+      updatedAt: "2020-08-15T15:09:18.819Z"
+    };
+
+    const { mutate: upsertCategory } = createTestClient(apolloServer);
+    await upsertCategory({
+      mutation: GQL_UPSERT_CATEGORY,
+      variables: {
+        categoryInput
+      }
+    });
+
+    const programInput: ProgramInput = {
+      id: programId,
+      name: "My Program 3",
+      createdAt: "2020-08-15T15:09:17.819Z",
+      updatedAt: "2020-08-15T15:09:18.819Z",
+      categories: [categoryInput]
+    };
+
+    const { mutate: upsertProgram } = createTestClient(apolloServer);
+    const response = await upsertProgram({
+      mutation: GQL_UPSERT_PROGRAM,
+      variables: {
+        programInput
+      }
+    });
+
+    expect(response).toMatchObject({
+      data: {
+        upsertProgram: {
+          ...programInput,
+          notes: null,
+          categories: [categoryInput]
+        }
+      }
+    });
+  });
+
   it("updates a Program", async () => {
     const programId = uuid();
-    ids.push(programId);
+    programIds.push(programId);
 
     const programInput1: ProgramInput = {
       id: programId,
@@ -124,7 +177,7 @@ describe("Program Resolver", () => {
 
   it("does not update a Program", async () => {
     const programId = uuid();
-    ids.push(programId);
+    programIds.push(programId);
 
     const programInput1: ProgramInput = {
       id: programId,
@@ -198,7 +251,7 @@ describe("Program Resolver", () => {
 
   it("does not delete a Program", async () => {
     const programId = uuid();
-    ids.push(programId);
+    programIds.push(programId);
 
     const programInput: ProgramInput = {
       id: programId,
@@ -232,27 +285,30 @@ describe("Program Resolver", () => {
 
   it("lists all programs", async () => {
     const programIds = [uuid(), uuid(), uuid()];
-    programIds.forEach((programId) => ids.push(programId));
+    programIds.forEach((programId) => programIds.push(programId));
 
     const programInput1: ProgramInput = {
       id: programIds[0],
       name: "My Awesome Program 1",
       createdAt: "2020-08-15T15:09:17.819Z",
-      updatedAt: "2020-08-15T15:09:18.819Z"
+      updatedAt: "2020-08-15T15:09:18.819Z",
+      categories: []
     };
 
     const programInput2: ProgramInput = {
       id: programIds[1],
       name: "My Awesome Program 2",
       createdAt: "2020-08-15T15:09:17.819Z",
-      updatedAt: "2020-08-15T15:09:18.819Z"
+      updatedAt: "2020-08-15T15:09:18.819Z",
+      categories: []
     };
 
     const programInput3: ProgramInput = {
       id: programIds[2],
       name: "My Awesome Program 3",
       createdAt: "2020-08-15T15:09:17.819Z",
-      updatedAt: "2020-08-15T15:09:18.819Z"
+      updatedAt: "2020-08-15T15:09:18.819Z",
+      categories: []
     };
 
     const { mutate } = createTestClient(apolloServer);

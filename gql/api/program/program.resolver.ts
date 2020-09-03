@@ -16,7 +16,10 @@ export class ProgramResolver {
     @CurrentUser() userId: string
   ): Promise<Program[]> {
     try {
-      return await prisma.program.findMany({ where: { userId } });
+      return await prisma.program.findMany({
+        where: { userId },
+        include: { categories: true }
+      });
     } catch (error) {
       return [];
     } finally {
@@ -29,14 +32,16 @@ export class ProgramResolver {
   async upsertProgram(
     @db() prisma: PrismaClient,
     @CurrentUser() userId: string,
-    @Arg("programInput") program: Program
+    @Arg("programInput") programInput: Program
   ): Promise<Program | null> {
+    const { categories, ...program } = programInput;
     try {
       const entry = await prisma.program.findOne({
-        where: { id: program.id }
+        where: { id: program.id },
+        include: { categories: true }
       });
 
-      if (!checkEntryForUpsert<Program>(program, { entry, userId })) {
+      if (!checkEntryForUpsert<Program>(programInput, { entry, userId })) {
         return entry;
       }
 
@@ -47,6 +52,9 @@ export class ProgramResolver {
             connect: {
               id: userId
             }
+          },
+          categories: {
+            connect: categories.map(({ id }) => ({ id }))
           }
         },
         update: {
@@ -55,11 +63,15 @@ export class ProgramResolver {
             connect: {
               id: userId
             }
+          },
+          categories: {
+            set: categories.map(({ id }) => ({ id }))
           }
         },
         where: {
           id: program.id
-        }
+        },
+        include: { categories: true }
       });
     } catch (error) {
       console.log({ error });
@@ -78,7 +90,10 @@ export class ProgramResolver {
     @Arg("deletedAt") deletedAt: Date
   ): Promise<Boolean> {
     try {
-      const entry = await prisma.program.findOne({ where: { id } });
+      const entry = await prisma.program.findOne({
+        where: { id },
+        include: { categories: true }
+      });
       if (!checkEntryForDelete<Program>(deletedAt, { entry, userId })) {
         return false;
       }

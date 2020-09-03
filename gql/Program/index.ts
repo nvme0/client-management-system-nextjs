@@ -8,6 +8,14 @@ export const GQL_GET_PROGRAMS = gql`
       notes
       createdAt
       updatedAt
+      categories {
+        id
+        name
+        for
+        notes
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
@@ -20,6 +28,14 @@ export const GQL_UPSERT_PROGRAM = gql`
       notes
       createdAt
       updatedAt
+      categories {
+        id
+        name
+        for
+        notes
+        createdAt
+        updatedAt
+      }
     }
   }
 `;

@@ -71,6 +71,7 @@ type MutationResponse {
 }
 
 type Program {
+  categories: [Category!]
   createdAt: DateTime!
   id: ID!
   name: String!
@@ -79,6 +80,7 @@ type Program {
 }
 
 input ProgramInput {
+  categories: [CategoryInput!] = []
   createdAt: DateTime!
   id: ID!
   name: String!
