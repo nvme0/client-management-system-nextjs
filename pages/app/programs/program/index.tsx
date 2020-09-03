@@ -15,17 +15,18 @@ import {
   GQL_UPSERT_PROGRAM,
   GQL_DELETE_PROGRAM
 } from "gql/Program";
+import { GQL_GET_CATEGORIES } from "gql/Category";
 import {
   GetPrograms,
-  GetPrograms_getPrograms
+  GetPrograms_getPrograms as Program
 } from "gql/__generated__/GetPrograms";
+import { GetCategories } from "gql/__generated__/GetCategories";
 import { DeleteProgram } from "gql/__generated__/DeleteProgram";
 import { optimisticUpsert, optimisticDelete } from "lib/optimisticHelpers";
 
-type Program = Omit<GetPrograms_getPrograms, "__typename">;
-
 enum QueryKeys {
-  GET_PROGRAMS = "GetPrograms"
+  GET_PROGRAMS = "GetPrograms",
+  GET_CATEGORIES = "GetCategories"
 }
 
 export interface Props {
@@ -45,6 +46,13 @@ export const Programs = ({ state, setState }: Props) => {
     GQL_GET_PROGRAMS,
     {},
     { initialData: { getPrograms: [] } }
+  );
+
+  const { data: categories } = useQuery<GetCategories>(
+    QueryKeys.GET_CATEGORIES,
+    GQL_GET_CATEGORIES,
+    {},
+    { initialData: { getCategories: [] } }
   );
 
   const [upsertProgram] = useMutation<
@@ -126,9 +134,11 @@ export const Programs = ({ state, setState }: Props) => {
               id: uuid(),
               name: "",
               notes: "",
+              categories: [],
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString()
             },
+            categories: categories?.getCategories || [],
             modalProps: {
               isOpen: true,
               onClose: () => setState({ ...state, Modal: undefined })
@@ -149,6 +159,7 @@ export const Programs = ({ state, setState }: Props) => {
         <EditProgramModal
           {...{
             program,
+            categories: categories?.getCategories || [],
             modalProps: {
               isOpen: true,
               onClose: () => setState({ ...state, Modal: undefined })
@@ -197,6 +208,7 @@ export const Programs = ({ state, setState }: Props) => {
           columns,
           initialState,
           sortable: true,
+          tableProps: { px: 4 },
           rowSelectCallback: (original: Program) => () =>
             handleSelectProgram(original)
         }}
