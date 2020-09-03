@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+import { TableOptions } from "react-table";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import {
@@ -17,25 +19,31 @@ import {
   FormHelperText,
   Input,
   Stack,
-  Textarea
+  Textarea,
+  Box
 } from "@chakra-ui/core";
-import { GetPrograms_getPrograms } from "gql/__generated__/GetPrograms";
-import { Button } from "components/Button";
 
-type Program = Omit<GetPrograms_getPrograms, "__typename">;
+import { Button } from "components/Button";
+import { BasicTable } from "components/Table";
+import { GetPrograms_getPrograms as Program } from "gql/__generated__/GetPrograms";
+import { GetCategories_getCategories as Category } from "gql/__generated__/GetCategories";
+import ProgramAddItem from "./components/ProgramAddItem";
 
 const schema = yup.object().shape({
   name: yup.string().min(3).max(255).required(),
+  categories: yup.array(),
   notes: yup.string()
 });
 
 export interface FormInputState {
   name: string;
+  categories: Category[];
   notes: string;
 }
 
 export interface ProgramModalProps {
   program: Program;
+  categories: Category[];
   modalProps: ModalProps;
   handleSave: (program: Program) => void;
   handleDelete?: () => void;
@@ -50,6 +58,7 @@ export interface Props extends ProgramModalProps {
 
 const ProgramModal = ({
   program,
+  categories,
   modalProps,
   handleSave,
   handleDelete,
@@ -58,6 +67,7 @@ const ProgramModal = ({
   const formik = useFormik<FormInputState>({
     initialValues: {
       name: program.name,
+      categories: program.categories || [],
       notes: program.notes || ""
     },
     validationSchema: schema,
@@ -71,6 +81,62 @@ const ProgramModal = ({
       });
     }
   });
+
+  const addCategory = (category: Category) => {
+    formik.setValues({
+      ...formik.values,
+      categories: [...formik.values.categories, category]
+    });
+  };
+
+  const removeCategory = (category: Category) => {
+    formik.setValues({
+      ...formik.values,
+      categories: formik.values.categories.filter(
+        ({ id }) => id !== category.id
+      )
+    });
+  };
+
+  const data = useMemo<TableOptions<any>["data"]>(
+    () => formik.values.categories || [],
+    [formik.values.categories]
+  );
+
+  const columns = useMemo<TableOptions<Category>["columns"]>(
+    () => [
+      {
+        Header: "Name",
+        accessor: "name"
+      },
+      {
+        id: "actionButtonColumn",
+        Cell: ({ row }) => (
+          <Box {...{ justifyContent: "right", display: "flex" }}>
+            <Button
+              {...{
+                size: "sm",
+                templateStyle: "danger-outline",
+                onClick: () => removeCategory(row.original)
+              }}
+            >
+              Delete
+            </Button>
+          </Box>
+        )
+      }
+    ],
+    []
+  );
+
+  const initialState = {
+    sortBy: [
+      {
+        id: "name",
+        desc: false
+      }
+    ]
+  };
 
   return (
     <Modal
@@ -111,6 +177,47 @@ const ProgramModal = ({
                     }}
                   />
                   <FormErrorMessage>{formik.errors.name}</FormErrorMessage>
+                </FormControl>
+                {/* <FormControl
+                  {...{
+                    isRequired: true,
+                    isInvalid: formik.touched.name && !!formik.errors.name
+                  }}
+                >
+                  <FormLabel>Services</FormLabel>
+                </FormControl> */}
+                <FormControl
+                  {...{
+                    isRequired: true,
+                    isInvalid:
+                      formik.touched.categories && !!formik.errors.categories
+                  }}
+                >
+                  <FormLabel>Categories</FormLabel>
+                  <Stack>
+                    <BasicTable
+                      {...{
+                        data,
+                        columns,
+                        initialState,
+                        sortable: true
+                      }}
+                    />
+                    <ProgramAddItem
+                      {...{
+                        addCategory,
+                        categories: categories.filter(
+                          ({ id }) =>
+                            !formik.values.categories?.find(
+                              ({ id: _id }) => id === _id
+                            )
+                        )
+                      }}
+                    />
+                    <FormErrorMessage>
+                      {formik.errors.categories}
+                    </FormErrorMessage>
+                  </Stack>
                 </FormControl>
                 <FormControl
                   {...{

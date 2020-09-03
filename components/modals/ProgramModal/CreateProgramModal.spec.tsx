@@ -1,10 +1,15 @@
 import { render, cleanup, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
+import preloadAll from "jest-next-dynamic";
 
 import CreateProgramModal from "./CreateProgramModal";
 import { ProgramModalProps } from ".";
 
 describe("Create Program Modal", () => {
+  beforeAll(async () => {
+    await preloadAll();
+  });
+
   afterEach(cleanup);
 
   let props: ProgramModalProps;
@@ -16,8 +21,10 @@ describe("Create Program Modal", () => {
         name: "",
         notes: "",
         createdAt: "2019-10-10T00:53:43.549Z",
-        updatedAt: "2019-10-10T00:53:43.549Z"
+        updatedAt: "2019-10-10T00:53:43.549Z",
+        categories: []
       },
+      categories: [],
       modalProps: {
         isOpen: true,
         onClose: jest.fn()

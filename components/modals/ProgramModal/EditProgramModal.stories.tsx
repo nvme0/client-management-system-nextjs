@@ -20,7 +20,8 @@ export const Default = () => {
       name: "",
       notes: "",
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
+      categories: []
     };
 
     setState({
@@ -29,6 +30,7 @@ export const Default = () => {
         <EditProgramModal
           {...{
             program,
+            categories: [],
             modalProps: {
               isOpen: true,
               onClose: () => setState({ ...state, Modal: undefined })
