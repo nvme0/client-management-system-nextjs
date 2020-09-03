@@ -107,7 +107,8 @@ describe("Paginated Table", () => {
         {...{
           data,
           columns,
-          initialState
+          initialState,
+          tableProps: { px: 4 }
         }}
       />
     );

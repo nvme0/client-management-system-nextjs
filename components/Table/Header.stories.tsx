@@ -19,7 +19,7 @@ export const Default = () => {
   });
 
   return (
-    <Table {...getTableProps()}>
+    <Table {...getTableProps()} {...{ outerBoxProps: { px: 4 } }}>
       <Header {...{ headerGroups }} />
     </Table>
   );
@@ -38,7 +38,7 @@ export const Sortable = () => {
   );
 
   return (
-    <Table {...getTableProps()}>
+    <Table {...getTableProps()} {...{ outerBoxProps: { px: 4 } }}>
       <Header {...{ headerGroups }} />
     </Table>
   );

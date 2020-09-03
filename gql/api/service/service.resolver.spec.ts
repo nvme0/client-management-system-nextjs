@@ -45,7 +45,7 @@ describe("Service Resolver", () => {
   });
 
   afterAll(async () => {
-    ids.forEach((id) => deleteService(id));
+    await Promise.all(ids.map(async (id) => await deleteService(id)));
     await prisma.user.delete({ where: { id: user.id } });
     prisma.$disconnect();
   });

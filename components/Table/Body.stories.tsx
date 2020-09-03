@@ -26,7 +26,7 @@ export const Default = () => {
   );
 
   return (
-    <Table {...getTableProps()}>
+    <Table {...getTableProps()} {...{ outerBoxProps: { px: 4 } }}>
       <Body
         {...{
           getTableBodyProps,
@@ -56,7 +56,7 @@ export const Selectable = () => {
   };
 
   return (
-    <Table {...getTableProps()}>
+    <Table {...getTableProps()} {...{ outerBoxProps: { px: 4 } }}>
       <Body
         {...{
           getTableBodyProps,

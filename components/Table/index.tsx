@@ -5,9 +5,14 @@ export { FooterPaginated } from "./FooterPaginated";
 export { default as Body } from "./Body";
 
 export { PaginatedTable } from "./Complete/PaginatedTable";
+export { BasicTable } from "./Complete/BasicTable";
 
-export const Table = (props: BoxProps) => (
-  <Box {...{ overflow: "hidden", px: 4 }}>
+export interface TableProps {
+  outerBoxProps?: BoxProps;
+}
+
+export const Table = ({ outerBoxProps, ...props }: TableProps) => (
+  <Box {...{ overflow: "hidden", ...outerBoxProps }}>
     <Box
       {...{
         className: "card",

@@ -1,4 +1,4 @@
-import { useTable, useSortBy, usePagination } from "react-table";
+import { useTable, usePagination } from "react-table";
 import { useMemo } from "react";
 
 import { Table, FooterPaginated } from "..";
@@ -38,7 +38,7 @@ export const Default = () => {
   );
 
   return (
-    <Table {...getTableProps()}>
+    <Table {...getTableProps()} {...{ outerBoxProps: { px: 4 } }}>
       <FooterPaginated
         {...{
           pageIndex,

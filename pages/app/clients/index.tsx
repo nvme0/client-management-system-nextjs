@@ -209,6 +209,7 @@ export const Clients = () => {
           columns,
           initialState,
           sortable: true,
+          tableProps: { px: 4 },
           rowSelectCallback: (original: Client) => () =>
             handleSelectClient(original)
         }}

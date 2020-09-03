@@ -20,7 +20,8 @@ export const Default = () => {
     <PaginatedTable
       {...{
         data,
-        columns
+        columns,
+        tableProps: { px: 4 }
       }}
     />
   );
@@ -35,7 +36,8 @@ export const Sortable = () => {
       {...{
         data,
         columns,
-        sortable: true
+        sortable: true,
+        tableProps: { px: 4 }
       }}
     />
   );
@@ -55,7 +57,8 @@ export const Selectable = () => {
         data,
         columns,
         sortable: true,
-        rowSelectCallback: onRowSelectHandler
+        rowSelectCallback: onRowSelectHandler,
+        tableProps: { px: 4 }
       }}
     />
   );

@@ -196,6 +196,7 @@ export const Categories = ({ state, setState }: Props) => {
           columns,
           initialState,
           sortable: true,
+          tableProps: { px: 4 },
           rowSelectCallback: (original: Category) => () =>
             handleSelectCategory(original)
         }}

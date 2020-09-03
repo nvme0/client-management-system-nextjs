@@ -45,7 +45,7 @@ describe("Category Resolver", () => {
   });
 
   afterAll(async () => {
-    ids.forEach((id) => deleteCategory(id));
+    await Promise.all(ids.map(async (id) => await deleteCategory(id)));
     await prisma.user.delete({ where: { id: user.id } });
     prisma.$disconnect();
   });

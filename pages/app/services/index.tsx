@@ -195,6 +195,7 @@ export const Services = () => {
           columns,
           initialState,
           sortable: true,
+          tableProps: { px: 4 },
           rowSelectCallback: (original: Service) => () =>
             handleSelectService(original)
         }}
