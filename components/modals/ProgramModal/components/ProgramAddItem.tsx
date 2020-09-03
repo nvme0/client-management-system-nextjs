@@ -2,22 +2,24 @@ import { useRef } from "react";
 import { Stack, Select } from "@chakra-ui/core";
 
 import { Button } from "components/Button";
-import { GetCategories_getCategories as Category } from "gql/__generated__/GetCategories";
 
-export interface Props {
-  categories: Category[];
-  addCategory: (category: Category) => void;
+export interface Props<T = { id: string; name: string }> {
+  items: T[];
+  addItem: (item: T) => void;
 }
 
-const ProgramAddItem = ({ categories, addCategory }: Props) => {
+const ProgramAddItem = <T extends { id: string; name: string }>({
+  items,
+  addItem
+}: Props<T>) => {
   const selectRef = useRef<HTMLSelectElement>(null);
-  return categories.length > 0 ? (
+  return items.length > 0 ? (
     <Stack {...{ isInline: true }}>
       {" "}
       <Select {...{ ref: selectRef }}>
-        {categories.map((category) => (
-          <option key={category.id} value={category.id}>
-            {category.name}
+        {items.map((item) => (
+          <option key={item.id} value={item.id}>
+            {item.name}
           </option>
         ))}
       </Select>
@@ -25,11 +27,11 @@ const ProgramAddItem = ({ categories, addCategory }: Props) => {
         {...{
           templateStyle: "primary-outline",
           onClick: () => {
-            const categoryId = selectRef.current?.value;
-            if (categoryId) {
-              const category = categories.find(({ id }) => id === categoryId);
-              if (category) {
-                addCategory(category);
+            const itemId = selectRef.current?.value;
+            if (itemId) {
+              const item = items.find(({ id }) => id === itemId);
+              if (item) {
+                addItem(item);
               }
             }
           }

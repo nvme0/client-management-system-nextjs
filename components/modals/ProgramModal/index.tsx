@@ -178,14 +178,14 @@ const ProgramModal = ({
                   />
                   <FormErrorMessage>{formik.errors.name}</FormErrorMessage>
                 </FormControl>
-                {/* <FormControl
+                <FormControl
                   {...{
                     isRequired: true,
                     isInvalid: formik.touched.name && !!formik.errors.name
                   }}
                 >
                   <FormLabel>Services</FormLabel>
-                </FormControl> */}
+                </FormControl>
                 <FormControl
                   {...{
                     isRequired: true,
@@ -205,8 +205,8 @@ const ProgramModal = ({
                     />
                     <ProgramAddItem
                       {...{
-                        addCategory,
-                        categories: categories.filter(
+                        addItem: addCategory,
+                        items: categories.filter(
                           ({ id }) =>
                             !formik.values.categories?.find(
                               ({ id: _id }) => id === _id
