@@ -26,9 +26,11 @@ export const Default = () => {
               notes: "",
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString(),
-              categories: []
+              categories: [],
+              services: []
             },
             categories: [],
+            services: [],
             modalProps: {
               isOpen: true,
               onClose: () => setState({ ...state, Modal: undefined })

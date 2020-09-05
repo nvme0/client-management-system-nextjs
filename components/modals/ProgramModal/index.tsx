@@ -25,25 +25,33 @@ import {
 
 import { Button } from "components/Button";
 import { BasicTable } from "components/Table";
-import { GetPrograms_getPrograms as Program } from "gql/__generated__/GetPrograms";
+import {
+  GetPrograms_getPrograms as Program,
+  GetPrograms_getPrograms_services as ServiceToProgram
+} from "gql/__generated__/GetPrograms";
 import { GetCategories_getCategories as Category } from "gql/__generated__/GetCategories";
+import { GetServices_getServices as Service } from "gql/__generated__/GetServices";
 import ProgramAddItem from "./components/ProgramAddItem";
+import ProgramAddItemWithQuantity from "./components/ProgramAddItemWithQuantity";
 
 const schema = yup.object().shape({
   name: yup.string().min(3).max(255).required(),
   categories: yup.array(),
+  services: yup.array(),
   notes: yup.string()
 });
 
 export interface FormInputState {
   name: string;
   categories: Category[];
+  services: ServiceToProgram[];
   notes: string;
 }
 
 export interface ProgramModalProps {
   program: Program;
   categories: Category[];
+  services: Service[];
   modalProps: ModalProps;
   handleSave: (program: Program) => void;
   handleDelete?: () => void;
@@ -59,6 +67,7 @@ export interface Props extends ProgramModalProps {
 const ProgramModal = ({
   program,
   categories,
+  services,
   modalProps,
   handleSave,
   handleDelete,
@@ -68,6 +77,7 @@ const ProgramModal = ({
     initialValues: {
       name: program.name,
       categories: program.categories || [],
+      services: program.services || [],
       notes: program.notes || ""
     },
     validationSchema: schema,
@@ -82,28 +92,47 @@ const ProgramModal = ({
     }
   });
 
-  const addCategory = (category: Category) => {
+  const addCategory = (category: Category) =>
     formik.setValues({
       ...formik.values,
       categories: [...formik.values.categories, category]
     });
+
+  const addService = (service: ServiceToProgram) => {
+    formik.setValues({
+      ...formik.values,
+      services: [...formik.values.services, service]
+    });
   };
 
-  const removeCategory = (category: Category) => {
+  const removeCategory = (category: Category) =>
     formik.setValues({
       ...formik.values,
       categories: formik.values.categories.filter(
         ({ id }) => id !== category.id
       )
     });
+
+  const removeService = (service: Service) => {
+    formik.setValues({
+      ...formik.values,
+      services: formik.values.services.filter(
+        ({ service: { id } }) => id !== service.id
+      )
+    });
   };
 
-  const data = useMemo<TableOptions<any>["data"]>(
+  const categoriesData = useMemo<TableOptions<Category>["data"]>(
     () => formik.values.categories || [],
     [formik.values.categories]
   );
 
-  const columns = useMemo<TableOptions<Category>["columns"]>(
+  const servicesData = useMemo<TableOptions<ServiceToProgram>["data"]>(
+    () => formik.values.services || [],
+    [formik.values.services]
+  );
+
+  const categoriesColumns = useMemo<TableOptions<Category>["columns"]>(
     () => [
       {
         Header: "Name",
@@ -126,7 +155,39 @@ const ProgramModal = ({
         )
       }
     ],
-    []
+    [formik.values.categories, formik.values.services]
+  );
+
+  const servicesColumns = useMemo<
+    TableOptions<Service & { quantity: Number }>["columns"]
+  >(
+    () => [
+      {
+        Header: "Name",
+        accessor: "name"
+      },
+      {
+        Header: "Quantity",
+        accessor: "quantity"
+      },
+      {
+        id: "actionButtonColumn",
+        Cell: ({ row }) => (
+          <Box {...{ justifyContent: "right", display: "flex" }}>
+            <Button
+              {...{
+                size: "sm",
+                templateStyle: "danger-outline",
+                onClick: () => removeService(row.original)
+              }}
+            >
+              Delete
+            </Button>
+          </Box>
+        )
+      }
+    ],
+    [formik.values.services, formik.values.categories]
   );
 
   const initialState = {
@@ -185,6 +246,40 @@ const ProgramModal = ({
                   }}
                 >
                   <FormLabel>Services</FormLabel>
+                  <Stack>
+                    <BasicTable
+                      {...{
+                        data: servicesData.map(({ service, quantity }) => ({
+                          ...service,
+                          quantity
+                        })),
+                        columns: servicesColumns,
+                        initialState,
+                        sortable: true
+                      }}
+                    />
+                    <ProgramAddItemWithQuantity
+                      {...{
+                        addItem: (service: Service, quantity: number) => {
+                          addService({
+                            service,
+                            quantity,
+                            createdAt: new Date().toISOString(),
+                            updatedAt: new Date().toISOString()
+                          });
+                        },
+                        items: services.filter(
+                          ({ id }) =>
+                            !formik.values.services?.find(
+                              ({ service }) => id === service.id
+                            )
+                        )
+                      }}
+                    />
+                    <FormErrorMessage>
+                      {formik.errors.services}
+                    </FormErrorMessage>
+                  </Stack>
                 </FormControl>
                 <FormControl
                   {...{
@@ -197,8 +292,8 @@ const ProgramModal = ({
                   <Stack>
                     <BasicTable
                       {...{
-                        data,
-                        columns,
+                        data: categoriesData,
+                        columns: categoriesColumns,
                         initialState,
                         sortable: true
                       }}
