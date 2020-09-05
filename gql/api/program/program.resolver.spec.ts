@@ -4,7 +4,12 @@ import { createTestClient } from "apollo-server-testing";
 import { sign } from "jsonwebtoken";
 import { PrismaClient, PrismaClientOptions } from "@prisma/client";
 
-import { deleteProgram, deleteCategory } from "test-utils/cleanDB";
+import {
+  deleteProgram,
+  deleteCategory,
+  deleteService,
+  deleteServiceToProgram
+} from "test-utils/cleanDB";
 import { createApolloTestServer } from "test-utils/createApolloTestServer";
 import {
   GQL_UPSERT_PROGRAM,
@@ -12,7 +17,8 @@ import {
   GQL_GET_PROGRAMS
 } from "gql/Program";
 import { GQL_UPSERT_CATEGORY } from "gql/Category";
-import { ProgramInput } from "gql/__generated__/globalTypes";
+import { GQL_UPSERT_SERVICE } from "gql/Service";
+import { ProgramInput, ServiceInput } from "gql/__generated__/globalTypes";
 import { CategoryInput } from "gql/__generated__/globalTypes";
 import { GetPrograms_getPrograms } from "gql/__generated__/GetPrograms";
 import { configuration } from "lib/config";
@@ -24,6 +30,7 @@ describe("Program Resolver", () => {
   let apolloServer: ApolloServer;
   const programIds: string[] = [];
   const categoryIds: string[] = [];
+  const serviceIds: string[] = [];
   let prisma: PrismaClient<PrismaClientOptions, never>;
   let user: User;
 
@@ -48,24 +55,30 @@ describe("Program Resolver", () => {
   });
 
   afterAll(async () => {
-    await Promise.all(programIds.map(async (id) => await deleteProgram(id)));
+    await Promise.all(
+      programIds.map(
+        async (id) => await deleteServiceToProgram({ programId: id })
+      )
+    );
+    await Promise.all(serviceIds.map(async (id) => await deleteService(id)));
     await Promise.all(categoryIds.map(async (id) => await deleteCategory(id)));
+    await Promise.all(programIds.map(async (id) => await deleteProgram(id)));
     await prisma.user.delete({ where: { id: user.id } });
     prisma.$disconnect();
   });
 
   it("creates a new Program", async () => {
+    const { mutate } = createTestClient(apolloServer);
     const programId = uuid();
     programIds.push(programId);
 
     const programInput: ProgramInput = {
       id: programId,
-      name: "My Program 3",
+      name: "My Program 4",
       createdAt: "2020-08-15T15:09:17.819Z",
       updatedAt: "2020-08-15T15:09:18.819Z"
     };
 
-    const { mutate } = createTestClient(apolloServer);
     const response = await mutate({
       mutation: GQL_UPSERT_PROGRAM,
       variables: {
@@ -84,6 +97,7 @@ describe("Program Resolver", () => {
   });
 
   it("creates a new Program with Categories", async () => {
+    const { mutate } = createTestClient(apolloServer);
     const programId = uuid();
     programIds.push(programId);
     const categoryId = uuid();
@@ -97,8 +111,7 @@ describe("Program Resolver", () => {
       updatedAt: "2020-08-15T15:09:18.819Z"
     };
 
-    const { mutate: upsertCategory } = createTestClient(apolloServer);
-    await upsertCategory({
+    await mutate({
       mutation: GQL_UPSERT_CATEGORY,
       variables: {
         categoryInput
@@ -107,14 +120,13 @@ describe("Program Resolver", () => {
 
     const programInput: ProgramInput = {
       id: programId,
-      name: "My Program 3",
+      name: "My Program 7",
       createdAt: "2020-08-15T15:09:17.819Z",
       updatedAt: "2020-08-15T15:09:18.819Z",
       categories: [categoryInput]
     };
 
-    const { mutate: upsertProgram } = createTestClient(apolloServer);
-    const response = await upsertProgram({
+    const response = await mutate({
       mutation: GQL_UPSERT_PROGRAM,
       variables: {
         programInput
@@ -126,13 +138,166 @@ describe("Program Resolver", () => {
         upsertProgram: {
           ...programInput,
           notes: null,
-          categories: [categoryInput]
+          categories: [categoryInput],
+          services: []
+        }
+      }
+    });
+  });
+
+  it("creates a new Program with Services", async () => {
+    const { mutate } = createTestClient(apolloServer);
+    const programId = uuid();
+    programIds.push(programId);
+    const serviceId = uuid();
+    serviceIds.push(serviceId);
+
+    const serviceInput: ServiceInput = {
+      id: serviceId,
+      name: "My Service 3",
+      createdAt: "2020-08-15T15:09:17.819Z",
+      updatedAt: "2020-08-15T15:09:18.819Z"
+    };
+
+    await mutate({
+      mutation: GQL_UPSERT_SERVICE,
+      variables: {
+        serviceInput
+      }
+    });
+
+    const programInput: ProgramInput = {
+      id: programId,
+      name: "My Program 9",
+      createdAt: "2020-08-15T15:09:17.819Z",
+      updatedAt: "2020-08-15T15:09:18.819Z",
+      services: [
+        {
+          service: {
+            ...serviceInput
+          },
+          quantity: 1,
+          createdAt: "2020-08-15T15:09:17.819Z",
+          updatedAt: "2020-08-15T15:09:18.819Z"
+        }
+      ]
+    };
+
+    const response = await mutate({
+      mutation: GQL_UPSERT_PROGRAM,
+      variables: {
+        programInput
+      }
+    });
+
+    expect(response).toMatchObject({
+      data: {
+        upsertProgram: {
+          ...programInput,
+          notes: null,
+          categories: [],
+          services: [
+            {
+              ...programInput.services![0]
+            }
+          ]
+        }
+      }
+    });
+  });
+
+  it("updates a Program with Categories and Services", async () => {
+    const { mutate } = createTestClient(apolloServer);
+    const programId = uuid();
+    programIds.push(programId);
+    const serviceId = uuid();
+    serviceIds.push(serviceId);
+    const categoryId = uuid();
+    categoryIds.push(categoryId);
+
+    const programInput1: ProgramInput = {
+      id: programId,
+      name: "My Program 5",
+      createdAt: "2020-08-15T15:09:17.819Z",
+      updatedAt: "2020-08-15T15:09:18.819Z"
+    };
+
+    await mutate({
+      mutation: GQL_UPSERT_PROGRAM,
+      variables: {
+        programInput: programInput1
+      }
+    });
+
+    const serviceInput: ServiceInput = {
+      id: serviceId,
+      name: "My Service 3",
+      createdAt: "2020-08-15T15:09:17.819Z",
+      updatedAt: "2020-08-15T15:09:18.819Z"
+    };
+
+    await mutate({
+      mutation: GQL_UPSERT_SERVICE,
+      variables: {
+        serviceInput
+      }
+    });
+
+    const categoryInput: CategoryInput = {
+      id: categoryId,
+      name: "My Category 3",
+      for: "Program",
+      createdAt: "2020-08-15T15:09:17.819Z",
+      updatedAt: "2020-08-15T15:09:18.819Z"
+    };
+
+    await mutate({
+      mutation: GQL_UPSERT_CATEGORY,
+      variables: {
+        categoryInput
+      }
+    });
+
+    const programInput2: ProgramInput = {
+      ...programInput1,
+      services: [
+        {
+          service: {
+            ...serviceInput
+          },
+          quantity: 1,
+          createdAt: "2020-08-15T15:09:17.819Z",
+          updatedAt: "2020-08-15T15:09:18.819Z"
+        }
+      ],
+      categories: [categoryInput]
+    };
+
+    const response = await mutate({
+      mutation: GQL_UPSERT_PROGRAM,
+      variables: {
+        programInput: programInput2
+      }
+    });
+
+    expect(response).toMatchObject({
+      data: {
+        upsertProgram: {
+          ...programInput1,
+          notes: null,
+          categories: [categoryInput],
+          services: [
+            {
+              ...programInput2.services![0]
+            }
+          ]
         }
       }
     });
   });
 
   it("updates a Program", async () => {
+    const { mutate } = createTestClient(apolloServer);
     const programId = uuid();
     programIds.push(programId);
 
@@ -150,11 +315,11 @@ describe("Program Resolver", () => {
       updatedAt: "2020-08-15T15:09:18.819Z"
     };
 
-    const { mutate } = createTestClient(apolloServer);
     await mutate({
       mutation: GQL_UPSERT_PROGRAM,
       variables: {
-        programInput: programInput1
+        programInput: programInput1,
+        services: []
       }
     });
 
@@ -169,13 +334,15 @@ describe("Program Resolver", () => {
       data: {
         upsertProgram: {
           ...programInput2,
-          notes: null
+          notes: null,
+          services: []
         }
       }
     });
   });
 
   it("does not update a Program", async () => {
+    const { mutate } = createTestClient(apolloServer);
     const programId = uuid();
     programIds.push(programId);
 
@@ -193,7 +360,6 @@ describe("Program Resolver", () => {
       updatedAt: "2020-08-15T15:09:17.819Z"
     };
 
-    const { mutate } = createTestClient(apolloServer);
     await mutate({
       mutation: GQL_UPSERT_PROGRAM,
       variables: {
@@ -219,6 +385,7 @@ describe("Program Resolver", () => {
   });
 
   it("deletes a Program", async () => {
+    const { mutate } = createTestClient(apolloServer);
     const programInput: ProgramInput = {
       id: uuid(),
       name: "My Awesome Program 1",
@@ -226,7 +393,6 @@ describe("Program Resolver", () => {
       updatedAt: "2020-08-15T15:09:18.819Z"
     };
 
-    const { mutate } = createTestClient(apolloServer);
     await mutate({
       mutation: GQL_UPSERT_PROGRAM,
       variables: {
@@ -249,7 +415,85 @@ describe("Program Resolver", () => {
     });
   });
 
+  it("deletes a Program with Categories and Services", async () => {
+    const { mutate } = createTestClient(apolloServer);
+    const programId = uuid();
+    const serviceId = uuid();
+    serviceIds.push(serviceId);
+    const categoryId = uuid();
+    categoryIds.push(categoryId);
+
+    const serviceInput: ServiceInput = {
+      id: serviceId,
+      name: "My Service 3",
+      createdAt: "2020-08-15T15:09:17.819Z",
+      updatedAt: "2020-08-15T15:09:18.819Z"
+    };
+
+    await mutate({
+      mutation: GQL_UPSERT_SERVICE,
+      variables: {
+        serviceInput
+      }
+    });
+
+    const categoryInput: CategoryInput = {
+      id: categoryId,
+      name: "My Category 3",
+      for: "Program",
+      createdAt: "2020-08-15T15:09:17.819Z",
+      updatedAt: "2020-08-15T15:09:18.819Z"
+    };
+
+    await mutate({
+      mutation: GQL_UPSERT_CATEGORY,
+      variables: {
+        categoryInput
+      }
+    });
+
+    const programInput: ProgramInput = {
+      id: programId,
+      name: "My Program 8",
+      createdAt: "2020-08-15T15:09:17.819Z",
+      updatedAt: "2020-08-15T15:09:18.819Z",
+      services: [
+        {
+          service: {
+            ...serviceInput
+          },
+          quantity: 1,
+          createdAt: "2020-08-15T15:09:17.819Z",
+          updatedAt: "2020-08-15T15:09:18.819Z"
+        }
+      ],
+      categories: [categoryInput]
+    };
+
+    await mutate({
+      mutation: GQL_UPSERT_PROGRAM,
+      variables: {
+        programInput
+      }
+    });
+
+    const response = await mutate({
+      mutation: GQL_DELETE_PROGRAM,
+      variables: {
+        id: programInput.id,
+        deletedAt: "2020-08-15T15:09:19.819Z"
+      }
+    });
+
+    expect(response).toMatchObject({
+      data: {
+        deleteProgram: true
+      }
+    });
+  });
+
   it("does not delete a Program", async () => {
+    const { mutate } = createTestClient(apolloServer);
     const programId = uuid();
     programIds.push(programId);
 
@@ -260,7 +504,6 @@ describe("Program Resolver", () => {
       updatedAt: "2020-08-15T15:09:18.819Z"
     };
 
-    const { mutate } = createTestClient(apolloServer);
     await mutate({
       mutation: GQL_UPSERT_PROGRAM,
       variables: {
@@ -284,11 +527,12 @@ describe("Program Resolver", () => {
   });
 
   it("lists all programs", async () => {
-    const programIds = [uuid(), uuid(), uuid()];
-    programIds.forEach((programId) => programIds.push(programId));
+    const { mutate } = createTestClient(apolloServer);
+    const ids = [uuid(), uuid(), uuid()];
+    ids.forEach((id) => programIds.push(id));
 
     const programInput1: ProgramInput = {
-      id: programIds[0],
+      id: ids[0],
       name: "My Awesome Program 1",
       createdAt: "2020-08-15T15:09:17.819Z",
       updatedAt: "2020-08-15T15:09:18.819Z",
@@ -296,7 +540,7 @@ describe("Program Resolver", () => {
     };
 
     const programInput2: ProgramInput = {
-      id: programIds[1],
+      id: ids[1],
       name: "My Awesome Program 2",
       createdAt: "2020-08-15T15:09:17.819Z",
       updatedAt: "2020-08-15T15:09:18.819Z",
@@ -304,14 +548,13 @@ describe("Program Resolver", () => {
     };
 
     const programInput3: ProgramInput = {
-      id: programIds[2],
+      id: ids[2],
       name: "My Awesome Program 3",
       createdAt: "2020-08-15T15:09:17.819Z",
       updatedAt: "2020-08-15T15:09:18.819Z",
       categories: []
     };
 
-    const { mutate } = createTestClient(apolloServer);
     await mutate({
       mutation: GQL_UPSERT_PROGRAM,
       variables: {
@@ -341,19 +584,22 @@ describe("Program Resolver", () => {
       getPrograms.find((program) => program.id === programInput1.id)
     ).toEqual({
       ...programInput1,
-      notes: null
+      notes: null,
+      services: []
     });
     expect(
       getPrograms.find((program) => program.id === programInput2.id)
     ).toEqual({
       ...programInput2,
-      notes: null
+      notes: null,
+      services: []
     });
     expect(
       getPrograms.find((program) => program.id === programInput3.id)
     ).toEqual({
       ...programInput3,
-      notes: null
+      notes: null,
+      services: []
     });
   });
 });

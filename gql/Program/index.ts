@@ -16,6 +16,20 @@ export const GQL_GET_PROGRAMS = gql`
         createdAt
         updatedAt
       }
+      services {
+        quantity
+        service {
+          id
+          name
+          duration
+          expires
+          notes
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
@@ -33,6 +47,20 @@ export const GQL_UPSERT_PROGRAM = gql`
         name
         for
         notes
+        createdAt
+        updatedAt
+      }
+      services {
+        quantity
+        service {
+          id
+          name
+          duration
+          expires
+          notes
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }

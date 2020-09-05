@@ -1,6 +1,7 @@
 import { ObjectType, InputType, Field, ID } from "type-graphql";
 import { Length } from "class-validator";
-import { Category } from "../category/category.model";
+import { Category } from "../../category/category.model";
+import { ServiceToProgram } from "./serviceToProgram.model";
 
 @ObjectType()
 @InputType("ProgramInput")
@@ -19,6 +20,9 @@ export class Program {
 
   @Field(() => [Category], { defaultValue: [] })
   categories: Category[];
+
+  @Field(() => [ServiceToProgram], { defaultValue: [] })
+  services: ServiceToProgram[];
 
   @Field(() => Date)
   createdAt: Date;
