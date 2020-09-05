@@ -16,6 +16,23 @@ export interface GetPrograms_getPrograms_categories {
   updatedAt: GqlDateTime;
 }
 
+export interface GetPrograms_getPrograms_services_service {
+  id: string;
+  name: string;
+  duration: string | null;
+  expires: GqlDateTime | null;
+  notes: string | null;
+  createdAt: GqlDateTime;
+  updatedAt: GqlDateTime;
+}
+
+export interface GetPrograms_getPrograms_services {
+  quantity: number;
+  service: GetPrograms_getPrograms_services_service;
+  createdAt: GqlDateTime;
+  updatedAt: GqlDateTime;
+}
+
 export interface GetPrograms_getPrograms {
   id: string;
   name: string;
@@ -23,6 +40,7 @@ export interface GetPrograms_getPrograms {
   createdAt: GqlDateTime;
   updatedAt: GqlDateTime;
   categories: GetPrograms_getPrograms_categories[] | null;
+  services: GetPrograms_getPrograms_services[] | null;
 }
 
 export interface GetPrograms {

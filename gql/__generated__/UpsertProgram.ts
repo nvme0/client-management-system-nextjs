@@ -18,6 +18,23 @@ export interface UpsertProgram_upsertProgram_categories {
   updatedAt: GqlDateTime;
 }
 
+export interface UpsertProgram_upsertProgram_services_service {
+  id: string;
+  name: string;
+  duration: string | null;
+  expires: GqlDateTime | null;
+  notes: string | null;
+  createdAt: GqlDateTime;
+  updatedAt: GqlDateTime;
+}
+
+export interface UpsertProgram_upsertProgram_services {
+  quantity: number;
+  service: UpsertProgram_upsertProgram_services_service;
+  createdAt: GqlDateTime;
+  updatedAt: GqlDateTime;
+}
+
 export interface UpsertProgram_upsertProgram {
   id: string;
   name: string;
@@ -25,6 +42,7 @@ export interface UpsertProgram_upsertProgram {
   createdAt: GqlDateTime;
   updatedAt: GqlDateTime;
   categories: UpsertProgram_upsertProgram_categories[] | null;
+  services: UpsertProgram_upsertProgram_services[] | null;
 }
 
 export interface UpsertProgram {
