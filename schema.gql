@@ -76,6 +76,7 @@ type Program {
   id: ID!
   name: String!
   notes: String
+  services: [ServiceToProgram!]
   updatedAt: DateTime!
 }
 
@@ -85,6 +86,7 @@ input ProgramInput {
   id: ID!
   name: String!
   notes: String
+  services: [ServiceToProgramInput!] = []
   updatedAt: DateTime!
 }
 
@@ -113,6 +115,20 @@ input ServiceInput {
   id: ID!
   name: String!
   notes: String
+  updatedAt: DateTime!
+}
+
+type ServiceToProgram {
+  createdAt: DateTime!
+  quantity: Int!
+  service: Service!
+  updatedAt: DateTime!
+}
+
+input ServiceToProgramInput {
+  createdAt: DateTime!
+  quantity: Int!
+  service: ServiceInput!
   updatedAt: DateTime!
 }
 
