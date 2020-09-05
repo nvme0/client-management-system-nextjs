@@ -9,6 +9,7 @@ import { PaginatedTable } from "components/Table";
 import CreateCategoryModal from "components/modals/CategoryModal/CreateCategoryModal";
 import EditCategoryModal from "components/modals/CategoryModal/EditCategoryModal";
 import { useQuery, useMutation } from "lib/outbox";
+import { QueryKeys } from "lib/queryKeys";
 
 import {
   GQL_GET_CATEGORIES,
@@ -21,10 +22,6 @@ import {
 } from "gql/__generated__/GetCategories";
 import { DeleteCategory } from "gql/__generated__/DeleteCategory";
 import { optimisticUpsert, optimisticDelete } from "lib/optimisticHelpers";
-
-enum QueryKeys {
-  GET_CATEGORIES = "GetCategories"
-}
 
 export interface Props {
   state: {
@@ -87,6 +84,7 @@ export const Categories = ({ state, setState }: Props) => {
     },
     onSettled: () => {
       queryCache.invalidateQueries(QueryKeys.GET_CATEGORIES);
+      queryCache.invalidateQueries(QueryKeys.GET_PROGRAMS);
     }
   });
 

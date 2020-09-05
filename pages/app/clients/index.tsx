@@ -9,6 +9,7 @@ import { PaginatedTable } from "components/Table";
 import CreateClientModal from "components/modals/ClientModal/CreateClientModal";
 import EditClientModal from "components/modals/ClientModal/EditClientModal";
 import { useQuery, useMutation } from "lib/outbox";
+import { QueryKeys } from "lib/queryKeys";
 
 import {
   GQL_GET_CLIENTS,
@@ -24,10 +25,6 @@ import { optimisticUpsert, optimisticDelete } from "lib/optimisticHelpers";
 import LoginModal from "components/modals/LoginModal";
 import { useLoggedInState } from "lib/loggedInState";
 import { useOnlineState } from "lib/network";
-
-enum QueryKeys {
-  GET_CLIENTS = "GetClients"
-}
 
 export const Clients = () => {
   const { isOnline } = useOnlineState();

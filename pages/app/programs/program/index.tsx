@@ -9,6 +9,7 @@ import { PaginatedTable } from "components/Table";
 import CreateProgramModal from "components/modals/ProgramModal/CreateProgramModal";
 import EditProgramModal from "components/modals/ProgramModal/EditProgramModal";
 import { useQuery, useMutation } from "lib/outbox";
+import { QueryKeys } from "lib/queryKeys";
 
 import {
   GQL_GET_PROGRAMS,
@@ -16,18 +17,15 @@ import {
   GQL_DELETE_PROGRAM
 } from "gql/Program";
 import { GQL_GET_CATEGORIES } from "gql/Category";
+import { GQL_GET_SERVICES } from "gql/Service";
 import {
   GetPrograms,
   GetPrograms_getPrograms as Program
 } from "gql/__generated__/GetPrograms";
 import { GetCategories } from "gql/__generated__/GetCategories";
+import { GetServices } from "gql/__generated__/GetServices";
 import { DeleteProgram } from "gql/__generated__/DeleteProgram";
 import { optimisticUpsert, optimisticDelete } from "lib/optimisticHelpers";
-
-enum QueryKeys {
-  GET_PROGRAMS = "GetPrograms",
-  GET_CATEGORIES = "GetCategories"
-}
 
 export interface Props {
   state: {
@@ -53,6 +51,13 @@ export const Programs = ({ state, setState }: Props) => {
     GQL_GET_CATEGORIES,
     {},
     { initialData: { getCategories: [] } }
+  );
+
+  const { data: services } = useQuery<GetServices>(
+    QueryKeys.GET_SERVICES,
+    GQL_GET_SERVICES,
+    {},
+    { initialData: { getServices: [] } }
   );
 
   const [upsertProgram] = useMutation<
@@ -135,10 +140,12 @@ export const Programs = ({ state, setState }: Props) => {
               name: "",
               notes: "",
               categories: [],
+              services: [],
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString()
             },
             categories: categories?.getCategories || [],
+            services: services?.getServices || [],
             modalProps: {
               isOpen: true,
               onClose: () => setState({ ...state, Modal: undefined })
@@ -160,6 +167,7 @@ export const Programs = ({ state, setState }: Props) => {
           {...{
             program,
             categories: categories?.getCategories || [],
+            services: services?.getServices || [],
             modalProps: {
               isOpen: true,
               onClose: () => setState({ ...state, Modal: undefined })
