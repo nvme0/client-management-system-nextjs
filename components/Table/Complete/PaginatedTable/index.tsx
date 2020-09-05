@@ -1,3 +1,4 @@
+import { ComponentType } from "react";
 import {
   useTable,
   useSortBy,
@@ -6,11 +7,11 @@ import {
   TableState,
   PluginHook
 } from "react-table";
+import { BoxProps } from "@chakra-ui/core";
 import dynamic from "next/dynamic";
 
 import { Table, FooterPaginated, Header } from "../..";
 import { IBody } from "../../Body";
-import { ComponentType } from "react";
 
 export interface Props<D extends { id: string }> {
   data: D[];
@@ -18,6 +19,7 @@ export interface Props<D extends { id: string }> {
   initialState?: Partial<TableState<D>>;
   sortable?: boolean;
   rowSelectCallback?: IBody<D>["rowSelectCallback"];
+  tableProps?: BoxProps;
 }
 
 const ImportBody = dynamic<IBody<any>>(() => import("../../Body"), {
@@ -29,7 +31,8 @@ export const PaginatedTable = <D extends { id: string }>({
   columns,
   initialState,
   sortable = false,
-  rowSelectCallback
+  rowSelectCallback,
+  tableProps
 }: Props<D>) => {
   const Body: ComponentType<IBody<D>> = ImportBody;
 
@@ -63,7 +66,7 @@ export const PaginatedTable = <D extends { id: string }>({
   );
 
   return (
-    <Table {...getTableProps()}>
+    <Table {...getTableProps()} {...{ outerBoxProps: tableProps }}>
       <Header {...{ headerGroups }} />
       <FooterPaginated
         {...{

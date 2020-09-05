@@ -10,7 +10,6 @@ import { ClientInput } from "./globalTypes";
 // ====================================================
 
 export interface UpsertClient_upsertClient {
-  __typename: "Client";
   id: string;
   firstName: string;
   lastName: string | null;

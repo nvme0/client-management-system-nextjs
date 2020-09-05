@@ -8,13 +8,11 @@
 // ====================================================
 
 export interface Login_login_errors {
-  __typename: "YupError";
   path: string;
   message: string;
 }
 
 export interface Login_login {
-  __typename: "MutationResponse";
   status: number;
   errors: (Login_login_errors | null)[];
   payload: string | null;

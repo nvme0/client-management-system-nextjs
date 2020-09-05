@@ -45,7 +45,7 @@ describe("Client Resolver", () => {
   });
 
   afterAll(async () => {
-    ids.forEach((id) => deleteClient(id));
+    await Promise.all(ids.map(async (id) => await deleteClient(id)));
     await prisma.user.delete({ where: { id: user.id } });
     prisma.$disconnect();
   });

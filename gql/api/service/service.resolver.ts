@@ -82,6 +82,11 @@ export class ServiceResolver {
       if (!checkEntryForDelete<Service>(deletedAt, { entry, userId })) {
         return false;
       }
+      await prisma.serviceToProgram.deleteMany({
+        where: {
+          serviceId: entry?.id
+        }
+      });
       return !!(await prisma.service.delete({
         where: { id }
       }));

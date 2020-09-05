@@ -26,7 +26,7 @@ const Wrapper = ({ data, columns, rowSelectCallback }: IWrapper) => {
   );
 
   return (
-    <Table {...getTableProps()}>
+    <Table {...getTableProps()} {...{ outerBoxProps: { px: 4 } }}>
       <Body
         {...{
           getTableBodyProps,

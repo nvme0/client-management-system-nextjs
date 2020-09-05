@@ -38,7 +38,7 @@ const Wrapper = ({ data, columns }: IWrapper) => {
   );
 
   return (
-    <Table {...getTableProps()}>
+    <Table {...getTableProps()} {...{ outerBoxProps: { px: 4 } }}>
       <FooterPaginated
         {...{
           pageIndex,

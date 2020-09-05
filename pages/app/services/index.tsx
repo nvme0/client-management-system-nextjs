@@ -9,6 +9,7 @@ import { PaginatedTable } from "components/Table";
 import CreateServiceModal from "components/modals/ServiceModal/CreateServiceModal";
 import EditServiceModal from "components/modals/ServiceModal/EditServiceModal";
 import { useQuery, useMutation } from "lib/outbox";
+import { QueryKeys } from "lib/queryKeys";
 
 import {
   GQL_GET_SERVICES,
@@ -17,19 +18,13 @@ import {
 } from "gql/Service";
 import {
   GetServices,
-  GetServices_getServices
+  GetServices_getServices as Service
 } from "gql/__generated__/GetServices";
 import { DeleteService } from "gql/__generated__/DeleteService";
 import { optimisticUpsert, optimisticDelete } from "lib/optimisticHelpers";
 import LoginModal from "components/modals/LoginModal";
 import { useLoggedInState } from "lib/loggedInState";
 import { useOnlineState } from "lib/network";
-
-type Service = Omit<GetServices_getServices, "__typename">;
-
-enum QueryKeys {
-  GET_SERVICES = "GetServices"
-}
 
 export const Services = () => {
   const { isOnline } = useOnlineState();
@@ -87,6 +82,7 @@ export const Services = () => {
     },
     onSettled: () => {
       queryCache.invalidateQueries(QueryKeys.GET_SERVICES);
+      queryCache.invalidateQueries(QueryKeys.GET_PROGRAMS);
     }
   });
 
@@ -197,6 +193,7 @@ export const Services = () => {
           columns,
           initialState,
           sortable: true,
+          tableProps: { px: 4 },
           rowSelectCallback: (original: Service) => () =>
             handleSelectService(original)
         }}

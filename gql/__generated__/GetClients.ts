@@ -8,7 +8,6 @@
 // ====================================================
 
 export interface GetClients_getClients {
-  __typename: "Client";
   id: string;
   firstName: string;
   lastName: string | null;

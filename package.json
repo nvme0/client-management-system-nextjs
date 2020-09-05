@@ -24,7 +24,7 @@
     "db:up": "prisma migrate up --experimental",
     "db:gen": "prisma generate",
     "clean:codegen": "rm -rf ./gql/__generated__",
-    "apollo:codegen": "apollo client:codegen --target typescript --excludes=node_modules/* --includes=gql/**/*.ts --localSchemaFile=schema.gql --outputFlat gql/__generated__ --passthroughCustomScalars --customScalarsPrefix Gql",
+    "apollo:codegen": "apollo client:codegen --target typescript --excludes=node_modules/* --includes=gql/**/*.ts --localSchemaFile=schema.gql --outputFlat gql/__generated__ --passthroughCustomScalars --customScalarsPrefix Gql --no-addTypename",
     "gql:gen": "npm run clean:codegen && npm run apollo:codegen",
     "test": "jest",
     "test:watch": "jest --watch",

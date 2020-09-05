@@ -8,13 +8,11 @@
 // ====================================================
 
 export interface Register_register_errors {
-  __typename: "YupError";
   path: string;
   message: string;
 }
 
 export interface Register_register {
-  __typename: "MutationResponse";
   status: number;
   errors: (Register_register_errors | null)[];
   payload: string | null;

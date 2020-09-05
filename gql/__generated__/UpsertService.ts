@@ -10,7 +10,6 @@ import { ServiceInput } from "./globalTypes";
 // ====================================================
 
 export interface UpsertService_upsertService {
-  __typename: "Service";
   id: string;
   name: string;
   duration: string | null;

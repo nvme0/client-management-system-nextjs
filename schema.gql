@@ -3,6 +3,24 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Category {
+  createdAt: DateTime!
+  for: String
+  id: ID!
+  name: String!
+  notes: String
+  updatedAt: DateTime!
+}
+
+input CategoryInput {
+  createdAt: DateTime!
+  for: String = "Program"
+  id: ID!
+  name: String!
+  notes: String
+  updatedAt: DateTime!
+}
+
 type Client {
   address: String
   contactEmail: String
@@ -33,12 +51,16 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 scalar DateTime
 
 type Mutation {
+  deleteCategory(deletedAt: DateTime!, id: String!): Boolean!
   deleteClient(deletedAt: DateTime!, id: String!): Boolean!
+  deleteProgram(deletedAt: DateTime!, id: String!): Boolean!
   deleteService(deletedAt: DateTime!, id: String!): Boolean!
   login(email: String!, password: String!): MutationResponse!
   logout: Boolean!
   register(email: String!, password: String!): MutationResponse!
+  upsertCategory(categoryInput: CategoryInput!): Category
   upsertClient(clientInput: ClientInput!): Client
+  upsertProgram(programInput: ProgramInput!): Program
   upsertService(serviceInput: ServiceInput!): Service
 }
 
@@ -48,8 +70,30 @@ type MutationResponse {
   status: Int!
 }
 
+type Program {
+  categories: [Category!]
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  notes: String
+  services: [ServiceToProgram!]
+  updatedAt: DateTime!
+}
+
+input ProgramInput {
+  categories: [CategoryInput!] = []
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  notes: String
+  services: [ServiceToProgramInput!] = []
+  updatedAt: DateTime!
+}
+
 type Query {
+  getCategories: [Category!]!
   getClients: [Client!]!
+  getPrograms: [Program!]!
   getServices: [Service!]!
   me: User!
 }
@@ -71,6 +115,20 @@ input ServiceInput {
   id: ID!
   name: String!
   notes: String
+  updatedAt: DateTime!
+}
+
+type ServiceToProgram {
+  createdAt: DateTime!
+  quantity: Int!
+  service: Service!
+  updatedAt: DateTime!
+}
+
+input ServiceToProgramInput {
+  createdAt: DateTime!
+  quantity: Int!
+  service: ServiceInput!
   updatedAt: DateTime!
 }
 
