@@ -284,27 +284,14 @@ export const Calendar = () => {
 
   return (
     <>
-      <Box
-        {...{
-          px: {
-            base: 1,
-            sm: 4
-          }
-        }}
-      >
-        <Stack {...{ spacing: 4 }}>
-          <Stack>
-            <h2 className="prose">Calendar</h2>
-          </Stack>
+      <Stack {...{ spacing: 4 }}>
+        <Stack>
+          <h2 className="prose">Calendar</h2>
         </Stack>
-      </Box>
+      </Stack>
 
       <Box
         {...{
-          px: {
-            base: 1,
-            sm: 4
-          },
           height: {
             base: "100vmin",
             sm: "85vmin"

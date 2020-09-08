@@ -1,4 +1,4 @@
-import { ChakraProvider } from "@chakra-ui/core";
+import { ChakraProvider, Box } from "@chakra-ui/core";
 import GoogleFonts from "next-google-fonts";
 import theme from "theme";
 
@@ -19,11 +19,20 @@ const MyApp = ({ Component, pageProps }) => {
       <ChakraProvider {...{ theme, resetCSS: true }}>
         {getLayout(
           <OnlineStateProvider>
-            <OutboxProvider>
-              <LoggedInStateProvider>
-                <Component {...pageProps} />
-              </LoggedInStateProvider>
-            </OutboxProvider>
+            <Box
+              {...{
+                px: {
+                  base: 1,
+                  sm: 4
+                }
+              }}
+            >
+              <OutboxProvider>
+                <LoggedInStateProvider>
+                  <Component {...pageProps} />
+                </LoggedInStateProvider>
+              </OutboxProvider>
+            </Box>
           </OnlineStateProvider>
         )}
       </ChakraProvider>
