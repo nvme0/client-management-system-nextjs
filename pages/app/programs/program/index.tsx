@@ -1,6 +1,6 @@
 import { useMemo, Dispatch, SetStateAction } from "react";
 import { TableOptions } from "react-table";
-import { Stack, Box } from "@chakra-ui/core";
+import { Stack } from "@chakra-ui/core";
 import { v4 as uuid } from "uuid";
 import { queryCache } from "react-query";
 
@@ -199,26 +199,24 @@ export const Programs = ({ state, setState }: Props) => {
 
   return (
     <>
-      <Box {...{ p: 4 }}>
-        <Stack {...{ spacing: 4 }}>
-          <Stack>
-            <h2 className="prose">Programs</h2>
-          </Stack>
+      <Stack {...{ spacing: 4 }}>
+        <Stack>
+          <h2 className="prose">Programs</h2>
+        </Stack>
 
-          <Stack>
-            <Stack {...{ isInline: true, justifyContent: "space-between" }}>
-              <Button
-                {...{
-                  templateStyle: "primary-outline",
-                  onClick: handleCreateProgram
-                }}
-              >
-                New Program
-              </Button>
-            </Stack>
+        <Stack>
+          <Stack {...{ isInline: true, justifyContent: "space-between" }}>
+            <Button
+              {...{
+                templateStyle: "primary-outline",
+                onClick: handleCreateProgram
+              }}
+            >
+              New Program
+            </Button>
           </Stack>
         </Stack>
-      </Box>
+      </Stack>
 
       <PaginatedTable
         {...{
@@ -226,7 +224,7 @@ export const Programs = ({ state, setState }: Props) => {
           columns,
           initialState,
           sortable: true,
-          tableProps: { px: 4 },
+          tableProps: { py: 4 },
           rowSelectCallback: (original: Program) => () =>
             handleSelectProgram(original)
         }}

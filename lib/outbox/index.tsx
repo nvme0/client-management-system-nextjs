@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect } from "react";
 
 import { useOnlineState } from "lib/network";
 import { getFetcher, Fetcher } from "./fetcher";
+import { useLoggedInState } from "lib/loggedInState";
 
 export { useQuery } from "./hooks/useQuery";
 export { useMutation } from "./hooks/useMutation";
@@ -14,17 +15,18 @@ export const useOutbox = () => useContext(OutboxContext);
 
 export const OutboxProvider = ({ children }) => {
   const { isOnline } = useOnlineState();
+  const { isLoggedIn } = useLoggedInState();
+
   const fetcher = getFetcher();
 
   useEffect(() => {
-    if (isOnline) {
+    if (isOnline && isLoggedIn) {
       fetcher?.dequeue();
     }
-  }, [isOnline]);
+  }, [isOnline, isLoggedIn]);
 
   return (
     <OutboxContext.Provider {...{ value: { fetcher } }}>
-      <div>Status: {isOnline ? "online" : "offline"}</div>
       {children}
     </OutboxContext.Provider>
   );

@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { TableOptions } from "react-table";
-import { Stack, Box } from "@chakra-ui/core";
+import { Stack } from "@chakra-ui/core";
 import { v4 as uuid } from "uuid";
 import { queryCache } from "react-query";
 
@@ -176,26 +176,24 @@ export const Services = () => {
 
   return (
     <>
-      <Box {...{ p: 4 }}>
-        <Stack {...{ spacing: 4 }}>
-          <Stack>
-            <h2 className="prose">Services</h2>
-          </Stack>
+      <Stack {...{ spacing: 4 }}>
+        <Stack>
+          <h2 className="prose">Services</h2>
+        </Stack>
 
-          <Stack>
-            <Stack {...{ isInline: true, justifyContent: "space-between" }}>
-              <Button
-                {...{
-                  templateStyle: "primary-outline",
-                  onClick: handleCreateService
-                }}
-              >
-                New Service
-              </Button>
-            </Stack>
+        <Stack>
+          <Stack {...{ isInline: true, justifyContent: "space-between" }}>
+            <Button
+              {...{
+                templateStyle: "primary-outline",
+                onClick: handleCreateService
+              }}
+            >
+              New Service
+            </Button>
           </Stack>
         </Stack>
-      </Box>
+      </Stack>
 
       <PaginatedTable
         {...{
@@ -203,7 +201,7 @@ export const Services = () => {
           columns,
           initialState,
           sortable: true,
-          tableProps: { px: 4 },
+          tableProps: { py: 4 },
           rowSelectCallback: (original: Service) => () =>
             handleSelectService(original)
         }}
