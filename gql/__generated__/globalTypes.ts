@@ -7,6 +7,20 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface CalendarEventInput {
+  allDay: boolean;
+  client?: ClientInput | null;
+  createdAt: GqlDateTime;
+  end: GqlDateTime;
+  id: string;
+  notes?: string | null;
+  resource?: string | null;
+  service?: ServiceInput | null;
+  start: GqlDateTime;
+  title: string;
+  updatedAt: GqlDateTime;
+}
+
 export interface CategoryInput {
   createdAt: GqlDateTime;
   for?: string | null;
@@ -18,13 +32,13 @@ export interface CategoryInput {
 
 export interface ClientInput {
   address?: string | null;
-  contactEmail?: string | null;
-  contactNumber?: string | null;
   createdAt: GqlDateTime;
+  email?: string | null;
   firstName: string;
   id: string;
   lastName?: string | null;
   notes?: string | null;
+  phone?: string | null;
   updatedAt: GqlDateTime;
 }
 

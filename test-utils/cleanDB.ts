@@ -73,3 +73,16 @@ export const deleteServiceToProgram = async ({
     await prisma.$disconnect();
   }
 };
+
+export const deleteCalendarEvent = async (id: string) => {
+  const prisma = createPrismaTestClient();
+  try {
+    return !!(await prisma.calendarEvent.delete({
+      where: { id }
+    }));
+  } catch (e) {
+    console.error(e);
+  } finally {
+    await prisma.$disconnect();
+  }
+};

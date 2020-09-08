@@ -3,6 +3,34 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type CalendarEvent {
+  allDay: Boolean!
+  client: Client
+  createdAt: DateTime!
+  end: DateTime!
+  id: ID!
+  notes: String
+  resource: String
+  service: Service
+  start: DateTime!
+  title: String!
+  updatedAt: DateTime!
+}
+
+input CalendarEventInput {
+  allDay: Boolean!
+  client: ClientInput
+  createdAt: DateTime!
+  end: DateTime!
+  id: ID!
+  notes: String
+  resource: String
+  service: ServiceInput
+  start: DateTime!
+  title: String!
+  updatedAt: DateTime!
+}
+
 type Category {
   createdAt: DateTime!
   for: String
@@ -23,25 +51,25 @@ input CategoryInput {
 
 type Client {
   address: String
-  contactEmail: String
-  contactNumber: String
   createdAt: DateTime!
+  email: String
   firstName: String!
   id: ID!
   lastName: String
   notes: String
+  phone: String
   updatedAt: DateTime!
 }
 
 input ClientInput {
   address: String
-  contactEmail: String
-  contactNumber: String
   createdAt: DateTime!
+  email: String
   firstName: String!
   id: ID!
   lastName: String
   notes: String
+  phone: String
   updatedAt: DateTime!
 }
 
@@ -51,6 +79,7 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 scalar DateTime
 
 type Mutation {
+  deleteCalendarEvent(deletedAt: DateTime!, id: String!): Boolean!
   deleteCategory(deletedAt: DateTime!, id: String!): Boolean!
   deleteClient(deletedAt: DateTime!, id: String!): Boolean!
   deleteProgram(deletedAt: DateTime!, id: String!): Boolean!
@@ -58,6 +87,7 @@ type Mutation {
   login(email: String!, password: String!): MutationResponse!
   logout: Boolean!
   register(email: String!, password: String!): MutationResponse!
+  upsertCalendarEvent(calendarEventInput: CalendarEventInput!): CalendarEvent
   upsertCategory(categoryInput: CategoryInput!): Category
   upsertClient(clientInput: ClientInput!): Client
   upsertProgram(programInput: ProgramInput!): Program
@@ -91,6 +121,7 @@ input ProgramInput {
 }
 
 type Query {
+  getCalendarEvents: [CalendarEvent!]!
   getCategories: [Category!]!
   getClients: [Client!]!
   getPrograms: [Program!]!
