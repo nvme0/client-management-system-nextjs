@@ -284,9 +284,19 @@ export const Calendar = () => {
 
   return (
     <>
-      <Stack {...{ spacing: 4 }}>
+      <Stack
+        {...{
+          spacing: 4,
+          mb: {
+            base: 2,
+            sm: 4
+          }
+        }}
+      >
         <Stack>
-          <h2 className="prose">Calendar</h2>
+          <h2 className="prose" style={{ textAlign: "center" }}>
+            Calendar
+          </h2>
         </Stack>
       </Stack>
 
@@ -297,7 +307,25 @@ export const Calendar = () => {
             sm: "85vmin"
           },
           minH: "500px",
-          minWidth: "296px"
+          minWidth: "296px",
+          backgroundColor: "#FFF",
+          mx: {
+            base: -1,
+            sm: 0
+          },
+          px: {
+            base: 1,
+            sm: 4
+          },
+          pb: {
+            sm: 4
+          },
+          borderRadius: {
+            sm: "5px"
+          },
+          border: {
+            sm: "1px solid #E2E8F0"
+          }
         }}
       >
         <DragAndDropCalendar
