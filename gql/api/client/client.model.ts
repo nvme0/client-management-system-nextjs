@@ -18,11 +18,11 @@ export class Client {
 
   @Field(() => String, { nullable: true })
   @Length(0, 255)
-  contactEmail?: string | null;
+  email?: string | null;
 
   @Field(() => String, { nullable: true })
   @Length(0, 255)
-  contactNumber?: string | null;
+  phone?: string | null;
 
   @Field(() => String, { nullable: true })
   @Length(0, 255)

@@ -22,19 +22,19 @@ import {
 import { GetClients_getClients as Client } from "gql/__generated__/GetClients";
 import { Button } from "components/Button";
 
-const schema = yup.object().shape({
+export const schema = yup.object().shape({
   firstName: yup.string().min(1).max(255).required(),
   lastName: yup.string().min(0).max(255),
-  contactEmail: yup.string().min(0).max(255).email(),
-  contactNumber: yup.string().min(0).max(255),
+  email: yup.string().min(0).max(255).email(),
+  phone: yup.string().min(0).max(255),
   notes: yup.string().max(255)
 });
 
 export interface FormInputState {
   firstName: string;
   lastName: string;
-  contactEmail: string;
-  contactNumber: string;
+  email: string;
+  phone: string;
   address: string;
   notes: string;
 }
@@ -65,8 +65,8 @@ const ClientModal = ({
       firstName: client.firstName,
       lastName: client.lastName || "",
       address: client.address || "",
-      contactEmail: client.contactEmail || "",
-      contactNumber: client.contactNumber || "",
+      email: client.email || "",
+      phone: client.phone || "",
       notes: client.notes || ""
     },
     validationSchema: schema,
@@ -96,7 +96,7 @@ const ClientModal = ({
           onSubmit: formik.handleSubmit
         }}
       >
-        <ModalOverlay>
+        <ModalOverlay {...{ zIndex: 5 }}>
           <ModalContent>
             <ModalHeader>{modalTitle}</ModalHeader>
             <ModalCloseButton
@@ -139,39 +139,31 @@ const ClientModal = ({
                 </FormControl>
                 <FormControl
                   {...{
-                    isInvalid:
-                      formik.touched.contactEmail &&
-                      !!formik.errors.contactEmail
+                    isInvalid: formik.touched.email && !!formik.errors.email
                   }}
                 >
                   <FormLabel>Contact Email</FormLabel>
                   <Input
                     {...{
                       placeholder: "Email",
-                      ...formik.getFieldProps("contactEmail")
+                      ...formik.getFieldProps("email")
                     }}
                   />
-                  <FormErrorMessage>
-                    {formik.errors.contactEmail}
-                  </FormErrorMessage>
+                  <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
                 </FormControl>
                 <FormControl
                   {...{
-                    isInvalid:
-                      formik.touched.contactNumber &&
-                      !!formik.errors.contactNumber
+                    isInvalid: formik.touched.phone && !!formik.errors.phone
                   }}
                 >
                   <FormLabel>Contact Number</FormLabel>
                   <Input
                     {...{
                       placeholder: "Phone number",
-                      ...formik.getFieldProps("contactNumber")
+                      ...formik.getFieldProps("phone")
                     }}
                   />
-                  <FormErrorMessage>
-                    {formik.errors.contactNumber}
-                  </FormErrorMessage>
+                  <FormErrorMessage>{formik.errors.phone}</FormErrorMessage>
                 </FormControl>
                 <FormControl
                   {...{

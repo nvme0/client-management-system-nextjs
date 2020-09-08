@@ -108,7 +108,7 @@ const LoginModal = ({ modalProps }: Props) => {
           onSubmit: formik.handleSubmit
         }}
       >
-        <ModalOverlay>
+        <ModalOverlay {...{ zIndex: 6 }}>
           <ModalContent>
             <ModalHeader>Please login to continue</ModalHeader>
             <ModalBody>

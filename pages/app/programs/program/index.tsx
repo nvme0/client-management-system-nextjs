@@ -151,7 +151,12 @@ export const Programs = ({ state, setState }: Props) => {
               onClose: () => setState({ ...state, Modal: undefined })
             },
             handleSave: (programInput) => {
-              upsertProgram({ programInput });
+              upsertProgram({
+                programInput: {
+                  ...programInput,
+                  updatedAt: new Date().toISOString()
+                }
+              });
             }
           }}
         />
@@ -173,7 +178,12 @@ export const Programs = ({ state, setState }: Props) => {
               onClose: () => setState({ ...state, Modal: undefined })
             },
             handleSave: (programInput) => {
-              upsertProgram({ programInput });
+              upsertProgram({
+                programInput: {
+                  ...programInput,
+                  updatedAt: new Date().toISOString()
+                }
+              });
             },
             handleDelete: () => {
               deleteProgram({

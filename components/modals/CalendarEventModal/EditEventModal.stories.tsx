@@ -2,11 +2,11 @@ import { useState } from "react";
 import { v4 as uuid } from "uuid";
 
 import { Button } from "components/Button";
-import EditClientModal from "./EditClientModal";
+import EditEventModal from "./EditEventModal";
 
 export default {
-  title: "Modals/EditClientModal",
-  component: EditClientModal
+  title: "Modals/EditEventModal",
+  component: EditEventModal
 };
 
 export const Default = () => {
@@ -14,34 +14,38 @@ export const Default = () => {
     Modal?: () => JSX.Element;
   }>({});
 
-  const handleEditClient = () => {
-    const client = {
+  const handleEditCalendarEvent = () => {
+    const calendarEvent = {
       id: uuid(),
-      firstName: "",
-      lastName: "",
-      address: "",
-      email: "",
-      phone: "",
+      title: "",
+      start: new Date().toISOString(),
+      end: new Date().toISOString(),
+      allDay: false,
       notes: "",
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
+      resource: null,
+      service: null,
+      client: null
     };
 
     setState({
       ...state,
       Modal: () => (
-        <EditClientModal
+        <EditEventModal
           {...{
-            client,
+            calendarEvent,
+            clients: [],
+            services: [],
             modalProps: {
               isOpen: true,
               onClose: () => setState({ ...state, Modal: undefined })
             },
-            handleSave: (clientInput) => {
-              alert("Saved: " + clientInput.id);
+            handleSave: (calendarInput) => {
+              alert("Saved: " + calendarInput.id);
             },
             handleDelete: () => {
-              alert("Deleted: " + client.id);
+              alert("Deleted: " + calendarEvent.id);
             }
           }}
         />
@@ -54,7 +58,7 @@ export const Default = () => {
       <Button
         {...{
           templateStyle: "primary-outline",
-          onClick: handleEditClient
+          onClick: handleEditCalendarEvent
         }}
       >
         Open Modal

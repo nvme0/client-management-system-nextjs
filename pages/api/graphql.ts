@@ -11,6 +11,7 @@ import { ServiceResolver } from "gql/api/service/service.resolver";
 import { ClientResolver } from "gql/api/client/client.resolver";
 import { ProgramResolver } from "gql/api/program/program.resolver";
 import { CategoryResolver } from "gql/api/category/category.resolver";
+import { CalendarEventResolver } from "gql/api/calendar/calendar.resolver";
 
 let apolloServerHandler: (req: any, res: any) => Promise<void>;
 
@@ -24,7 +25,8 @@ export const createSchema = (options?: Omit<BuildSchemaOptions, "resolvers">) =>
       ServiceResolver,
       ClientResolver,
       ProgramResolver,
-      CategoryResolver
+      CategoryResolver,
+      CalendarEventResolver
     ],
     ...options
   });

@@ -6,8 +6,8 @@ export const GQL_GET_CLIENTS = gql`
       id
       firstName
       lastName
-      contactEmail
-      contactNumber
+      email
+      phone
       address
       notes
       createdAt
@@ -22,8 +22,8 @@ export const GQL_UPSERT_CLIENT = gql`
       id
       firstName
       lastName
-      contactEmail
-      contactNumber
+      email
+      phone
       address
       notes
       createdAt

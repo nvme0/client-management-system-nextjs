@@ -214,7 +214,7 @@ const ProgramModal = ({
           onSubmit: formik.handleSubmit
         }}
       >
-        <ModalOverlay>
+        <ModalOverlay {...{ zIndex: 5 }}>
           <ModalContent>
             <ModalHeader>{modalTitle}</ModalHeader>
             <ModalCloseButton

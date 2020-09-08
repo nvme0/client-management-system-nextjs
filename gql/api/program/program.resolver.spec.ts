@@ -18,8 +18,11 @@ import {
 } from "gql/Program";
 import { GQL_UPSERT_CATEGORY } from "gql/Category";
 import { GQL_UPSERT_SERVICE } from "gql/Service";
-import { ProgramInput, ServiceInput } from "gql/__generated__/globalTypes";
-import { CategoryInput } from "gql/__generated__/globalTypes";
+import {
+  ProgramInput,
+  ServiceInput,
+  CategoryInput
+} from "gql/__generated__/globalTypes";
 import { GetPrograms_getPrograms } from "gql/__generated__/GetPrograms";
 import { configuration } from "lib/config";
 import { createPrismaTestClient } from "test-utils/createPrismaTestClient";

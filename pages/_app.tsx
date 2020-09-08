@@ -2,6 +2,10 @@ import { ChakraProvider } from "@chakra-ui/core";
 import GoogleFonts from "next-google-fonts";
 import theme from "theme";
 
+import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import "react-datepicker/dist/react-datepicker.css";
+
 import { OnlineStateProvider } from "lib/network";
 import { OutboxProvider } from "lib/outbox";
 import { LoggedInStateProvider } from "lib/loggedInState";
