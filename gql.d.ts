@@ -1,1 +1,1 @@
-type GqlDateTime = String;
+type GqlDateTime = string;
