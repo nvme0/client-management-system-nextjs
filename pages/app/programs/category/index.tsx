@@ -131,7 +131,12 @@ export const Categories = ({ state, setState }: Props) => {
               onClose: () => setState({ ...state, Modal: undefined })
             },
             handleSave: (categoryInput) => {
-              upsertCategory({ categoryInput });
+              upsertCategory({
+                categoryInput: {
+                  ...categoryInput,
+                  updatedAt: new Date().toISOString()
+                }
+              });
             }
           }}
         />
@@ -151,7 +156,12 @@ export const Categories = ({ state, setState }: Props) => {
               onClose: () => setState({ ...state, Modal: undefined })
             },
             handleSave: (categoryInput) => {
-              upsertCategory({ categoryInput });
+              upsertCategory({
+                categoryInput: {
+                  ...categoryInput,
+                  updatedAt: new Date().toISOString()
+                }
+              });
             },
             handleDelete: () => {
               deleteCategory({

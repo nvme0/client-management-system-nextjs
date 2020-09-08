@@ -130,7 +130,12 @@ export const Services = () => {
               onClose: () => setState({ ...state, Modal: undefined })
             },
             handleSave: (serviceInput) => {
-              upsertService({ serviceInput });
+              upsertService({
+                serviceInput: {
+                  ...serviceInput,
+                  updatedAt: new Date().toISOString()
+                }
+              });
             }
           }}
         />
@@ -150,7 +155,12 @@ export const Services = () => {
               onClose: () => setState({ ...state, Modal: undefined })
             },
             handleSave: (serviceInput) => {
-              upsertService({ serviceInput });
+              upsertService({
+                serviceInput: {
+                  ...serviceInput,
+                  updatedAt: new Date().toISOString()
+                }
+              });
             },
             handleDelete: () => {
               deleteService({
