@@ -34,7 +34,7 @@ const reverseAnimation = keyframes`
 `;
 
 const DesktopMenu = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const buttonCss: InterpolationWithTheme<any> = {
     overflowX: "hidden",
