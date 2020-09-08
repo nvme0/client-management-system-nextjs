@@ -20,8 +20,8 @@ export const Default = () => {
       firstName: "",
       lastName: "",
       address: "",
-      contactEmail: "",
-      contactNumber: "",
+      email: "",
+      phone: "",
       notes: "",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()

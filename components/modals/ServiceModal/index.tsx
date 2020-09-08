@@ -22,7 +22,7 @@ import {
 import { GetServices_getServices as Service } from "gql/__generated__/GetServices";
 import { Button } from "components/Button";
 
-const schema = yup.object().shape({
+export const schema = yup.object().shape({
   name: yup.string().min(3).max(255).required(),
   notes: yup.string()
 });
@@ -85,7 +85,7 @@ const ServiceModal = ({
           onSubmit: formik.handleSubmit
         }}
       >
-        <ModalOverlay>
+        <ModalOverlay {...{ zIndex: 5 }}>
           <ModalContent>
             <ModalHeader>{modalTitle}</ModalHeader>
             <ModalCloseButton

@@ -11,8 +11,8 @@ export interface GetClients_getClients {
   id: string;
   firstName: string;
   lastName: string | null;
-  contactEmail: string | null;
-  contactNumber: string | null;
+  email: string | null;
+  phone: string | null;
   address: string | null;
   notes: string | null;
   createdAt: GqlDateTime;

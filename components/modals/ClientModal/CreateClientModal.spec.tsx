@@ -16,8 +16,8 @@ describe("Create Client Modal", () => {
         firstName: "",
         lastName: "",
         address: "",
-        contactEmail: "",
-        contactNumber: "",
+        email: "",
+        phone: "",
         notes: "",
         createdAt: "2019-10-10T00:53:43.549Z",
         updatedAt: "2019-10-10T00:53:43.549Z"

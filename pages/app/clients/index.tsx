@@ -102,11 +102,11 @@ export const Clients = () => {
       },
       {
         Header: "Email",
-        accessor: "contactEmail"
+        accessor: "email"
       },
       {
         Header: "Number",
-        accessor: "contactNumber"
+        accessor: "phone"
       }
     ],
     []
@@ -132,8 +132,8 @@ export const Clients = () => {
               firstName: "",
               lastName: "",
               address: "",
-              contactEmail: "",
-              contactNumber: "",
+              email: "",
+              phone: "",
               notes: "",
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString()
@@ -143,7 +143,12 @@ export const Clients = () => {
               onClose: () => setState({ ...state, Modal: undefined })
             },
             handleSave: (clientInput) => {
-              upsertClient({ clientInput });
+              upsertClient({
+                clientInput: {
+                  ...clientInput,
+                  updatedAt: new Date().toISOString()
+                }
+              });
             }
           }}
         />
@@ -163,7 +168,12 @@ export const Clients = () => {
               onClose: () => setState({ ...state, Modal: undefined })
             },
             handleSave: (clientInput) => {
-              upsertClient({ clientInput });
+              upsertClient({
+                clientInput: {
+                  ...clientInput,
+                  updatedAt: new Date().toISOString()
+                }
+              });
             },
             handleDelete: () => {
               deleteClient({

@@ -75,8 +75,8 @@ describe("Client Resolver", () => {
           ...clientInput,
           lastName: null,
           address: null,
-          contactEmail: null,
-          contactNumber: null,
+          email: null,
+          phone: null,
           notes: null
         }
       }
@@ -122,8 +122,8 @@ describe("Client Resolver", () => {
           ...clientInput2,
           lastName: null,
           address: null,
-          contactEmail: null,
-          contactNumber: null,
+          email: null,
+          phone: null,
           notes: null
         }
       }
@@ -169,8 +169,8 @@ describe("Client Resolver", () => {
           ...clientInput1,
           lastName: null,
           address: null,
-          contactEmail: null,
-          contactNumber: null,
+          email: null,
+          phone: null,
           notes: null
         }
       }
@@ -297,24 +297,24 @@ describe("Client Resolver", () => {
       ...clientInput1,
       lastName: null,
       address: null,
-      contactEmail: null,
-      contactNumber: null,
+      email: null,
+      phone: null,
       notes: null
     });
     expect(getClients.find((client) => client.id === clientInput2.id)).toEqual({
       ...clientInput2,
       lastName: null,
       address: null,
-      contactEmail: null,
-      contactNumber: null,
+      email: null,
+      phone: null,
       notes: null
     });
     expect(getClients.find((client) => client.id === clientInput3.id)).toEqual({
       ...clientInput3,
       lastName: null,
       address: null,
-      contactEmail: null,
-      contactNumber: null,
+      email: null,
+      phone: null,
       notes: null
     });
   });
