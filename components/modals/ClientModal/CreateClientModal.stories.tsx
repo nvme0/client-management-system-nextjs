@@ -28,9 +28,11 @@ export const Default = () => {
               email: "",
               phone: "",
               notes: "",
+              programs: [],
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString()
             },
+            programs: [],
             modalProps: {
               isOpen: true,
               onClose: () => setState({ ...state, Modal: undefined })

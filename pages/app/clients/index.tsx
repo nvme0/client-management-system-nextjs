@@ -16,10 +16,12 @@ import {
   GQL_UPSERT_CLIENT,
   GQL_DELETE_CLIENT
 } from "gql/Client";
+import { GQL_GET_PROGRAMS } from "gql/Program";
 import {
   GetClients,
   GetClients_getClients as Client
 } from "gql/__generated__/GetClients";
+import { GetPrograms } from "gql/__generated__/GetPrograms";
 import { DeleteClient } from "gql/__generated__/DeleteClient";
 import { optimisticUpsert, optimisticDelete } from "lib/optimisticHelpers";
 import LoginModal from "components/modals/LoginModal";
@@ -38,6 +40,13 @@ export const Clients = () => {
     GQL_GET_CLIENTS,
     {},
     { initialData: { getClients: [] } }
+  );
+
+  const { data: programs } = useQuery<GetPrograms>(
+    QueryKeys.GET_PROGRAMS,
+    GQL_GET_PROGRAMS,
+    {},
+    { initialData: { getPrograms: [] } }
   );
 
   const [upsertClient] = useMutation<
@@ -135,9 +144,11 @@ export const Clients = () => {
               email: "",
               phone: "",
               notes: "",
+              programs: [],
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString()
             },
+            programs: programs?.getPrograms || [],
             modalProps: {
               isOpen: true,
               onClose: () => setState({ ...state, Modal: undefined })
@@ -163,6 +174,7 @@ export const Clients = () => {
         <EditClientModal
           {...{
             client,
+            programs: programs?.getPrograms || [],
             modalProps: {
               isOpen: true,
               onClose: () => setState({ ...state, Modal: undefined })
