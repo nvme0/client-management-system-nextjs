@@ -203,8 +203,6 @@ const ProgramModal = ({
     <Modal
       {...{
         ...modalProps,
-        scrollBehavior: "inside",
-        isCentered: true,
         size: "3xl"
       }}
     >
@@ -241,8 +239,9 @@ const ProgramModal = ({
                 </FormControl>
                 <FormControl
                   {...{
-                    isRequired: true,
-                    isInvalid: formik.touched.name && !!formik.errors.name
+                    isRequired: false,
+                    isInvalid:
+                      formik.touched.services && !!formik.errors.services
                   }}
                 >
                   <FormLabel>Services</FormLabel>
@@ -283,7 +282,7 @@ const ProgramModal = ({
                 </FormControl>
                 <FormControl
                   {...{
-                    isRequired: true,
+                    isRequired: false,
                     isInvalid:
                       formik.touched.categories && !!formik.errors.categories
                   }}

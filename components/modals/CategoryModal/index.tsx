@@ -74,8 +74,6 @@ const CategoryModal = ({
     <Modal
       {...{
         ...modalProps,
-        scrollBehavior: "inside",
-        isCentered: true,
         size: "3xl"
       }}
     >

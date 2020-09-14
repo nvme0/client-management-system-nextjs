@@ -55,8 +55,8 @@ const LoginModal = ({ modalProps }: Props) => {
   const { setIsLoggedIn } = useLoggedInState();
   const [login] = useMutation<
     TLogin,
-    LoginVariables,
     Login_login_errors,
+    LoginVariables,
     () => void
   >((variables) =>
     request(process.env.NEXT_PUBLIC_GRAPHQL_URL!, GQL_LOGIN, variables)
@@ -97,8 +97,6 @@ const LoginModal = ({ modalProps }: Props) => {
     <Modal
       {...{
         ...modalProps,
-        scrollBehavior: "inside",
-        isCentered: true,
         size: "lg"
       }}
     >

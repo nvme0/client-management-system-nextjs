@@ -8,8 +8,8 @@ import {
   ToolbarProps,
   View
 } from "react-big-calendar";
-import moment from "moment";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
+import moment from "moment";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 import CreateEventModal from "components/modals/CalendarEventModal/CreateEventModal";
@@ -38,7 +38,13 @@ import { useLoggedInState } from "lib/loggedInState";
 import { useOnlineState } from "lib/network";
 
 const localizer = momentLocalizer(moment);
-const DragAndDropCalendar = withDragAndDrop(ReactCalendar);
+const DragAndDropCalendar = withDragAndDrop<
+  Omit<CalendarEvent, "start" | "end"> & {
+    start: Date;
+    end: Date;
+  },
+  {}
+>(ReactCalendar as any);
 
 const CustomToolbar = ({ label, onNavigate, onView, view }: ToolbarProps) => {
   return (
@@ -343,16 +349,14 @@ export const Calendar = () => {
             resizable: true,
             selectable: true,
             showMultiDayTimes: true,
-            onEventDrop: ({ start, end, event: { ...event } }) => {
-              const calendarEvent = (event as unknown) as CalendarEvent;
+            onEventDrop: ({ start, end, event: { ...calendarEvent } }) => {
               handleEditEvent({
                 ...calendarEvent,
                 start: (start as Date).toISOString(),
                 end: (end as Date).toISOString()
               });
             },
-            onEventResize: ({ start, end, event: { ...event } }) => {
-              const calendarEvent = (event as unknown) as CalendarEvent;
+            onEventResize: ({ start, end, event: { ...calendarEvent } }) => {
               handleEditEvent({
                 ...calendarEvent,
                 start: (start as Date).toISOString(),
@@ -364,14 +368,7 @@ export const Calendar = () => {
               const end = (slotInfo.end as Date).toISOString();
               handleCreateEvent({ start, end });
             },
-            onSelectEvent: ({
-              start,
-              end,
-              ...calendarEvent
-            }: Omit<CalendarEvent, "start" | "end"> & {
-              start: Date;
-              end: Date;
-            }) => {
+            onSelectEvent: ({ start, end, ...calendarEvent }) => {
               handleSelectEvent({
                 ...calendarEvent,
                 start: start.toISOString(),
