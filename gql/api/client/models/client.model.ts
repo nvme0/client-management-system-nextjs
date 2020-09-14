@@ -1,5 +1,6 @@
 import { ObjectType, InputType, Field, ID } from "type-graphql";
 import { Length } from "class-validator";
+import { ProgramToClient } from "./programToClient.model";
 
 @ObjectType()
 @InputType("ClientInput")
@@ -31,6 +32,9 @@ export class Client {
   @Field(() => String, { nullable: true })
   @Length(0, 255)
   notes?: string | null;
+
+  @Field(() => [ProgramToClient], { defaultValue: [] })
+  programs: ProgramToClient[];
 
   @Field(() => Date)
   createdAt: Date;

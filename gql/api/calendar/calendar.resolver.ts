@@ -19,8 +19,24 @@ export class CalendarEventResolver {
       return await prisma.calendarEvent.findMany({
         where: { userId },
         include: {
-          client: true,
-          service: true
+          client: {
+            include: {
+              programs: {
+                include: {
+                  program: {
+                    include: {
+                      categories: true,
+                      services: {
+                        include: {
+                          service: true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       });
     } catch (error) {
@@ -42,7 +58,24 @@ export class CalendarEventResolver {
       const entry = await prisma.calendarEvent.findOne({
         where: { id: calendarEvent.id },
         include: {
-          client: true,
+          client: {
+            include: {
+              programs: {
+                include: {
+                  program: {
+                    include: {
+                      categories: true,
+                      services: {
+                        include: {
+                          service: true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           service: true
         }
       });
@@ -105,8 +138,24 @@ export class CalendarEventResolver {
           id: calendarEvent.id
         },
         include: {
-          client: true,
-          service: true
+          client: {
+            include: {
+              programs: {
+                include: {
+                  program: {
+                    include: {
+                      categories: true,
+                      services: {
+                        include: {
+                          service: true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       });
     } catch (error) {

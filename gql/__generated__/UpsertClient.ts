@@ -9,6 +9,48 @@ import { ClientInput } from "./globalTypes";
 // GraphQL mutation operation: UpsertClient
 // ====================================================
 
+export interface UpsertClient_upsertClient_programs_program_categories {
+  id: string;
+  name: string;
+  for: string | null;
+  notes: string | null;
+  createdAt: GqlDateTime;
+  updatedAt: GqlDateTime;
+}
+
+export interface UpsertClient_upsertClient_programs_program_services_service {
+  id: string;
+  name: string;
+  duration: string | null;
+  expires: GqlDateTime | null;
+  notes: string | null;
+  createdAt: GqlDateTime;
+  updatedAt: GqlDateTime;
+}
+
+export interface UpsertClient_upsertClient_programs_program_services {
+  quantity: number;
+  service: UpsertClient_upsertClient_programs_program_services_service;
+  createdAt: GqlDateTime;
+  updatedAt: GqlDateTime;
+}
+
+export interface UpsertClient_upsertClient_programs_program {
+  id: string;
+  name: string;
+  notes: string | null;
+  categories: UpsertClient_upsertClient_programs_program_categories[] | null;
+  services: UpsertClient_upsertClient_programs_program_services[] | null;
+  createdAt: GqlDateTime;
+  updatedAt: GqlDateTime;
+}
+
+export interface UpsertClient_upsertClient_programs {
+  program: UpsertClient_upsertClient_programs_program;
+  createdAt: GqlDateTime;
+  updatedAt: GqlDateTime;
+}
+
 export interface UpsertClient_upsertClient {
   id: string;
   firstName: string;
@@ -17,6 +59,7 @@ export interface UpsertClient_upsertClient {
   phone: string | null;
   address: string | null;
   notes: string | null;
+  programs: UpsertClient_upsertClient_programs[] | null;
   createdAt: GqlDateTime;
   updatedAt: GqlDateTime;
 }

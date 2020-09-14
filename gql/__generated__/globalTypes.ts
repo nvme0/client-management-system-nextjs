@@ -39,6 +39,7 @@ export interface ClientInput {
   lastName?: string | null;
   notes?: string | null;
   phone?: string | null;
+  programs?: ProgramToClientInput[] | null;
   updatedAt: GqlDateTime;
 }
 
@@ -49,6 +50,12 @@ export interface ProgramInput {
   name: string;
   notes?: string | null;
   services?: ServiceToProgramInput[] | null;
+  updatedAt: GqlDateTime;
+}
+
+export interface ProgramToClientInput {
+  createdAt: GqlDateTime;
+  program: ProgramInput;
   updatedAt: GqlDateTime;
 }
 

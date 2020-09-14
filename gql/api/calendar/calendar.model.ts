@@ -2,7 +2,7 @@ import { ObjectType, InputType, Field, ID } from "type-graphql";
 import { Length } from "class-validator";
 
 import { Service } from "../service/service.model";
-import { Client } from "../client/client.model";
+import { Client } from "../client/models/client.model";
 
 @ObjectType()
 @InputType("CalendarEventInput")

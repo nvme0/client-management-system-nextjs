@@ -58,6 +58,7 @@ type Client {
   lastName: String
   notes: String
   phone: String
+  programs: [ProgramToClient!]
   updatedAt: DateTime!
 }
 
@@ -70,6 +71,7 @@ input ClientInput {
   lastName: String
   notes: String
   phone: String
+  programs: [ProgramToClientInput!] = []
   updatedAt: DateTime!
 }
 
@@ -117,6 +119,18 @@ input ProgramInput {
   name: String!
   notes: String
   services: [ServiceToProgramInput!] = []
+  updatedAt: DateTime!
+}
+
+type ProgramToClient {
+  createdAt: DateTime!
+  program: Program!
+  updatedAt: DateTime!
+}
+
+input ProgramToClientInput {
+  createdAt: DateTime!
+  program: ProgramInput!
   updatedAt: DateTime!
 }
 

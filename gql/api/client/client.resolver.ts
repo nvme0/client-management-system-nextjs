@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Arg } from "type-graphql";
 
-import { Client } from "./client.model";
+import { Client } from "./models/client.model";
 import { db } from "decorators/getPrismaClient.decorator";
 import { PrismaClient } from "@prisma/client";
 import { AuthGuard } from "decorators/auth.guard";
@@ -16,7 +16,25 @@ export class ClientResolver {
     @CurrentUser() userId: string
   ): Promise<Client[]> {
     try {
-      return await prisma.client.findMany({ where: { userId } });
+      return await prisma.client.findMany({
+        where: { userId },
+        include: {
+          programs: {
+            include: {
+              program: {
+                include: {
+                  categories: true,
+                  services: {
+                    include: {
+                      service: true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      });
     } catch (error) {
       return [];
     } finally {
@@ -29,36 +47,99 @@ export class ClientResolver {
   async upsertClient(
     @db() prisma: PrismaClient,
     @CurrentUser() userId: string,
-    @Arg("clientInput") client: Client
+    @Arg("clientInput") clientInput: Client
   ): Promise<Client | null> {
+    const { programs, ...client } = clientInput;
     try {
       const entry = await prisma.client.findOne({
-        where: { id: client.id }
+        where: { id: client.id },
+        include: {
+          programs: {
+            include: {
+              program: {
+                include: {
+                  categories: true,
+                  services: {
+                    include: {
+                      service: true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       });
 
-      if (!checkEntryForUpsert<Client>(client, { entry, userId })) {
+      if (!checkEntryForUpsert<Client>(clientInput, { entry, userId })) {
         return entry;
       }
 
-      return await prisma.client.upsert({
-        create: {
-          ...client,
-          user: {
-            connect: {
-              id: userId
+      if (!entry) {
+        // create the entity if it doesn't exist
+        await prisma.client.create({
+          data: {
+            ...client,
+            user: {
+              connect: {
+                id: userId
+              }
             }
           }
-        },
-        update: {
-          ...client,
-          user: {
-            connect: {
-              id: userId
-            }
+        });
+      } else {
+        // delete all programToClient connections
+        await prisma.programToClient.deleteMany({
+          where: {
+            clientId: client.id
           }
+        });
+      }
+
+      // create programToClient connections
+      await Promise.all(
+        programs.map(
+          async (program) =>
+            await prisma.programToClient.create({
+              data: {
+                ...program,
+                client: {
+                  connect: {
+                    id: client.id
+                  }
+                },
+                program: {
+                  connect: {
+                    id: program.program.id
+                  }
+                }
+              }
+            })
+        )
+      );
+
+      return await prisma.client.update({
+        data: {
+          ...client
         },
         where: {
           id: client.id
+        },
+        include: {
+          programs: {
+            include: {
+              program: {
+                include: {
+                  categories: true,
+                  services: {
+                    include: {
+                      service: true
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       });
     } catch (error) {
@@ -78,7 +159,25 @@ export class ClientResolver {
     @Arg("deletedAt") deletedAt: Date
   ): Promise<Boolean> {
     try {
-      const entry = await prisma.client.findOne({ where: { id } });
+      const entry = await prisma.client.findOne({
+        where: { id },
+        include: {
+          programs: {
+            include: {
+              program: {
+                include: {
+                  categories: true,
+                  services: {
+                    include: {
+                      service: true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      });
       if (!checkEntryForDelete<Client>(deletedAt, { entry, userId })) {
         return false;
       }

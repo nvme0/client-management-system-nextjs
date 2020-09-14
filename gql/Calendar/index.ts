@@ -29,6 +29,39 @@ export const GQL_GET_CALENDAR_EVENTS = gql`
         phone
         address
         notes
+        programs {
+          program {
+            id
+            name
+            notes
+            categories {
+              id
+              name
+              for
+              notes
+              createdAt
+              updatedAt
+            }
+            services {
+              quantity
+              service {
+                id
+                name
+                duration
+                expires
+                notes
+                createdAt
+                updatedAt
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -65,6 +98,39 @@ export const GQL_UPSERT_CALENDAR_EVENT = gql`
         phone
         address
         notes
+        programs {
+          program {
+            id
+            name
+            notes
+            categories {
+              id
+              name
+              for
+              notes
+              createdAt
+              updatedAt
+            }
+            services {
+              quantity
+              service {
+                id
+                name
+                duration
+                expires
+                notes
+                createdAt
+                updatedAt
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }

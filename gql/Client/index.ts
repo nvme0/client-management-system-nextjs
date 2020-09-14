@@ -10,6 +10,39 @@ export const GQL_GET_CLIENTS = gql`
       phone
       address
       notes
+      programs {
+        program {
+          id
+          name
+          notes
+          categories {
+            id
+            name
+            for
+            notes
+            createdAt
+            updatedAt
+          }
+          services {
+            quantity
+            service {
+              id
+              name
+              duration
+              expires
+              notes
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -26,6 +59,39 @@ export const GQL_UPSERT_CLIENT = gql`
       phone
       address
       notes
+      programs {
+        program {
+          id
+          name
+          notes
+          categories {
+            id
+            name
+            for
+            notes
+            createdAt
+            updatedAt
+          }
+          services {
+            quantity
+            service {
+              id
+              name
+              duration
+              expires
+              notes
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }

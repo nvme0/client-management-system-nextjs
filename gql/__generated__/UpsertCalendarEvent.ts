@@ -19,6 +19,48 @@ export interface UpsertCalendarEvent_upsertCalendarEvent_service {
   updatedAt: GqlDateTime;
 }
 
+export interface UpsertCalendarEvent_upsertCalendarEvent_client_programs_program_categories {
+  id: string;
+  name: string;
+  for: string | null;
+  notes: string | null;
+  createdAt: GqlDateTime;
+  updatedAt: GqlDateTime;
+}
+
+export interface UpsertCalendarEvent_upsertCalendarEvent_client_programs_program_services_service {
+  id: string;
+  name: string;
+  duration: string | null;
+  expires: GqlDateTime | null;
+  notes: string | null;
+  createdAt: GqlDateTime;
+  updatedAt: GqlDateTime;
+}
+
+export interface UpsertCalendarEvent_upsertCalendarEvent_client_programs_program_services {
+  quantity: number;
+  service: UpsertCalendarEvent_upsertCalendarEvent_client_programs_program_services_service;
+  createdAt: GqlDateTime;
+  updatedAt: GqlDateTime;
+}
+
+export interface UpsertCalendarEvent_upsertCalendarEvent_client_programs_program {
+  id: string;
+  name: string;
+  notes: string | null;
+  categories: UpsertCalendarEvent_upsertCalendarEvent_client_programs_program_categories[] | null;
+  services: UpsertCalendarEvent_upsertCalendarEvent_client_programs_program_services[] | null;
+  createdAt: GqlDateTime;
+  updatedAt: GqlDateTime;
+}
+
+export interface UpsertCalendarEvent_upsertCalendarEvent_client_programs {
+  program: UpsertCalendarEvent_upsertCalendarEvent_client_programs_program;
+  createdAt: GqlDateTime;
+  updatedAt: GqlDateTime;
+}
+
 export interface UpsertCalendarEvent_upsertCalendarEvent_client {
   id: string;
   firstName: string;
@@ -27,6 +69,7 @@ export interface UpsertCalendarEvent_upsertCalendarEvent_client {
   phone: string | null;
   address: string | null;
   notes: string | null;
+  programs: UpsertCalendarEvent_upsertCalendarEvent_client_programs[] | null;
   createdAt: GqlDateTime;
   updatedAt: GqlDateTime;
 }
