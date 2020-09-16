@@ -1,11 +1,12 @@
 import { useState, useMemo } from "react";
 import { TableOptions } from "react-table";
-import { Stack } from "@chakra-ui/core";
+import { Tabs, TabPanel, TabList, TabPanels } from "@chakra-ui/core";
 import { v4 as uuid } from "uuid";
 import { queryCache } from "react-query";
 
-import { Button } from "components/Button";
-import { PaginatedTable } from "components/Table";
+import ClientList from "./ClientList";
+import Progress from "./Progress";
+import Tab from "./components/Tab";
 import CreateClientModal from "components/modals/ClientModal/CreateClientModal";
 import EditClientModal from "components/modals/ClientModal/EditClientModal";
 import { useQuery, useMutation } from "lib/outbox";
@@ -201,36 +202,30 @@ export const Clients = () => {
 
   return (
     <>
-      <Stack {...{ spacing: 4 }}>
-        <Stack>
-          <h2 className="prose">Clients</h2>
-        </Stack>
+      <Tabs>
+        <TabList>
+          <Tab>List</Tab>
+          <Tab>Progress</Tab>
+        </TabList>
 
-        <Stack>
-          <Stack {...{ isInline: true, justifyContent: "space-between" }}>
-            <Button
+        <TabPanels>
+          <TabPanel {...{ px: 0 }}>
+            <ClientList
               {...{
-                templateStyle: "primary-outline",
-                onClick: handleCreateClient
+                data,
+                columns,
+                initialState,
+                handleCreateClient,
+                handleSelectClient
               }}
-            >
-              New Client
-            </Button>
-          </Stack>
-        </Stack>
-      </Stack>
+            />
+          </TabPanel>
 
-      <PaginatedTable
-        {...{
-          data,
-          columns,
-          initialState,
-          sortable: true,
-          tableProps: { py: 4 },
-          rowSelectCallback: (original: Client) => () =>
-            handleSelectClient(original)
-        }}
-      />
+          <TabPanel {...{ px: 0 }}>
+            <Progress {...{ clients: clients?.getClients, upsertClient }} />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
       {state.Modal && <state.Modal />}
       <LoginModal
         {...{
