@@ -1,11 +1,24 @@
-import { ObjectType, InputType, Field } from "type-graphql";
-import { Program } from "gql/api/program/models/program.model";
+import { ObjectType, InputType, Field, ID } from "type-graphql";
+import { Length } from "class-validator";
+import { ServiceToProgramToClient } from "./serviceToProgramToClient.model";
 
 @ObjectType()
 @InputType("ProgramToClientInput")
 export class ProgramToClient {
-  @Field(() => Program)
-  program: Program;
+  @Field(() => ID)
+  @Length(36, 36)
+  id: string;
+
+  @Field(() => String)
+  @Length(3, 255)
+  name: string;
+
+  @Field(() => String, { nullable: true })
+  @Length(0, 255)
+  notes?: string | null;
+
+  @Field(() => [ServiceToProgramToClient], { defaultValue: [] })
+  services: ServiceToProgramToClient[];
 
   @Field(() => Date)
   createdAt: Date;
