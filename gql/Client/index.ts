@@ -15,14 +15,6 @@ export const GQL_GET_CLIENTS = gql`
           id
           name
           notes
-          categories {
-            id
-            name
-            for
-            notes
-            createdAt
-            updatedAt
-          }
           services {
             quantity
             service {
@@ -64,14 +56,6 @@ export const GQL_UPSERT_CLIENT = gql`
           id
           name
           notes
-          categories {
-            id
-            name
-            for
-            notes
-            createdAt
-            updatedAt
-          }
           services {
             quantity
             service {

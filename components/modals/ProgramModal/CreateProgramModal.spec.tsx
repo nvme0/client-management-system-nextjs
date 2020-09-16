@@ -6,7 +6,6 @@ import preloadAll from "jest-next-dynamic";
 import CreateProgramModal from "./CreateProgramModal";
 import { ProgramModalProps } from ".";
 import { GetServices_getServices as Service } from "gql/__generated__/GetServices";
-import { GetCategories_getCategories as Category } from "gql/__generated__/GetCategories";
 
 describe("Create Program Modal", () => {
   beforeAll(async () => {
@@ -25,10 +24,8 @@ describe("Create Program Modal", () => {
         notes: "",
         createdAt: "2019-10-10T00:53:43.549Z",
         updatedAt: "2019-10-10T00:53:43.549Z",
-        categories: [],
         services: []
       },
-      categories: [],
       services: [],
       modalProps: {
         isOpen: true,
@@ -40,27 +37,6 @@ describe("Create Program Modal", () => {
 
   it("renders", () => {
     const { asFragment } = render(<CreateProgramModal {...props} />);
-    expect(asFragment()).toMatchSnapshot();
-  });
-
-  it("renders with categories", () => {
-    const category1: Category = {
-      id: uuid(),
-      name: "My Category",
-      for: "Program",
-      notes: "",
-      createdAt: "2019-10-10T00:53:43.549Z",
-      updatedAt: "2019-10-10T00:53:43.549Z"
-    };
-
-    const { asFragment } = render(
-      <CreateProgramModal
-        {...{
-          ...props,
-          categories: [category1]
-        }}
-      />
-    );
     expect(asFragment()).toMatchSnapshot();
   });
 

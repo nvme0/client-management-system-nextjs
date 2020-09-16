@@ -9,15 +9,6 @@ import { ProgramInput } from "./globalTypes";
 // GraphQL mutation operation: UpsertProgram
 // ====================================================
 
-export interface UpsertProgram_upsertProgram_categories {
-  id: string;
-  name: string;
-  for: string | null;
-  notes: string | null;
-  createdAt: GqlDateTime;
-  updatedAt: GqlDateTime;
-}
-
 export interface UpsertProgram_upsertProgram_services_service {
   id: string;
   name: string;
@@ -41,7 +32,6 @@ export interface UpsertProgram_upsertProgram {
   notes: string | null;
   createdAt: GqlDateTime;
   updatedAt: GqlDateTime;
-  categories: UpsertProgram_upsertProgram_categories[] | null;
   services: UpsertProgram_upsertProgram_services[] | null;
 }
 

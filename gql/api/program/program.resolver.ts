@@ -19,7 +19,6 @@ export class ProgramResolver {
       return await prisma.program.findMany({
         where: { userId },
         include: {
-          categories: true,
           services: {
             include: {
               service: true
@@ -41,12 +40,11 @@ export class ProgramResolver {
     @CurrentUser() userId: string,
     @Arg("programInput") programInput: Program
   ): Promise<Program | null> {
-    const { categories, services, ...program } = programInput;
+    const { services, ...program } = programInput;
     try {
       const entry = await prisma.program.findOne({
         where: { id: program.id },
         include: {
-          categories: true,
           services: {
             include: {
               service: true
@@ -104,16 +102,12 @@ export class ProgramResolver {
 
       return await prisma.program.update({
         data: {
-          ...program,
-          categories: {
-            connect: categories.map(({ id }) => ({ id }))
-          }
+          ...program
         },
         where: {
           id: program.id
         },
         include: {
-          categories: true,
           services: {
             include: {
               service: true
@@ -141,7 +135,6 @@ export class ProgramResolver {
       const entry = await prisma.program.findOne({
         where: { id },
         include: {
-          categories: true,
           services: {
             include: {
               service: true

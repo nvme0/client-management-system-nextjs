@@ -25,7 +25,6 @@ export class CalendarEventResolver {
                 include: {
                   program: {
                     include: {
-                      categories: true,
                       services: {
                         include: {
                           service: true
@@ -64,7 +63,6 @@ export class CalendarEventResolver {
                 include: {
                   program: {
                     include: {
-                      categories: true,
                       services: {
                         include: {
                           service: true
@@ -144,7 +142,6 @@ export class CalendarEventResolver {
                 include: {
                   program: {
                     include: {
-                      categories: true,
                       services: {
                         include: {
                           service: true

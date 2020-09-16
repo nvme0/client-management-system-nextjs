@@ -16,13 +16,11 @@ import {
   GQL_UPSERT_PROGRAM,
   GQL_DELETE_PROGRAM
 } from "gql/Program";
-import { GQL_GET_CATEGORIES } from "gql/Category";
 import { GQL_GET_SERVICES } from "gql/Service";
 import {
   GetPrograms,
   GetPrograms_getPrograms as Program
 } from "gql/__generated__/GetPrograms";
-import { GetCategories } from "gql/__generated__/GetCategories";
 import { GetServices } from "gql/__generated__/GetServices";
 import { DeleteProgram } from "gql/__generated__/DeleteProgram";
 import { optimisticUpsert, optimisticDelete } from "lib/optimisticHelpers";
@@ -44,13 +42,6 @@ export const Programs = ({ state, setState }: Props) => {
     GQL_GET_PROGRAMS,
     {},
     { initialData: { getPrograms: [] } }
-  );
-
-  const { data: categories } = useQuery<GetCategories>(
-    QueryKeys.GET_CATEGORIES,
-    GQL_GET_CATEGORIES,
-    {},
-    { initialData: { getCategories: [] } }
   );
 
   const { data: services } = useQuery<GetServices>(
@@ -139,12 +130,10 @@ export const Programs = ({ state, setState }: Props) => {
               id: uuid(),
               name: "",
               notes: "",
-              categories: [],
               services: [],
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString()
             },
-            categories: categories?.getCategories || [],
             services: services?.getServices || [],
             modalProps: {
               isOpen: true,
@@ -171,7 +160,6 @@ export const Programs = ({ state, setState }: Props) => {
         <EditProgramModal
           {...{
             program,
-            categories: categories?.getCategories || [],
             services: services?.getServices || [],
             modalProps: {
               isOpen: true,

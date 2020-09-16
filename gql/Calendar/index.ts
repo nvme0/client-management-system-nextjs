@@ -34,14 +34,6 @@ export const GQL_GET_CALENDAR_EVENTS = gql`
             id
             name
             notes
-            categories {
-              id
-              name
-              for
-              notes
-              createdAt
-              updatedAt
-            }
             services {
               quantity
               service {
@@ -103,14 +95,6 @@ export const GQL_UPSERT_CALENDAR_EVENT = gql`
             id
             name
             notes
-            categories {
-              id
-              name
-              for
-              notes
-              createdAt
-              updatedAt
-            }
             services {
               quantity
               service {

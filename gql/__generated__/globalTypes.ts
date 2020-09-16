@@ -21,15 +21,6 @@ export interface CalendarEventInput {
   updatedAt: GqlDateTime;
 }
 
-export interface CategoryInput {
-  createdAt: GqlDateTime;
-  for?: string | null;
-  id: string;
-  name: string;
-  notes?: string | null;
-  updatedAt: GqlDateTime;
-}
-
 export interface ClientInput {
   address?: string | null;
   createdAt: GqlDateTime;
@@ -44,7 +35,6 @@ export interface ClientInput {
 }
 
 export interface ProgramInput {
-  categories?: CategoryInput[] | null;
   createdAt: GqlDateTime;
   id: string;
   name: string;

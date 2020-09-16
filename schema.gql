@@ -31,24 +31,6 @@ input CalendarEventInput {
   updatedAt: DateTime!
 }
 
-type Category {
-  createdAt: DateTime!
-  for: String
-  id: ID!
-  name: String!
-  notes: String
-  updatedAt: DateTime!
-}
-
-input CategoryInput {
-  createdAt: DateTime!
-  for: String = "Program"
-  id: ID!
-  name: String!
-  notes: String
-  updatedAt: DateTime!
-}
-
 type Client {
   address: String
   createdAt: DateTime!
@@ -82,7 +64,6 @@ scalar DateTime
 
 type Mutation {
   deleteCalendarEvent(deletedAt: DateTime!, id: String!): Boolean!
-  deleteCategory(deletedAt: DateTime!, id: String!): Boolean!
   deleteClient(deletedAt: DateTime!, id: String!): Boolean!
   deleteProgram(deletedAt: DateTime!, id: String!): Boolean!
   deleteService(deletedAt: DateTime!, id: String!): Boolean!
@@ -90,7 +71,6 @@ type Mutation {
   logout: Boolean!
   register(email: String!, password: String!): MutationResponse!
   upsertCalendarEvent(calendarEventInput: CalendarEventInput!): CalendarEvent
-  upsertCategory(categoryInput: CategoryInput!): Category
   upsertClient(clientInput: ClientInput!): Client
   upsertProgram(programInput: ProgramInput!): Program
   upsertService(serviceInput: ServiceInput!): Service
@@ -103,7 +83,6 @@ type MutationResponse {
 }
 
 type Program {
-  categories: [Category!]
   createdAt: DateTime!
   id: ID!
   name: String!
@@ -113,7 +92,6 @@ type Program {
 }
 
 input ProgramInput {
-  categories: [CategoryInput!] = []
   createdAt: DateTime!
   id: ID!
   name: String!
@@ -136,7 +114,6 @@ input ProgramToClientInput {
 
 type Query {
   getCalendarEvents: [CalendarEvent!]!
-  getCategories: [Category!]!
   getClients: [Client!]!
   getPrograms: [Program!]!
   getServices: [Service!]!

@@ -39,19 +39,6 @@ export const deleteProgram = async (id: string) => {
   }
 };
 
-export const deleteCategory = async (id: string) => {
-  const prisma = createPrismaTestClient();
-  try {
-    return !!(await prisma.category.delete({
-      where: { id }
-    }));
-  } catch (e) {
-    console.error(e);
-  } finally {
-    await prisma.$disconnect();
-  }
-};
-
 export const deleteServiceToProgram = async ({
   serviceId,
   programId

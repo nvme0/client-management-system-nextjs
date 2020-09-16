@@ -17,15 +17,6 @@ export interface GetCalendarEvents_getCalendarEvents_service {
   updatedAt: GqlDateTime;
 }
 
-export interface GetCalendarEvents_getCalendarEvents_client_programs_program_categories {
-  id: string;
-  name: string;
-  for: string | null;
-  notes: string | null;
-  createdAt: GqlDateTime;
-  updatedAt: GqlDateTime;
-}
-
 export interface GetCalendarEvents_getCalendarEvents_client_programs_program_services_service {
   id: string;
   name: string;
@@ -47,7 +38,6 @@ export interface GetCalendarEvents_getCalendarEvents_client_programs_program {
   id: string;
   name: string;
   notes: string | null;
-  categories: GetCalendarEvents_getCalendarEvents_client_programs_program_categories[] | null;
   services: GetCalendarEvents_getCalendarEvents_client_programs_program_services[] | null;
   createdAt: GqlDateTime;
   updatedAt: GqlDateTime;

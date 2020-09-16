@@ -23,7 +23,6 @@ export class ClientResolver {
             include: {
               program: {
                 include: {
-                  categories: true,
                   services: {
                     include: {
                       service: true
@@ -58,7 +57,6 @@ export class ClientResolver {
             include: {
               program: {
                 include: {
-                  categories: true,
                   services: {
                     include: {
                       service: true
@@ -130,7 +128,6 @@ export class ClientResolver {
             include: {
               program: {
                 include: {
-                  categories: true,
                   services: {
                     include: {
                       service: true
@@ -166,7 +163,6 @@ export class ClientResolver {
             include: {
               program: {
                 include: {
-                  categories: true,
                   services: {
                     include: {
                       service: true
