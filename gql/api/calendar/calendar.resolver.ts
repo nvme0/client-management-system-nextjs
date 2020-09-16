@@ -23,19 +23,16 @@ export class CalendarEventResolver {
             include: {
               programs: {
                 include: {
-                  program: {
+                  services: {
                     include: {
-                      services: {
-                        include: {
-                          service: true
-                        }
-                      }
+                      service: true
                     }
                   }
                 }
               }
             }
-          }
+          },
+          service: true
         }
       });
     } catch (error) {
@@ -61,13 +58,9 @@ export class CalendarEventResolver {
             include: {
               programs: {
                 include: {
-                  program: {
+                  services: {
                     include: {
-                      services: {
-                        include: {
-                          service: true
-                        }
-                      }
+                      service: true
                     }
                   }
                 }
@@ -140,19 +133,16 @@ export class CalendarEventResolver {
             include: {
               programs: {
                 include: {
-                  program: {
+                  services: {
                     include: {
-                      services: {
-                        include: {
-                          service: true
-                        }
-                      }
+                      service: true
                     }
                   }
                 }
               }
             }
-          }
+          },
+          service: true
         }
       });
     } catch (error) {
