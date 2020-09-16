@@ -108,12 +108,10 @@ const ClientModal = ({
     });
   };
 
-  const removeProgram = (program: Program) => {
+  const removeProgram = (program: ProgramToClient) => {
     formik.setValues({
       ...formik.values,
-      programs: formik.values.programs.filter(
-        ({ program: { id } }) => id !== program.id
-      )
+      programs: formik.values.programs.filter(({ id }) => id !== program.id)
     });
   };
 
@@ -289,9 +287,7 @@ const ClientModal = ({
                         <Stack>
                           <BasicTable
                             {...{
-                              data: programsData.map(({ program }) => ({
-                                ...program
-                              })),
+                              data: programsData,
                               columns: programsColumns,
                               initialState,
                               sortable: true
@@ -301,7 +297,13 @@ const ClientModal = ({
                             {...{
                               addItem: (program: Program) => {
                                 addProgram({
-                                  program,
+                                  ...program,
+                                  services:
+                                    program.services?.map((service) => ({
+                                      ...service,
+                                      booked: 0,
+                                      used: 0
+                                    })) || [],
                                   createdAt: new Date().toISOString(),
                                   updatedAt: new Date().toISOString()
                                 });
@@ -309,7 +311,7 @@ const ClientModal = ({
                               items: programs.filter(
                                 ({ id }) =>
                                   !formik.values.programs?.find(
-                                    ({ program }) => id === program.id
+                                    (program) => id === program.id
                                   )
                               )
                             }}
