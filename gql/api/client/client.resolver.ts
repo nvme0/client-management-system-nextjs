@@ -7,6 +7,19 @@ import { AuthGuard } from "decorators/auth.guard";
 import { CurrentUser } from "decorators/currentUser.decorator";
 import { checkEntryForUpsert, checkEntryForDelete } from "lib/checkEntry";
 
+const generateAddUpdateRemoveIds = ({
+  current,
+  stored
+}: {
+  current: string[];
+  stored: string[];
+}) => {
+  const removeIds = stored.filter((id) => !current.find((_id) => _id === id));
+  const updateIds = stored.filter((id) => current.find((_id) => _id === id));
+  const addIds = current.filter((id) => !updateIds.find((_id) => _id === id));
+  return { addIds, updateIds, removeIds };
+};
+
 @Resolver(() => Client)
 export class ClientResolver {
   @Query(() => [Client])
@@ -21,13 +34,9 @@ export class ClientResolver {
         include: {
           programs: {
             include: {
-              program: {
+              services: {
                 include: {
-                  services: {
-                    include: {
-                      service: true
-                    }
-                  }
+                  service: true
                 }
               }
             }
@@ -50,18 +59,14 @@ export class ClientResolver {
   ): Promise<Client | null> {
     const { programs, ...client } = clientInput;
     try {
-      const entry = await prisma.client.findOne({
+      let entry = await prisma.client.findOne({
         where: { id: client.id },
         include: {
           programs: {
             include: {
-              program: {
+              services: {
                 include: {
-                  services: {
-                    include: {
-                      service: true
-                    }
-                  }
+                  service: true
                 }
               }
             }
@@ -75,7 +80,7 @@ export class ClientResolver {
 
       if (!entry) {
         // create the entity if it doesn't exist
-        await prisma.client.create({
+        entry = await prisma.client.create({
           data: {
             ...client,
             user: {
@@ -83,37 +88,144 @@ export class ClientResolver {
                 id: userId
               }
             }
-          }
-        });
-      } else {
-        // delete all programToClient connections
-        await prisma.programToClient.deleteMany({
-          where: {
-            clientId: client.id
+          },
+          include: {
+            programs: {
+              include: {
+                services: {
+                  include: {
+                    service: true
+                  }
+                }
+              }
+            }
           }
         });
       }
 
-      // create programToClient connections
+      const programIds = programs.map(({ id }) => id);
+      const storedProgramIds = entry.programs.map(({ id }) => id);
+      const { addIds, updateIds, removeIds } = generateAddUpdateRemoveIds({
+        current: programIds,
+        stored: storedProgramIds
+      });
+
+      // remove programToClient connections in removeIds
       await Promise.all(
-        programs.map(
-          async (program) =>
-            await prisma.programToClient.create({
-              data: {
-                ...program,
-                client: {
-                  connect: {
-                    id: client.id
-                  }
-                },
-                program: {
-                  connect: {
-                    id: program.program.id
-                  }
+        removeIds.map(async (id) => {
+          await prisma.serviceToProgramToClient.deleteMany({
+            where: {
+              programId: id
+            }
+          });
+          return await prisma.programToClient.delete({
+            where: {
+              id
+            }
+          });
+        })
+      );
+
+      // update programToClient connections in updateIds
+      await Promise.all(
+        updateIds.map(async (id) => {
+          const { services, ...program } = programs.find(
+            ({ id: programId }) => programId === id
+          )!;
+          const { services: storedServices } = entry!.programs.find(
+            ({ id: programId }) => programId === id
+          )!;
+
+          const serviceIds = services.map(({ service: { id } }) => id);
+          const storedServiceIds = storedServices.map(
+            ({ service: { id } }) => id
+          );
+          const {
+            addIds: serviceAddIds,
+            updateIds: serviceUpdateIds,
+            removeIds: serviceRemoveIds
+          } = generateAddUpdateRemoveIds({
+            current: serviceIds,
+            stored: storedServiceIds
+          });
+
+          // create, update or remove
+          await prisma.programToClient.update({
+            where: {
+              id: program.id
+            },
+            data: {
+              ...program,
+              client: {
+                connect: {
+                  id: client.id
                 }
+              },
+              services: {
+                create: serviceAddIds.map((serviceId) => {
+                  const { service, ...rest } = services.find(
+                    ({ service: { id: _id } }) => _id === serviceId
+                  )!;
+                  return {
+                    ...rest,
+                    service: {
+                      connect: {
+                        id: serviceId
+                      }
+                    }
+                  };
+                }),
+                deleteMany: serviceRemoveIds.map((removeId) => ({
+                  serviceId: removeId,
+                  programId: program.id
+                })),
+                updateMany: serviceUpdateIds.map((serviceId) => ({
+                  where: {
+                    serviceId,
+                    programId: program.id
+                  },
+                  data: (() => {
+                    const { service, ...rest } = services.find(
+                      ({ service: { id: _id } }) => _id === serviceId
+                    )!;
+                    return {
+                      ...rest
+                    };
+                  })()
+                }))
               }
-            })
-        )
+            }
+          });
+        })
+      );
+
+      // create programToClient connections in addIds
+      await Promise.all(
+        addIds.map(async (id) => {
+          const { services, ...program } = programs.find(
+            ({ id: programId }) => programId === id
+          )!;
+          return await prisma.programToClient.create({
+            data: {
+              ...program,
+              client: {
+                connect: {
+                  id: client.id
+                }
+              },
+              services: {
+                create: services.map(({ service, ...rest }) => ({
+                  ...rest,
+                  service: {
+                    connect: {
+                      id: service.id
+                    }
+                  }
+                }))
+              }
+            }
+          });
+        })
       );
 
       return await prisma.client.update({
@@ -126,13 +238,9 @@ export class ClientResolver {
         include: {
           programs: {
             include: {
-              program: {
+              services: {
                 include: {
-                  services: {
-                    include: {
-                      service: true
-                    }
-                  }
+                  service: true
                 }
               }
             }
@@ -161,13 +269,9 @@ export class ClientResolver {
         include: {
           programs: {
             include: {
-              program: {
+              services: {
                 include: {
-                  services: {
-                    include: {
-                      service: true
-                    }
-                  }
+                  service: true
                 }
               }
             }
