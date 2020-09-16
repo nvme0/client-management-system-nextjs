@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -61,29 +61,32 @@ model Service {
 }
 
 model Program {
-  id        String             @id
-  name      String
-  notes     String?
-  createdAt DateTime           @default(now())
-  updatedAt DateTime           @default(now())
+  id               String             @id
+  name             String
+  notes            String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @default(now())
   //
-  user      User?              @relation(fields: [userId], references: [id])
-  userId    String?
+  user             User?              @relation(fields: [userId], references: [id])
+  userId           String?
   //
-  services  ServiceToProgram[]
+  services         ServiceToProgram[]
+  programToClients ProgramToClient[]
 }
 
 model ProgramToClient {
-  id        String                     @id
-  name      String
-  notes     String?
-  createdAt DateTime                   @default(now())
-  updatedAt DateTime                   @default(now())
+  id              String                     @id
+  name            String
+  notes           String?
+  createdAt       DateTime                   @default(now())
+  updatedAt       DateTime                   @default(now())
   //
-  services  ServiceToProgramToClient[]
+  services        ServiceToProgramToClient[]
   //
-  client    Client                     @relation(fields: [clientId], references: [id])
-  clientId  String
+  parentProgram   Program                    @relation(fields: [parentProgramId], references: [id])
+  parentProgramId String
+  client          Client                     @relation(fields: [clientId], references: [id])
+  clientId        String
 }
 
 model Client {

@@ -1,0 +1,20 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "DeleteField",
+      "model": "Program",
+      "field": "programToClients"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "ProgramToClient",
+      "field": "parentProgram"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "ProgramToClient",
+      "field": "parentProgramId"
+    }
+  ]
+}

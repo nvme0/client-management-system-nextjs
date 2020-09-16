@@ -1,0 +1,354 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateModel",
+      "model": "ServiceToProgramToClient"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ServiceToProgramToClient",
+      "field": "quantity",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ServiceToProgramToClient",
+      "field": "booked",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ServiceToProgramToClient",
+      "field": "used",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ServiceToProgramToClient",
+      "field": "createdAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "ServiceToProgramToClient",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "ServiceToProgramToClient",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ServiceToProgramToClient",
+      "field": "updatedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "ServiceToProgramToClient",
+          "field": "updatedAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "ServiceToProgramToClient",
+          "field": "updatedAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ServiceToProgramToClient",
+      "field": "service",
+      "type": "Service",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "ServiceToProgramToClient",
+          "field": "service"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "ServiceToProgramToClient",
+          "field": "service"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[serviceId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "ServiceToProgramToClient",
+          "field": "service"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ServiceToProgramToClient",
+      "field": "serviceId",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ServiceToProgramToClient",
+      "field": "program",
+      "type": "ProgramToClient",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "ServiceToProgramToClient",
+          "field": "program"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "ServiceToProgramToClient",
+          "field": "program"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[programId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "ServiceToProgramToClient",
+          "field": "program"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ServiceToProgramToClient",
+      "field": "programId",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "ServiceToProgramToClient"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Model",
+          "model": "ServiceToProgramToClient"
+        },
+        "directive": "id"
+      },
+      "argument": "",
+      "value": "[serviceId, programId]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Service",
+      "field": "serviceToProgramToClients",
+      "type": "ServiceToProgramToClient",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Program",
+      "field": "programToClients",
+      "type": "ProgramToClient",
+      "arity": "List"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Program",
+      "field": "clients"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ProgramToClient",
+      "field": "id",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "ProgramToClient",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "ProgramToClient",
+      "field": "name",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ProgramToClient",
+      "field": "notes",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ProgramToClient",
+      "field": "services",
+      "type": "ServiceToProgramToClient",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ProgramToClient",
+      "field": "parentProgram",
+      "type": "Program",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "ProgramToClient",
+          "field": "parentProgram"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "ProgramToClient",
+          "field": "parentProgram"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[parentProgramId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "ProgramToClient",
+          "field": "parentProgram"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ProgramToClient",
+      "field": "parentProgramId",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "ProgramToClient",
+      "field": "program"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "ProgramToClient",
+      "field": "programId"
+    },
+    {
+      "tag": "DeleteDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "ProgramToClient"
+        },
+        "directive": "id"
+      }
+    }
+  ]
+}
