@@ -102,13 +102,19 @@ input ProgramInput {
 
 type ProgramToClient {
   createdAt: DateTime!
-  program: Program!
+  id: ID!
+  name: String!
+  notes: String
+  services: [ServiceToProgramToClient!]
   updatedAt: DateTime!
 }
 
 input ProgramToClientInput {
   createdAt: DateTime!
-  program: ProgramInput!
+  id: ID!
+  name: String!
+  notes: String
+  services: [ServiceToProgramToClientInput!] = []
   updatedAt: DateTime!
 }
 
@@ -152,6 +158,24 @@ input ServiceToProgramInput {
   quantity: Int!
   service: ServiceInput!
   updatedAt: DateTime!
+}
+
+type ServiceToProgramToClient {
+  booked: Int!
+  createdAt: DateTime!
+  quantity: Int!
+  service: Service!
+  updatedAt: DateTime!
+  used: Int!
+}
+
+input ServiceToProgramToClientInput {
+  booked: Int!
+  createdAt: DateTime!
+  quantity: Int!
+  service: ServiceInput!
+  updatedAt: DateTime!
+  used: Int!
 }
 
 type User {

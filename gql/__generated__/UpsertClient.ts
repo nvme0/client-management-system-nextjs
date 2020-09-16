@@ -9,7 +9,7 @@ import { ClientInput } from "./globalTypes";
 // GraphQL mutation operation: UpsertClient
 // ====================================================
 
-export interface UpsertClient_upsertClient_programs_program_services_service {
+export interface UpsertClient_upsertClient_programs_services_service {
   id: string;
   name: string;
   duration: string | null;
@@ -19,24 +19,20 @@ export interface UpsertClient_upsertClient_programs_program_services_service {
   updatedAt: GqlDateTime;
 }
 
-export interface UpsertClient_upsertClient_programs_program_services {
+export interface UpsertClient_upsertClient_programs_services {
   quantity: number;
-  service: UpsertClient_upsertClient_programs_program_services_service;
-  createdAt: GqlDateTime;
-  updatedAt: GqlDateTime;
-}
-
-export interface UpsertClient_upsertClient_programs_program {
-  id: string;
-  name: string;
-  notes: string | null;
-  services: UpsertClient_upsertClient_programs_program_services[] | null;
+  service: UpsertClient_upsertClient_programs_services_service;
+  booked: number;
+  used: number;
   createdAt: GqlDateTime;
   updatedAt: GqlDateTime;
 }
 
 export interface UpsertClient_upsertClient_programs {
-  program: UpsertClient_upsertClient_programs_program;
+  id: string;
+  name: string;
+  notes: string | null;
+  services: UpsertClient_upsertClient_programs_services[] | null;
   createdAt: GqlDateTime;
   updatedAt: GqlDateTime;
 }

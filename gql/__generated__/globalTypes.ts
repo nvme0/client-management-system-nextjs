@@ -45,7 +45,10 @@ export interface ProgramInput {
 
 export interface ProgramToClientInput {
   createdAt: GqlDateTime;
-  program: ProgramInput;
+  id: string;
+  name: string;
+  notes?: string | null;
+  services?: ServiceToProgramToClientInput[] | null;
   updatedAt: GqlDateTime;
 }
 
@@ -64,6 +67,15 @@ export interface ServiceToProgramInput {
   quantity: number;
   service: ServiceInput;
   updatedAt: GqlDateTime;
+}
+
+export interface ServiceToProgramToClientInput {
+  booked: number;
+  createdAt: GqlDateTime;
+  quantity: number;
+  service: ServiceInput;
+  updatedAt: GqlDateTime;
+  used: number;
 }
 
 //==============================================================

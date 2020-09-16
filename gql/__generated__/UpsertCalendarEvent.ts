@@ -19,7 +19,7 @@ export interface UpsertCalendarEvent_upsertCalendarEvent_service {
   updatedAt: GqlDateTime;
 }
 
-export interface UpsertCalendarEvent_upsertCalendarEvent_client_programs_program_services_service {
+export interface UpsertCalendarEvent_upsertCalendarEvent_client_programs_services_service {
   id: string;
   name: string;
   duration: string | null;
@@ -29,24 +29,20 @@ export interface UpsertCalendarEvent_upsertCalendarEvent_client_programs_program
   updatedAt: GqlDateTime;
 }
 
-export interface UpsertCalendarEvent_upsertCalendarEvent_client_programs_program_services {
+export interface UpsertCalendarEvent_upsertCalendarEvent_client_programs_services {
   quantity: number;
-  service: UpsertCalendarEvent_upsertCalendarEvent_client_programs_program_services_service;
-  createdAt: GqlDateTime;
-  updatedAt: GqlDateTime;
-}
-
-export interface UpsertCalendarEvent_upsertCalendarEvent_client_programs_program {
-  id: string;
-  name: string;
-  notes: string | null;
-  services: UpsertCalendarEvent_upsertCalendarEvent_client_programs_program_services[] | null;
+  service: UpsertCalendarEvent_upsertCalendarEvent_client_programs_services_service;
+  booked: number;
+  used: number;
   createdAt: GqlDateTime;
   updatedAt: GqlDateTime;
 }
 
 export interface UpsertCalendarEvent_upsertCalendarEvent_client_programs {
-  program: UpsertCalendarEvent_upsertCalendarEvent_client_programs_program;
+  id: string;
+  name: string;
+  notes: string | null;
+  services: UpsertCalendarEvent_upsertCalendarEvent_client_programs_services[] | null;
   createdAt: GqlDateTime;
   updatedAt: GqlDateTime;
 }

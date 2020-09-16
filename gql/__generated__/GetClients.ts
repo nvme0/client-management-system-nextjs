@@ -7,7 +7,7 @@
 // GraphQL query operation: GetClients
 // ====================================================
 
-export interface GetClients_getClients_programs_program_services_service {
+export interface GetClients_getClients_programs_services_service {
   id: string;
   name: string;
   duration: string | null;
@@ -17,24 +17,20 @@ export interface GetClients_getClients_programs_program_services_service {
   updatedAt: GqlDateTime;
 }
 
-export interface GetClients_getClients_programs_program_services {
+export interface GetClients_getClients_programs_services {
   quantity: number;
-  service: GetClients_getClients_programs_program_services_service;
-  createdAt: GqlDateTime;
-  updatedAt: GqlDateTime;
-}
-
-export interface GetClients_getClients_programs_program {
-  id: string;
-  name: string;
-  notes: string | null;
-  services: GetClients_getClients_programs_program_services[] | null;
+  service: GetClients_getClients_programs_services_service;
+  booked: number;
+  used: number;
   createdAt: GqlDateTime;
   updatedAt: GqlDateTime;
 }
 
 export interface GetClients_getClients_programs {
-  program: GetClients_getClients_programs_program;
+  id: string;
+  name: string;
+  notes: string | null;
+  services: GetClients_getClients_programs_services[] | null;
   createdAt: GqlDateTime;
   updatedAt: GqlDateTime;
 }
