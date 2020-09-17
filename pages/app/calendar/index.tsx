@@ -12,6 +12,7 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import moment from "moment";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
+import AppLayout from "layouts/AppLayout";
 import CreateEventModal from "components/modals/CalendarEventModal/CreateEventModal";
 import EditEventModal from "components/modals/CalendarEventModal/EditEventModal";
 import { useQuery, useMutation } from "lib/outbox";
@@ -395,4 +396,5 @@ export const Calendar = () => {
   );
 };
 
+Calendar.getLayout = (page) => <AppLayout>{page}</AppLayout>;
 export default Calendar;

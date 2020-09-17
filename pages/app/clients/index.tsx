@@ -4,6 +4,7 @@ import { Tabs, TabPanel, TabList, TabPanels } from "@chakra-ui/core";
 import { v4 as uuid } from "uuid";
 import { queryCache } from "react-query";
 
+import AppLayout from "layouts/AppLayout";
 import ClientList from "./ClientList";
 import Progress from "./Progress";
 import Tab from "./components/Tab";
@@ -238,5 +239,7 @@ export const Clients = () => {
     </>
   );
 };
+
+Clients.getLayout = (page) => <AppLayout>{page}</AppLayout>;
 
 export default Clients;

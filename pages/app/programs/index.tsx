@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import AppLayout from "layouts/AppLayout";
 import Program from "./program";
 import LoginModal from "components/modals/LoginModal";
 import { useLoggedInState } from "lib/loggedInState";
@@ -27,5 +28,7 @@ export const Programs = () => {
     </>
   );
 };
+
+Programs.getLayout = (page) => <AppLayout>{page}</AppLayout>;
 
 export default Programs;

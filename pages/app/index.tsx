@@ -1,5 +1,6 @@
 import { Heading } from "@chakra-ui/core";
 
+import AppLayout from "layouts/AppLayout";
 import Header from "components/Header";
 
 const Index = () => {
@@ -10,5 +11,7 @@ const Index = () => {
     </>
   );
 };
+
+Index.getLayout = (page) => <AppLayout>{page}</AppLayout>;
 
 export default Index;
