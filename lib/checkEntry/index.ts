@@ -1,5 +1,5 @@
 export interface Entry {
-  userId?: string;
+  userId?: string | null;
   updatedAt: Date;
 }
 

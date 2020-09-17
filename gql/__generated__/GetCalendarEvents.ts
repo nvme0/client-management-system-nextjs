@@ -17,6 +17,34 @@ export interface GetCalendarEvents_getCalendarEvents_service {
   updatedAt: GqlDateTime;
 }
 
+export interface GetCalendarEvents_getCalendarEvents_client_programs_services_service {
+  id: string;
+  name: string;
+  duration: string | null;
+  expires: GqlDateTime | null;
+  notes: string | null;
+  createdAt: GqlDateTime;
+  updatedAt: GqlDateTime;
+}
+
+export interface GetCalendarEvents_getCalendarEvents_client_programs_services {
+  quantity: number;
+  service: GetCalendarEvents_getCalendarEvents_client_programs_services_service;
+  booked: number;
+  used: number;
+  createdAt: GqlDateTime;
+  updatedAt: GqlDateTime;
+}
+
+export interface GetCalendarEvents_getCalendarEvents_client_programs {
+  id: string;
+  name: string;
+  notes: string | null;
+  services: GetCalendarEvents_getCalendarEvents_client_programs_services[] | null;
+  createdAt: GqlDateTime;
+  updatedAt: GqlDateTime;
+}
+
 export interface GetCalendarEvents_getCalendarEvents_client {
   id: string;
   firstName: string;
@@ -25,6 +53,7 @@ export interface GetCalendarEvents_getCalendarEvents_client {
   phone: string | null;
   address: string | null;
   notes: string | null;
+  programs: GetCalendarEvents_getCalendarEvents_client_programs[] | null;
   createdAt: GqlDateTime;
   updatedAt: GqlDateTime;
 }

@@ -7,15 +7,6 @@
 // GraphQL query operation: GetPrograms
 // ====================================================
 
-export interface GetPrograms_getPrograms_categories {
-  id: string;
-  name: string;
-  for: string | null;
-  notes: string | null;
-  createdAt: GqlDateTime;
-  updatedAt: GqlDateTime;
-}
-
 export interface GetPrograms_getPrograms_services_service {
   id: string;
   name: string;
@@ -39,7 +30,6 @@ export interface GetPrograms_getPrograms {
   notes: string | null;
   createdAt: GqlDateTime;
   updatedAt: GqlDateTime;
-  categories: GetPrograms_getPrograms_categories[] | null;
   services: GetPrograms_getPrograms_services[] | null;
 }
 

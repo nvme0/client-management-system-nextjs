@@ -19,7 +19,19 @@ export class CalendarEventResolver {
       return await prisma.calendarEvent.findMany({
         where: { userId },
         include: {
-          client: true,
+          client: {
+            include: {
+              programs: {
+                include: {
+                  services: {
+                    include: {
+                      service: true
+                    }
+                  }
+                }
+              }
+            }
+          },
           service: true
         }
       });
@@ -42,7 +54,19 @@ export class CalendarEventResolver {
       const entry = await prisma.calendarEvent.findOne({
         where: { id: calendarEvent.id },
         include: {
-          client: true,
+          client: {
+            include: {
+              programs: {
+                include: {
+                  services: {
+                    include: {
+                      service: true
+                    }
+                  }
+                }
+              }
+            }
+          },
           service: true
         }
       });
@@ -105,7 +129,19 @@ export class CalendarEventResolver {
           id: calendarEvent.id
         },
         include: {
-          client: true,
+          client: {
+            include: {
+              programs: {
+                include: {
+                  services: {
+                    include: {
+                      service: true
+                    }
+                  }
+                }
+              }
+            }
+          },
           service: true
         }
       });
@@ -124,7 +160,7 @@ export class CalendarEventResolver {
     @CurrentUser() userId: string,
     @Arg("id") id: string,
     @Arg("deletedAt") deletedAt: Date
-  ): Promise<Boolean> {
+  ): Promise<boolean> {
     try {
       const entry = await prisma.calendarEvent.findOne({
         where: { id }

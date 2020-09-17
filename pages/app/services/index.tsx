@@ -4,6 +4,7 @@ import { Stack } from "@chakra-ui/core";
 import { v4 as uuid } from "uuid";
 import { queryCache } from "react-query";
 
+import AppLayout from "layouts/AppLayout";
 import { Button } from "components/Button";
 import { PaginatedTable } from "components/Table";
 import CreateServiceModal from "components/modals/ServiceModal/CreateServiceModal";
@@ -218,5 +219,7 @@ export const Services = () => {
     </>
   );
 };
+
+Services.getLayout = (page) => <AppLayout>{page}</AppLayout>;
 
 export default Services;

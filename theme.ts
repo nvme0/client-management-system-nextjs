@@ -1,11 +1,11 @@
 import defaultTheme, { Theme } from "@chakra-ui/theme";
+import { extendTheme } from "@chakra-ui/core";
 
 const mode = (lightMode: string, darkMode: string) => (props: {
   colorMode: "light" | "dark";
 }) => (props.colorMode === "dark" ? darkMode : lightMode);
 
-export const theme: Theme = {
-  ...defaultTheme,
+export const theme: Theme = extendTheme({
   styles: {
     global: (props) => ({
       body: {
@@ -60,14 +60,11 @@ export const theme: Theme = {
       }
     })
   },
-  colors: {
-    ...defaultTheme.colors
-  },
   fonts: {
     ...defaultTheme.fonts,
     body: "Source Sans Pro, " + defaultTheme.fonts.body,
     heading: "Source Sans Pro, " + defaultTheme.fonts.heading
   }
-};
+});
 
 export default theme;

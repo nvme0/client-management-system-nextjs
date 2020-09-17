@@ -1,10 +1,10 @@
-import { queryCache, QueryKeyOrPredicateFn } from "react-query";
+import { queryCache, QueryKey } from "react-query";
 
 export const optimisticUpsert = <
   D extends { id: string },
   R = { [key: string]: [] }
 >(
-  key: QueryKeyOrPredicateFn,
+  key: QueryKey,
   input: D,
   objectName: string,
   __typename: string
@@ -37,7 +37,7 @@ export const optimisticDelete = <
   D extends { id: string },
   R = { [key: string]: [] }
 >(
-  key: QueryKeyOrPredicateFn,
+  key: QueryKey,
   id: string,
   objectName: string
 ) => {

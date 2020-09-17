@@ -135,7 +135,7 @@ exports[`Paginated Table renders 1`] = `
                       class="chakra-select__wrapper css-xzaah7"
                     >
                       <select
-                        class="chakra-select css-18vftxc"
+                        class="chakra-select css-17atxkb"
                       >
                         <option
                           value="10"

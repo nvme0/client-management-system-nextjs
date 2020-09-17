@@ -23,7 +23,7 @@ module.exports = {
     ecmaFeatures: {
       jsx: true
     },
-    ecmaVersion: 2018,
+    ecmaVersion: 2020,
     sourceType: "module"
   },
   rules: {
@@ -35,31 +35,16 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/ban-ts-ignore": "off",
     // more config...
-    "@typescript-eslint/indent": "off",
-    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
-    "@typescript-eslint/no-var-requires": "off",
-    "@typescript-eslint/camelcase": 1,
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-unused-vars": ["off"],
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "react/no-unescaped-entities": "off",
     "react/display-name": "off",
     "react/jsx-key": "off",
-    "react/jsx-space-before-closing": ["error", "always"],
-    "react/jsx-equals-spacing": ["error", "never"],
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
-    "no-console": ["warn"],
-    "no-alert": ["warn"],
-    "space-before-function-paren": [
-      "error",
-      {
-        anonymous: "never",
-        named: "never",
-        asyncArrow: "always"
-      }
-    ],
-    "spaced-comment": ["error", "always", { markers: ["="] }],
-    "object-curly-spacing": ["error", "always"],
-    "space-in-parens": ["error", "never"],
-    "comma-spacing": ["error", { before: false, after: true }],
-    camelcase: [1, { properties: "always" }]
+    "react-hooks/exhaustive-deps": "off",
+    camelcase: ["off", { properties: "always" }],
+    "@typescript-eslint/camelcase": "off"
   },
   globals: { React: "writable" }
 };

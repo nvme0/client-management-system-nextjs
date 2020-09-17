@@ -76,7 +76,7 @@ export class ServiceResolver {
     @CurrentUser() userId: string,
     @Arg("id") id: string,
     @Arg("deletedAt") deletedAt: Date
-  ): Promise<Boolean> {
+  ): Promise<boolean> {
     try {
       const entry = await prisma.service.findOne({ where: { id } });
       if (!checkEntryForDelete<Service>(deletedAt, { entry, userId })) {

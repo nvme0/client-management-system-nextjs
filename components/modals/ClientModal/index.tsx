@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+import { TableOptions } from "react-table";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import {
@@ -17,17 +19,31 @@ import {
   FormHelperText,
   Input,
   Stack,
-  Textarea
+  Textarea,
+  Box,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel
 } from "@chakra-ui/core";
-import { GetClients_getClients as Client } from "gql/__generated__/GetClients";
+
 import { Button } from "components/Button";
+import { BasicTable } from "components/Table";
+import {
+  GetClients_getClients as Client,
+  GetClients_getClients_programs as ProgramToClient
+} from "gql/__generated__/GetClients";
+import { GetPrograms_getPrograms as Program } from "gql/__generated__/GetPrograms";
+import ProgramAddItem from "../ProgramModal/components/ProgramAddItem";
 
 export const schema = yup.object().shape({
   firstName: yup.string().min(1).max(255).required(),
   lastName: yup.string().min(0).max(255),
   email: yup.string().min(0).max(255).email(),
   phone: yup.string().min(0).max(255),
-  notes: yup.string().max(255)
+  notes: yup.string().max(255),
+  programs: yup.array()
 });
 
 export interface FormInputState {
@@ -37,10 +53,12 @@ export interface FormInputState {
   phone: string;
   address: string;
   notes: string;
+  programs: ProgramToClient[];
 }
 
 export interface ClientModalProps {
   client: Client;
+  programs: Program[];
   modalProps: ModalProps;
   handleSave: (client: Client) => void;
   handleDelete?: () => void;
@@ -55,6 +73,7 @@ export interface Props extends ClientModalProps {
 
 const ClientModal = ({
   client,
+  programs,
   modalProps,
   handleSave,
   handleDelete,
@@ -67,7 +86,8 @@ const ClientModal = ({
       address: client.address || "",
       email: client.email || "",
       phone: client.phone || "",
-      notes: client.notes || ""
+      notes: client.notes || "",
+      programs: client.programs || []
     },
     validationSchema: schema,
     validateOnBlur: true,
@@ -81,12 +101,64 @@ const ClientModal = ({
     }
   });
 
+  const addProgram = (program: ProgramToClient) => {
+    formik.setValues({
+      ...formik.values,
+      programs: [...formik.values.programs, program]
+    });
+  };
+
+  const removeProgram = (program: ProgramToClient) => {
+    formik.setValues({
+      ...formik.values,
+      programs: formik.values.programs.filter(({ id }) => id !== program.id)
+    });
+  };
+
+  const programsData = useMemo<TableOptions<ProgramToClient>["data"]>(
+    () => formik.values.programs || [],
+    [formik.values.programs]
+  );
+
+  const programsColumns = useMemo<TableOptions<Program>["columns"]>(
+    () => [
+      {
+        Header: "Name",
+        accessor: "name"
+      },
+      {
+        id: "actionButtonColumn",
+        Cell: ({ row }) => (
+          <Box {...{ justifyContent: "right", display: "flex" }}>
+            <Button
+              {...{
+                size: "sm",
+                templateStyle: "danger-outline",
+                onClick: () => removeProgram(row.original)
+              }}
+            >
+              Delete
+            </Button>
+          </Box>
+        )
+      }
+    ],
+    [formik.values.programs]
+  );
+
+  const initialState = {
+    sortBy: [
+      {
+        id: "name",
+        desc: false
+      }
+    ]
+  };
+
   return (
     <Modal
       {...{
         ...modalProps,
-        scrollBehavior: "inside",
-        isCentered: true,
         size: "3xl"
       }}
     >
@@ -105,95 +177,175 @@ const ClientModal = ({
               }}
             />
             <ModalBody>
-              <Stack {...{ spacing: 4 }}>
-                <FormControl
-                  {...{
-                    isRequired: true,
-                    isInvalid:
-                      formik.touched.firstName && !!formik.errors.firstName
-                  }}
-                >
-                  <FormLabel>First Name</FormLabel>
-                  <Input
-                    {...{
-                      placeholder: "First name",
-                      ...formik.getFieldProps("firstName")
-                    }}
-                  />
-                  <FormErrorMessage>{formik.errors.firstName}</FormErrorMessage>
-                </FormControl>
-                <FormControl
-                  {...{
-                    isInvalid:
-                      formik.touched.lastName && !!formik.errors.lastName
-                  }}
-                >
-                  <FormLabel>Last Name</FormLabel>
-                  <Input
-                    {...{
-                      placeholder: "Last name",
-                      ...formik.getFieldProps("lastName")
-                    }}
-                  />
-                  <FormErrorMessage>{formik.errors.lastName}</FormErrorMessage>
-                </FormControl>
-                <FormControl
-                  {...{
-                    isInvalid: formik.touched.email && !!formik.errors.email
-                  }}
-                >
-                  <FormLabel>Contact Email</FormLabel>
-                  <Input
-                    {...{
-                      placeholder: "Email",
-                      ...formik.getFieldProps("email")
-                    }}
-                  />
-                  <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
-                </FormControl>
-                <FormControl
-                  {...{
-                    isInvalid: formik.touched.phone && !!formik.errors.phone
-                  }}
-                >
-                  <FormLabel>Contact Number</FormLabel>
-                  <Input
-                    {...{
-                      placeholder: "Phone number",
-                      ...formik.getFieldProps("phone")
-                    }}
-                  />
-                  <FormErrorMessage>{formik.errors.phone}</FormErrorMessage>
-                </FormControl>
-                <FormControl
-                  {...{
-                    isInvalid: formik.touched.address && !!formik.errors.address
-                  }}
-                >
-                  <FormLabel>Address</FormLabel>
-                  <Input
-                    {...{
-                      placeholder: "Address",
-                      ...formik.getFieldProps("address")
-                    }}
-                  />
-                  <FormErrorMessage>{formik.errors.address}</FormErrorMessage>
-                </FormControl>
-                <FormControl
-                  {...{
-                    isInvalid: formik.touched.notes && !!formik.errors.notes
-                  }}
-                >
-                  <FormLabel>Notes</FormLabel>
-                  <Textarea
-                    {...{
-                      rows: 4,
-                      ...formik.getFieldProps("notes")
-                    }}
-                  />
-                  <FormErrorMessage>{formik.errors.notes}</FormErrorMessage>
-                </FormControl>
-              </Stack>
+              <Tabs>
+                <TabList>
+                  <Tab>Info</Tab>
+                  <Tab>Programs</Tab>
+                  <Tab>Notes</Tab>
+                </TabList>
+                <TabPanels>
+                  <TabPanel {...{ px: 0 }}>
+                    <Stack {...{ spacing: 4 }}>
+                      <FormControl
+                        {...{
+                          isRequired: true,
+                          isInvalid:
+                            formik.touched.firstName &&
+                            !!formik.errors.firstName
+                        }}
+                      >
+                        <FormLabel>First Name</FormLabel>
+                        <Input
+                          {...{
+                            placeholder: "First name",
+                            ...formik.getFieldProps("firstName")
+                          }}
+                        />
+                        <FormErrorMessage>
+                          {formik.errors.firstName}
+                        </FormErrorMessage>
+                      </FormControl>
+                      <FormControl
+                        {...{
+                          isInvalid:
+                            formik.touched.lastName && !!formik.errors.lastName
+                        }}
+                      >
+                        <FormLabel>Last Name</FormLabel>
+                        <Input
+                          {...{
+                            placeholder: "Last name",
+                            ...formik.getFieldProps("lastName")
+                          }}
+                        />
+                        <FormErrorMessage>
+                          {formik.errors.lastName}
+                        </FormErrorMessage>
+                      </FormControl>
+                      <FormControl
+                        {...{
+                          isInvalid:
+                            formik.touched.email && !!formik.errors.email
+                        }}
+                      >
+                        <FormLabel>Contact Email</FormLabel>
+                        <Input
+                          {...{
+                            placeholder: "Email",
+                            ...formik.getFieldProps("email")
+                          }}
+                        />
+                        <FormErrorMessage>
+                          {formik.errors.email}
+                        </FormErrorMessage>
+                      </FormControl>
+                      <FormControl
+                        {...{
+                          isInvalid:
+                            formik.touched.phone && !!formik.errors.phone
+                        }}
+                      >
+                        <FormLabel>Contact Number</FormLabel>
+                        <Input
+                          {...{
+                            placeholder: "Phone number",
+                            ...formik.getFieldProps("phone")
+                          }}
+                        />
+                        <FormErrorMessage>
+                          {formik.errors.phone}
+                        </FormErrorMessage>
+                      </FormControl>
+                      <FormControl
+                        {...{
+                          isInvalid:
+                            formik.touched.address && !!formik.errors.address
+                        }}
+                      >
+                        <FormLabel>Address</FormLabel>
+                        <Input
+                          {...{
+                            placeholder: "Address",
+                            ...formik.getFieldProps("address")
+                          }}
+                        />
+                        <FormErrorMessage>
+                          {formik.errors.address}
+                        </FormErrorMessage>
+                      </FormControl>
+                    </Stack>
+                  </TabPanel>
+                  <TabPanel {...{ px: 0 }}>
+                    <Stack {...{ spacing: 4 }}>
+                      <FormControl
+                        {...{
+                          isRequired: false,
+                          isInvalid:
+                            formik.touched.programs && !!formik.errors.programs
+                        }}
+                      >
+                        <Stack>
+                          <BasicTable
+                            {...{
+                              data: programsData,
+                              columns: programsColumns,
+                              initialState,
+                              sortable: true
+                            }}
+                          />
+                          <ProgramAddItem
+                            {...{
+                              addItem: (program: Program) => {
+                                addProgram({
+                                  ...program,
+                                  services:
+                                    program.services?.map((service) => ({
+                                      ...service,
+                                      booked: 0,
+                                      used: 0
+                                    })) || [],
+                                  createdAt: new Date().toISOString(),
+                                  updatedAt: new Date().toISOString()
+                                });
+                              },
+                              items: programs.filter(
+                                ({ id }) =>
+                                  !formik.values.programs?.find(
+                                    (program) => id === program.id
+                                  )
+                              )
+                            }}
+                          />
+                          <FormErrorMessage>
+                            {formik.errors.programs}
+                          </FormErrorMessage>
+                        </Stack>
+                      </FormControl>
+                    </Stack>
+                  </TabPanel>
+                  <TabPanel {...{ px: 0 }}>
+                    <Stack {...{ spacing: 4 }}>
+                      <FormControl
+                        {...{
+                          isInvalid:
+                            formik.touched.notes && !!formik.errors.notes
+                        }}
+                      >
+                        <FormLabel>Notes</FormLabel>
+                        <Textarea
+                          {...{
+                            rows: 4,
+                            ...formik.getFieldProps("notes")
+                          }}
+                        />
+                        <FormErrorMessage>
+                          {formik.errors.notes}
+                        </FormErrorMessage>
+                      </FormControl>
+                    </Stack>
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
             </ModalBody>
             <ModalFooter {...{ justifyContent: "space-between" }}>
               <div>

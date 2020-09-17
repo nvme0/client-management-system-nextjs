@@ -1,15 +1,15 @@
-import { Stack, Badge } from "@chakra-ui/core";
+import { Flex, Badge } from "@chakra-ui/core";
 
 import { useOnlineState } from "lib/network";
 
 const Navbar = ({ children }) => {
   const { isOnline } = useOnlineState();
   return (
-    <Stack
+    <Flex
       {...{
+        direction: "row",
         justifyContent: "flex-end",
         alignItems: "center",
-        direction: "row",
         px: { base: 1, sm: 4 },
         py: 1,
         mb: {
@@ -27,7 +27,7 @@ const Navbar = ({ children }) => {
         <Badge {...{ colorScheme: "red", variant: "outline" }}>Offline</Badge>
       )}
       {children}
-    </Stack>
+    </Flex>
   );
 };
 

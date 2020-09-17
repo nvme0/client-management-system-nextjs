@@ -1,11 +1,13 @@
 import { useState, useMemo } from "react";
 import { TableOptions } from "react-table";
-import { Stack } from "@chakra-ui/core";
+import { Tabs, TabPanel, TabList, TabPanels } from "@chakra-ui/core";
 import { v4 as uuid } from "uuid";
 import { queryCache } from "react-query";
 
-import { Button } from "components/Button";
-import { PaginatedTable } from "components/Table";
+import AppLayout from "layouts/AppLayout";
+import ClientList from "./ClientList";
+import Progress from "./Progress";
+import Tab from "./components/Tab";
 import CreateClientModal from "components/modals/ClientModal/CreateClientModal";
 import EditClientModal from "components/modals/ClientModal/EditClientModal";
 import { useQuery, useMutation } from "lib/outbox";
@@ -16,10 +18,12 @@ import {
   GQL_UPSERT_CLIENT,
   GQL_DELETE_CLIENT
 } from "gql/Client";
+import { GQL_GET_PROGRAMS } from "gql/Program";
 import {
   GetClients,
   GetClients_getClients as Client
 } from "gql/__generated__/GetClients";
+import { GetPrograms } from "gql/__generated__/GetPrograms";
 import { DeleteClient } from "gql/__generated__/DeleteClient";
 import { optimisticUpsert, optimisticDelete } from "lib/optimisticHelpers";
 import LoginModal from "components/modals/LoginModal";
@@ -38,6 +42,13 @@ export const Clients = () => {
     GQL_GET_CLIENTS,
     {},
     { initialData: { getClients: [] } }
+  );
+
+  const { data: programs } = useQuery<GetPrograms>(
+    QueryKeys.GET_PROGRAMS,
+    GQL_GET_PROGRAMS,
+    {},
+    { initialData: { getPrograms: [] } }
   );
 
   const [upsertClient] = useMutation<
@@ -135,9 +146,11 @@ export const Clients = () => {
               email: "",
               phone: "",
               notes: "",
+              programs: [],
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString()
             },
+            programs: programs?.getPrograms || [],
             modalProps: {
               isOpen: true,
               onClose: () => setState({ ...state, Modal: undefined })
@@ -163,6 +176,7 @@ export const Clients = () => {
         <EditClientModal
           {...{
             client,
+            programs: programs?.getPrograms || [],
             modalProps: {
               isOpen: true,
               onClose: () => setState({ ...state, Modal: undefined })
@@ -189,36 +203,30 @@ export const Clients = () => {
 
   return (
     <>
-      <Stack {...{ spacing: 4 }}>
-        <Stack>
-          <h2 className="prose">Clients</h2>
-        </Stack>
+      <Tabs>
+        <TabList>
+          <Tab>List</Tab>
+          <Tab>Progress</Tab>
+        </TabList>
 
-        <Stack>
-          <Stack {...{ isInline: true, justifyContent: "space-between" }}>
-            <Button
+        <TabPanels>
+          <TabPanel {...{ px: 0 }}>
+            <ClientList
               {...{
-                templateStyle: "primary-outline",
-                onClick: handleCreateClient
+                data,
+                columns,
+                initialState,
+                handleCreateClient,
+                handleSelectClient
               }}
-            >
-              New Client
-            </Button>
-          </Stack>
-        </Stack>
-      </Stack>
+            />
+          </TabPanel>
 
-      <PaginatedTable
-        {...{
-          data,
-          columns,
-          initialState,
-          sortable: true,
-          tableProps: { py: 4 },
-          rowSelectCallback: (original: Client) => () =>
-            handleSelectClient(original)
-        }}
-      />
+          <TabPanel {...{ px: 0 }}>
+            <Progress {...{ clients: clients?.getClients, upsertClient }} />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
       {state.Modal && <state.Modal />}
       <LoginModal
         {...{
@@ -231,5 +239,7 @@ export const Clients = () => {
     </>
   );
 };
+
+Clients.getLayout = (page) => <AppLayout>{page}</AppLayout>;
 
 export default Clients;

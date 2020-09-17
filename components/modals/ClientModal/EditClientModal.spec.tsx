@@ -1,10 +1,15 @@
 import { render, cleanup, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
+import preloadAll from "jest-next-dynamic";
 
 import EditClientModal from "./EditClientModal";
 import { ClientModalProps } from ".";
 
 describe("Edit Client Modal", () => {
+  beforeAll(async () => {
+    await preloadAll();
+  });
+
   afterEach(cleanup);
 
   let props: ClientModalProps;
@@ -19,9 +24,11 @@ describe("Edit Client Modal", () => {
         email: "",
         phone: "",
         notes: "",
+        programs: [],
         createdAt: "2019-10-10T00:53:43.549Z",
         updatedAt: "2019-10-10T00:53:43.549Z"
       },
+      programs: [],
       modalProps: {
         isOpen: true,
         onClose: jest.fn()

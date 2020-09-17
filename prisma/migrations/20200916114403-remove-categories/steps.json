@@ -1,0 +1,19 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "DeleteModel",
+      "model": "Category"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "User",
+      "field": "Category"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Program",
+      "field": "categories"
+    }
+  ]
+}

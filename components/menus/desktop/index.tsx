@@ -9,7 +9,8 @@ import {
 } from "react-icons/fi";
 import {
   Button,
-  Stack,
+  Flex,
+  Spacer,
   keyframes,
   InterpolationWithTheme
 } from "@chakra-ui/core";
@@ -44,8 +45,9 @@ const DesktopMenu = () => {
   };
 
   return (
-    <Stack
+    <Flex
       {...{
+        direction: "column",
         h: "100vh",
         backgroundColor: "#FFF",
         pb: {
@@ -57,8 +59,9 @@ const DesktopMenu = () => {
         }
       }}
     >
-      <Stack
+      <Flex
         {...{
+          direction: "column",
           position: "sticky",
           top: 0,
           pt: "26px"
@@ -85,6 +88,7 @@ const DesktopMenu = () => {
             Calendar
           </Button>
         </Link>
+        <Spacer />
         <Link
           {...{
             href: `/app/clients`
@@ -106,6 +110,7 @@ const DesktopMenu = () => {
             Clients
           </Button>
         </Link>
+        <Spacer />
         <Link
           {...{
             href: `/app/services`
@@ -127,6 +132,7 @@ const DesktopMenu = () => {
             Services
           </Button>
         </Link>
+        <Spacer />
         <Link
           {...{
             href: `/app/programs`
@@ -148,6 +154,7 @@ const DesktopMenu = () => {
             Programs
           </Button>
         </Link>
+        <Spacer />
         <Button
           {...{
             "aria-label": "Expand",
@@ -162,8 +169,8 @@ const DesktopMenu = () => {
             onClick: () => setIsOpen(!isOpen)
           }}
         />
-      </Stack>
-    </Stack>
+      </Flex>
+    </Flex>
   );
 };
 

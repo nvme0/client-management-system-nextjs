@@ -104,8 +104,6 @@ export const CalendarEventModal = ({
     <Modal
       {...{
         ...modalProps,
-        scrollBehavior: "inside",
-        isCentered: true,
         size: "3xl"
       }}
     >
@@ -160,7 +158,7 @@ export const CalendarEventModal = ({
                 </FormControl>
                 <FormControl
                   {...{
-                    isRequired: true,
+                    isRequired: false,
                     isInvalid: formik.touched.client && !!formik.errors.client
                   }}
                 >
@@ -195,7 +193,7 @@ export const CalendarEventModal = ({
                 </FormControl>
                 <FormControl
                   {...{
-                    isRequired: true,
+                    isRequired: false,
                     isInvalid: formik.touched.service && !!formik.errors.service
                   }}
                 >

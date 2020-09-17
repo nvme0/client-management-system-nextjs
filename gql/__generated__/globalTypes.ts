@@ -21,15 +21,6 @@ export interface CalendarEventInput {
   updatedAt: GqlDateTime;
 }
 
-export interface CategoryInput {
-  createdAt: GqlDateTime;
-  for?: string | null;
-  id: string;
-  name: string;
-  notes?: string | null;
-  updatedAt: GqlDateTime;
-}
-
 export interface ClientInput {
   address?: string | null;
   createdAt: GqlDateTime;
@@ -39,16 +30,25 @@ export interface ClientInput {
   lastName?: string | null;
   notes?: string | null;
   phone?: string | null;
+  programs?: ProgramToClientInput[] | null;
   updatedAt: GqlDateTime;
 }
 
 export interface ProgramInput {
-  categories?: CategoryInput[] | null;
   createdAt: GqlDateTime;
   id: string;
   name: string;
   notes?: string | null;
   services?: ServiceToProgramInput[] | null;
+  updatedAt: GqlDateTime;
+}
+
+export interface ProgramToClientInput {
+  createdAt: GqlDateTime;
+  id: string;
+  name: string;
+  notes?: string | null;
+  services?: ServiceToProgramToClientInput[] | null;
   updatedAt: GqlDateTime;
 }
 
@@ -67,6 +67,15 @@ export interface ServiceToProgramInput {
   quantity: number;
   service: ServiceInput;
   updatedAt: GqlDateTime;
+}
+
+export interface ServiceToProgramToClientInput {
+  booked: number;
+  createdAt: GqlDateTime;
+  quantity: number;
+  service: ServiceInput;
+  updatedAt: GqlDateTime;
+  used: number;
 }
 
 //==============================================================

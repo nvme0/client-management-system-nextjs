@@ -295,6 +295,7 @@ describe("Client Resolver", () => {
 
     expect(getClients.find((client) => client.id === clientInput1.id)).toEqual({
       ...clientInput1,
+      programs: [],
       lastName: null,
       address: null,
       email: null,
@@ -303,6 +304,7 @@ describe("Client Resolver", () => {
     });
     expect(getClients.find((client) => client.id === clientInput2.id)).toEqual({
       ...clientInput2,
+      programs: [],
       lastName: null,
       address: null,
       email: null,
@@ -311,6 +313,7 @@ describe("Client Resolver", () => {
     });
     expect(getClients.find((client) => client.id === clientInput3.id)).toEqual({
       ...clientInput3,
+      programs: [],
       lastName: null,
       address: null,
       email: null,

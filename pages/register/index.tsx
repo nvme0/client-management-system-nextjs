@@ -67,8 +67,8 @@ const Register = () => {
 
   const [register] = useMutation<
     TRegister,
-    RegisterVariables,
     Register_register_errors,
+    RegisterVariables,
     () => void
   >((variables) =>
     request(process.env.NEXT_PUBLIC_GRAPHQL_URL!, GQL_REGISTER, variables)
@@ -76,8 +76,8 @@ const Register = () => {
 
   const [login] = useMutation<
     TLogin,
-    LoginVariables,
     Login_login_errors,
+    LoginVariables,
     () => void
   >((variables) =>
     request(process.env.NEXT_PUBLIC_GRAPHQL_URL!, GQL_LOGIN, variables)
