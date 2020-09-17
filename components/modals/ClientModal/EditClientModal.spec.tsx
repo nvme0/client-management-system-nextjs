@@ -1,10 +1,15 @@
 import { render, cleanup, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
+import preloadAll from "jest-next-dynamic";
 
 import EditClientModal from "./EditClientModal";
 import { ClientModalProps } from ".";
 
 describe("Edit Client Modal", () => {
+  beforeAll(async () => {
+    await preloadAll();
+  });
+
   afterEach(cleanup);
 
   let props: ClientModalProps;

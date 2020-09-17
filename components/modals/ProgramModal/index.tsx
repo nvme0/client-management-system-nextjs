@@ -30,7 +30,6 @@ import {
   GetPrograms_getPrograms_services as ServiceToProgram
 } from "gql/__generated__/GetPrograms";
 import { GetServices_getServices as Service } from "gql/__generated__/GetServices";
-import ProgramAddItem from "./components/ProgramAddItem";
 import ProgramAddItemWithQuantity from "./components/ProgramAddItemWithQuantity";
 
 const schema = yup.object().shape({
