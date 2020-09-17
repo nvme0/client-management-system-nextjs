@@ -8,7 +8,7 @@ export interface IHeader<D extends Record<string, unknown>> {
   headerGroups: HeaderGroup<D>[];
 }
 
-export const Header = <D extends Record<string, unknown>>({
+export const Header = <D extends Record<string, any>>({
   headerGroups
 }: IHeader<D>) => {
   return (
