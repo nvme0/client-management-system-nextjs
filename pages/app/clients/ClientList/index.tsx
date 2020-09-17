@@ -5,7 +5,7 @@ import { Button } from "components/Button";
 import { PaginatedTable } from "components/Table";
 import { GetClients_getClients as Client } from "gql/__generated__/GetClients";
 
-export interface Props<S = {}> {
+export interface Props<S = Record<string, unknown>> {
   data: Client[];
   columns: Column<Client>[];
   initialState: S;

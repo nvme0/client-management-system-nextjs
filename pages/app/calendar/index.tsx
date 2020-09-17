@@ -44,7 +44,7 @@ const DragAndDropCalendar = withDragAndDrop<
     start: Date;
     end: Date;
   },
-  {}
+  Record<string, unknown>
 >(ReactCalendar as any);
 
 const CustomToolbar = ({ label, onNavigate, onView, view }: ToolbarProps) => {

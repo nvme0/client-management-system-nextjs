@@ -160,7 +160,7 @@ export class CalendarEventResolver {
     @CurrentUser() userId: string,
     @Arg("id") id: string,
     @Arg("deletedAt") deletedAt: Date
-  ): Promise<Boolean> {
+  ): Promise<boolean> {
     try {
       const entry = await prisma.calendarEvent.findOne({
         where: { id }

@@ -130,7 +130,7 @@ export class ProgramResolver {
     @CurrentUser() userId: string,
     @Arg("id") id: string,
     @Arg("deletedAt") deletedAt: Date
-  ): Promise<Boolean> {
+  ): Promise<boolean> {
     try {
       const entry = await prisma.program.findOne({
         where: { id },

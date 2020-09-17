@@ -107,7 +107,7 @@ const ProgramModal = ({
   );
 
   const servicesColumns = useMemo<
-    TableOptions<Service & { quantity: Number }>["columns"]
+    TableOptions<Service & { quantity: number }>["columns"]
   >(
     () => [
       {

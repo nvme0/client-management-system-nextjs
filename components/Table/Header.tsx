@@ -4,11 +4,13 @@ import { HeaderGroup } from "react-table";
 
 import { THeader, THead, TRow } from ".";
 
-export interface IHeader<D extends object> {
+export interface IHeader<D extends Record<string, unknown>> {
   headerGroups: HeaderGroup<D>[];
 }
 
-export const Header = <D extends object>({ headerGroups }: IHeader<D>) => {
+export const Header = <D extends Record<string, unknown>>({
+  headerGroups
+}: IHeader<D>) => {
   return (
     <THead>
       {headerGroups.map((headerGroup) => (
