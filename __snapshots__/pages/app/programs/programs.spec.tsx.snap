@@ -1,0 +1,284 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Programs Page renders 1`] = `
+<DocumentFragment>
+  <div
+    class="chakra-stack css-10q15"
+  >
+    <div
+      class="chakra-stack css-19mpfht"
+    >
+      <h2
+        class="prose"
+      >
+        Programs
+      </h2>
+    </div>
+    <div
+      class="chakra-stack css-19mpfht"
+    >
+      <div
+        class="chakra-stack css-1tdah2b"
+      >
+        <button
+          class="chakra-button css-oqfhsh"
+          type="button"
+        >
+          New Program
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="css-1wacom8"
+  >
+    <div
+      class="card css-1a397r5"
+    >
+      <table
+        class="css-13rbvqk"
+        role="table"
+      >
+        <thead
+          class="css-0"
+        >
+          <tr
+            class="css-1exea8t"
+            role="row"
+          >
+            <th
+              class="css-wcj3c1"
+              colspan="1"
+              role="columnheader"
+              style="cursor: pointer;"
+              title="Toggle SortBy"
+            >
+              <div
+                class="chakra-stack css-mpfrnm"
+              >
+                <span>
+                  Name
+                </span>
+                <span>
+                  <svg
+                    fill="none"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <polyline
+                      points="18 15 12 9 6 15"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tfoot
+          class="css-yy91wp"
+        >
+          <tr
+            class="css-1exea8t"
+          >
+            <td
+              class="css-1989049"
+              colspan="1"
+            >
+              <div
+                class="chakra-stack css-1tdah2b"
+              >
+                <div
+                  class="chakra-stack css-wtlbrf"
+                >
+                  <button
+                    aria-label="First page"
+                    class="chakra-button css-1kgd4fd"
+                    disabled=""
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      fill="none"
+                      focusable="false"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <polyline
+                        points="11 17 6 12 11 7"
+                      />
+                      <polyline
+                        points="18 17 13 12 18 7"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    aria-label="Previous page"
+                    class="chakra-button css-1kgd4fd"
+                    disabled=""
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      fill="none"
+                      focusable="false"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <polyline
+                        points="15 18 9 12 15 6"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div
+                  class="chakra-stack css-wtlbrf"
+                >
+                  <div
+                    class="chakra-stack css-bqo099"
+                  >
+                    <span
+                      style="margin-top: 0.5rem; margin-right: 0.5rem;"
+                    >
+                      Page 
+                      <strong>
+                        1 of 0
+                      </strong>
+                    </span>
+                    <div
+                      class="chakra-select__wrapper css-xzaah7"
+                    >
+                      <select
+                        class="chakra-select css-17atxkb"
+                      >
+                        <option
+                          value="10"
+                        >
+                          Show 10
+                        </option>
+                        <option
+                          value="20"
+                        >
+                          Show 20
+                        </option>
+                        <option
+                          value="30"
+                        >
+                          Show 30
+                        </option>
+                        <option
+                          value="40"
+                        >
+                          Show 40
+                        </option>
+                        <option
+                          value="50"
+                        >
+                          Show 50
+                        </option>
+                      </select>
+                      <div
+                        class="chakra-select__icon-wrapper css-gghxvr"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="chakra-select__icon"
+                          focusable="false"
+                          role="presentation"
+                          style="width: 1em; height: 1em; color: currentColor;"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="chakra-stack css-wtlbrf"
+                >
+                  <button
+                    aria-label="Next page"
+                    class="chakra-button css-1kgd4fd"
+                    disabled=""
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      fill="none"
+                      focusable="false"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <polyline
+                        points="9 18 15 12 9 6"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    aria-label="Last page"
+                    class="chakra-button css-1kgd4fd"
+                    disabled=""
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      fill="none"
+                      focusable="false"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <polyline
+                        points="13 17 18 12 13 7"
+                      />
+                      <polyline
+                        points="6 17 11 12 6 7"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+        <tbody
+          class="css-0"
+          role="rowgroup"
+        />
+      </table>
+    </div>
+  </div>
+</DocumentFragment>
+`;
