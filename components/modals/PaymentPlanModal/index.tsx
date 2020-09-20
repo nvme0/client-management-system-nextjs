@@ -43,6 +43,7 @@ import { cloneDeep } from "lodash";
 import { useEffect } from "react";
 
 export const schema = yup.object().shape({
+  title: yup.string().min(3).max(255).required(),
   clientIndex: yup.number().required(),
   amount: yup
     .string()
@@ -73,6 +74,7 @@ export const schema = yup.object().shape({
 });
 
 export interface FormInputState {
+  title: string;
   clientIndex: number;
   amount: string;
   currency: string;
@@ -110,6 +112,7 @@ const PaymentPlanModal = ({
 }: Props) => {
   const formik = useFormik<FormInputState>({
     initialValues: {
+      title: paymentPlan.title || "",
       clientIndex: props.clientIndex != null ? props.clientIndex : -1,
       amount:
         (paymentPlan.installments || [])
@@ -149,20 +152,20 @@ const PaymentPlanModal = ({
         if (paymentPlanIndex > -1) {
           paymentPlans[paymentPlanIndex] = {
             id: paymentPlan.id,
+            title: values.title,
+            paymentNumber: 0,
             installments,
             notes: values.notes
           };
         } else {
           paymentPlans.push({
             id: paymentPlan.id,
+            title: values.title,
+            paymentNumber: 0,
             installments,
             notes: values.notes
           });
         }
-        console.log({
-          ...client,
-          paymentPlans
-        });
         handleSave({
           ...client,
           paymentPlans
@@ -229,6 +232,24 @@ const PaymentPlanModal = ({
                 <TabPanels>
                   <TabPanel {...{ px: 0 }}>
                     <Stack {...{ spacing: 4 }}>
+                      <FormControl
+                        {...{
+                          isRequired: true,
+                          isInvalid:
+                            formik.touched.title && !!formik.errors.title
+                        }}
+                      >
+                        <FormLabel>Title</FormLabel>
+                        <Input
+                          {...{
+                            placeholder: "Title",
+                            ...formik.getFieldProps("title")
+                          }}
+                        />
+                        <FormErrorMessage>
+                          {formik.errors.title}
+                        </FormErrorMessage>
+                      </FormControl>
                       <FormControl
                         {...{
                           isRequired: true,

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { v4 as uuid } from "uuid";
 
 import { Button } from "components/Button";
 import CreatePaymentPlanModal from "./CreatePaymentPlanModal";
@@ -22,6 +21,8 @@ export const Default = () => {
           {...{
             paymentPlan: {
               id: "4089eabc-69fd-4525-9a41-a3a3177cfdee",
+              title: "",
+              paymentNumber: 0,
               installments: [],
               notes: ""
             },

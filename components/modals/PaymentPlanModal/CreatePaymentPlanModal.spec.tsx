@@ -1,4 +1,4 @@
-import { render, cleanup, waitFor } from "@testing-library/react";
+import { render, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import preloadAll from "jest-next-dynamic";
 
@@ -18,6 +18,8 @@ describe("Create Payment Plan Modal", () => {
     props = {
       paymentPlan: {
         id: "4089eabc-69fd-4525-9a41-a3a3177cfdee",
+        title: "",
+        paymentNumber: 0,
         installments: [],
         notes: ""
       },

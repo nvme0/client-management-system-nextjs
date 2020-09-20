@@ -18,6 +18,8 @@ describe("Edit Payment Plan Modal", () => {
     props = {
       paymentPlan: {
         id: "4089eabc-69fd-4525-9a41-a3a3177cfdee",
+        title: "",
+        paymentNumber: 0,
         installments: [],
         notes: ""
       },
