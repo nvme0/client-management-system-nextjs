@@ -27,11 +27,19 @@ export interface ClientInput {
   email?: string | null;
   firstName: string;
   id: string;
+  installments?: InstallmentInput[] | null;
   lastName?: string | null;
   notes?: string | null;
   phone?: string | null;
   programs?: ProgramToClientInput[] | null;
   updatedAt: GqlDateTime;
+}
+
+export interface InstallmentInput {
+  amount: string;
+  currency: string;
+  date: GqlDateTime;
+  notes?: string | null;
 }
 
 export interface ProgramInput {

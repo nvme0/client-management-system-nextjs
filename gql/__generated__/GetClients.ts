@@ -7,6 +7,13 @@
 // GraphQL query operation: GetClients
 // ====================================================
 
+export interface GetClients_getClients_installments {
+  amount: string;
+  currency: string;
+  date: GqlDateTime;
+  notes: string | null;
+}
+
 export interface GetClients_getClients_programs_services_service {
   id: string;
   name: string;
@@ -43,6 +50,7 @@ export interface GetClients_getClients {
   phone: string | null;
   address: string | null;
   notes: string | null;
+  installments: GetClients_getClients_installments[] | null;
   programs: GetClients_getClients_programs[] | null;
   createdAt: GqlDateTime;
   updatedAt: GqlDateTime;

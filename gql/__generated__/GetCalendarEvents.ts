@@ -17,6 +17,13 @@ export interface GetCalendarEvents_getCalendarEvents_service {
   updatedAt: GqlDateTime;
 }
 
+export interface GetCalendarEvents_getCalendarEvents_client_installments {
+  amount: string;
+  currency: string;
+  date: GqlDateTime;
+  notes: string | null;
+}
+
 export interface GetCalendarEvents_getCalendarEvents_client_programs_services_service {
   id: string;
   name: string;
@@ -53,6 +60,7 @@ export interface GetCalendarEvents_getCalendarEvents_client {
   phone: string | null;
   address: string | null;
   notes: string | null;
+  installments: GetCalendarEvents_getCalendarEvents_client_installments[] | null;
   programs: GetCalendarEvents_getCalendarEvents_client_programs[] | null;
   createdAt: GqlDateTime;
   updatedAt: GqlDateTime;

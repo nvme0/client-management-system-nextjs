@@ -29,6 +29,12 @@ export const GQL_GET_CALENDAR_EVENTS = gql`
         phone
         address
         notes
+        installments {
+          amount
+          currency
+          date
+          notes
+        }
         programs {
           id
           name
@@ -88,6 +94,12 @@ export const GQL_UPSERT_CALENDAR_EVENT = gql`
         phone
         address
         notes
+        installments {
+          amount
+          currency
+          date
+          notes
+        }
         programs {
           id
           name

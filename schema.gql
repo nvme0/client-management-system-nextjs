@@ -37,6 +37,7 @@ type Client {
   email: String
   firstName: String!
   id: ID!
+  installments: [Installment!]
   lastName: String
   notes: String
   phone: String
@@ -50,6 +51,7 @@ input ClientInput {
   email: String
   firstName: String!
   id: ID!
+  installments: [InstallmentInput!] = []
   lastName: String
   notes: String
   phone: String
@@ -61,6 +63,20 @@ input ClientInput {
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
 scalar DateTime
+
+type Installment {
+  amount: String!
+  currency: String!
+  date: DateTime!
+  notes: String
+}
+
+input InstallmentInput {
+  amount: String!
+  currency: String!
+  date: DateTime!
+  notes: String
+}
 
 type Mutation {
   deleteCalendarEvent(deletedAt: DateTime!, id: String!): Boolean!

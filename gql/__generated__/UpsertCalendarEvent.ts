@@ -19,6 +19,13 @@ export interface UpsertCalendarEvent_upsertCalendarEvent_service {
   updatedAt: GqlDateTime;
 }
 
+export interface UpsertCalendarEvent_upsertCalendarEvent_client_installments {
+  amount: string;
+  currency: string;
+  date: GqlDateTime;
+  notes: string | null;
+}
+
 export interface UpsertCalendarEvent_upsertCalendarEvent_client_programs_services_service {
   id: string;
   name: string;
@@ -55,6 +62,7 @@ export interface UpsertCalendarEvent_upsertCalendarEvent_client {
   phone: string | null;
   address: string | null;
   notes: string | null;
+  installments: UpsertCalendarEvent_upsertCalendarEvent_client_installments[] | null;
   programs: UpsertCalendarEvent_upsertCalendarEvent_client_programs[] | null;
   createdAt: GqlDateTime;
   updatedAt: GqlDateTime;

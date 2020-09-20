@@ -29,7 +29,8 @@ export class CalendarEventResolver {
                     }
                   }
                 }
-              }
+              },
+              installments: true
             }
           },
           service: true
@@ -64,7 +65,8 @@ export class CalendarEventResolver {
                     }
                   }
                 }
-              }
+              },
+              installments: true
             }
           },
           service: true
@@ -139,7 +141,8 @@ export class CalendarEventResolver {
                     }
                   }
                 }
-              }
+              },
+              installments: true
             }
           },
           service: true

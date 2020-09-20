@@ -24,6 +24,7 @@ describe("Edit Client Modal", () => {
         email: "",
         phone: "",
         notes: "",
+        installments: [],
         programs: [],
         createdAt: "2019-10-10T00:53:43.549Z",
         updatedAt: "2019-10-10T00:53:43.549Z"

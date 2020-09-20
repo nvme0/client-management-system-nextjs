@@ -1,4 +1,5 @@
 import { Resolver, Query, Mutation, Arg } from "type-graphql";
+import { v4 as uuid } from "uuid";
 
 import { Client } from "./models/client.model";
 import { db } from "decorators/getPrismaClient.decorator";
@@ -40,7 +41,8 @@ export class ClientResolver {
                 }
               }
             }
-          }
+          },
+          installments: true
         }
       });
     } catch (error) {
@@ -57,7 +59,7 @@ export class ClientResolver {
     @CurrentUser() userId: string,
     @Arg("clientInput") clientInput: Client
   ): Promise<Client | null> {
-    const { programs, ...client } = clientInput;
+    const { programs, installments, ...client } = clientInput;
     try {
       let entry = await prisma.client.findOne({
         where: { id: client.id },
@@ -70,7 +72,8 @@ export class ClientResolver {
                 }
               }
             }
-          }
+          },
+          installments: true
         }
       });
 
@@ -98,10 +101,38 @@ export class ClientResolver {
                   }
                 }
               }
-            }
+            },
+            installments: true
           }
         });
       }
+
+      // remove installments for client
+      await prisma.installment.deleteMany({
+        where: {
+          clientId: client.id
+        }
+      });
+
+      // create installments for client
+      await Promise.all(
+        installments.map(
+          async (installment) =>
+            await prisma.installment.create({
+              data: {
+                id: uuid(),
+                amount: installment.amount,
+                currency: installment.currency,
+                date: installment.date,
+                client: {
+                  connect: {
+                    id: client.id
+                  }
+                }
+              }
+            })
+        )
+      );
 
       const programIds = programs.map(({ id }) => id);
       const storedProgramIds = entry.programs.map(({ id }) => id);
@@ -244,7 +275,8 @@ export class ClientResolver {
                 }
               }
             }
-          }
+          },
+          installments: true
         }
       });
     } catch (error) {
@@ -275,7 +307,8 @@ export class ClientResolver {
                 }
               }
             }
-          }
+          },
+          installments: true
         }
       });
       if (!checkEntryForDelete<Client>(deletedAt, { entry, userId })) {
