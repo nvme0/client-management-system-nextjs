@@ -31,6 +31,8 @@ export const GQL_GET_CALENDAR_EVENTS = gql`
         notes
         paymentPlans {
           id
+          title
+          paymentNumber
           installments {
             amount
             currency
@@ -100,6 +102,8 @@ export const GQL_UPSERT_CALENDAR_EVENT = gql`
         notes
         paymentPlans {
           id
+          title
+          paymentNumber
           installments {
             amount
             currency

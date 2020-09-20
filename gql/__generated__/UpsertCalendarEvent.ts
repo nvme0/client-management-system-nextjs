@@ -28,6 +28,8 @@ export interface UpsertCalendarEvent_upsertCalendarEvent_client_paymentPlans_ins
 
 export interface UpsertCalendarEvent_upsertCalendarEvent_client_paymentPlans {
   id: string;
+  title: string;
+  paymentNumber: number;
   installments: UpsertCalendarEvent_upsertCalendarEvent_client_paymentPlans_installments[] | null;
   notes: string | null;
 }

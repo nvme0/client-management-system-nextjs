@@ -64,7 +64,6 @@ export class ClientResolver {
     @Arg("clientInput") clientInput: Client
   ): Promise<Client | null> {
     const { programs, paymentPlans, ...client } = clientInput;
-    console.log({ client });
     try {
       let entry = await prisma.client.findOne({
         where: { id: client.id },
@@ -120,6 +119,8 @@ export class ClientResolver {
         });
       }
 
+      console.log({ paymentPlans });
+
       const paymentIds = paymentPlans.map(({ id }) => id);
       const storedPaymentIds = entry.paymentPlans.map(({ id }) => id);
       const {
@@ -150,33 +151,32 @@ export class ClientResolver {
       // update paymentPlan connections in updatePaymentPlansIds
       await Promise.all(
         updatePaymentPlansIds.map(async (id) => {
-          const installments = paymentPlans.find(({ id: _id }) => _id === id)!
-            .installments;
+          const { installments, ...paymentPlan } = paymentPlans.find(
+            ({ id: _id }) => _id === id
+          )!;
           // remove installments for client
           await prisma.installment.deleteMany({
             where: {
               paymentPlanId: id
             }
           });
-          // create installments for client
-          await Promise.all(
-            installments.map(
-              async (installment) =>
-                await prisma.installment.create({
-                  data: {
-                    id: uuid(),
-                    amount: installment.amount,
-                    currency: installment.currency,
-                    date: installment.date,
-                    paymentPlan: {
-                      connect: {
-                        id
-                      }
-                    }
-                  }
-                })
-            )
-          );
+          // update paymentPlans, create installments
+          await prisma.paymentPlan.update({
+            where: {
+              id
+            },
+            data: {
+              ...paymentPlan,
+              installments: {
+                create: installments.map((installment) => ({
+                  id: uuid(),
+                  amount: installment.amount,
+                  currency: installment.currency,
+                  date: installment.date
+                }))
+              }
+            }
+          });
         })
       );
 
@@ -189,6 +189,8 @@ export class ClientResolver {
           return await prisma.paymentPlan.create({
             data: {
               id: paymentPlan.id,
+              title: paymentPlan.title,
+              paymentNumber: paymentPlan.paymentNumber,
               notes: paymentPlan.notes,
               installments: {
                 create: installments.map(({ amount, currency, date }) => ({

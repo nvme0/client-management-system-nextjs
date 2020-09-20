@@ -1,4 +1,4 @@
-import { ObjectType, InputType, Field, ID } from "type-graphql";
+import { ObjectType, InputType, Field, ID, Int } from "type-graphql";
 import { Length } from "class-validator";
 import { Installment } from "./installment.model";
 
@@ -8,6 +8,13 @@ export class PaymentPlan {
   @Field(() => ID)
   @Length(36, 36)
   id: string;
+
+  @Field(() => String)
+  @Length(3, 255)
+  title: string;
+
+  @Field(() => Int)
+  paymentNumber: number;
 
   @Field(() => [Installment], { defaultValue: [] })
   installments: Installment[];

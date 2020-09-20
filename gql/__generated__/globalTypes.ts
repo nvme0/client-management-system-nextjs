@@ -46,6 +46,8 @@ export interface PaymentPlanInput {
   id: string;
   installments?: InstallmentInput[] | null;
   notes?: string | null;
+  paymentNumber: number;
+  title: string;
 }
 
 export interface ProgramInput {

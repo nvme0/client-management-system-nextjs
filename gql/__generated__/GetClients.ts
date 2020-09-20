@@ -16,6 +16,8 @@ export interface GetClients_getClients_paymentPlans_installments {
 
 export interface GetClients_getClients_paymentPlans {
   id: string;
+  title: string;
+  paymentNumber: number;
   installments: GetClients_getClients_paymentPlans_installments[] | null;
   notes: string | null;
 }

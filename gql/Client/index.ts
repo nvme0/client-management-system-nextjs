@@ -12,6 +12,8 @@ export const GQL_GET_CLIENTS = gql`
       notes
       paymentPlans {
         id
+        title
+        paymentNumber
         installments {
           amount
           currency
@@ -61,6 +63,8 @@ export const GQL_UPSERT_CLIENT = gql`
       notes
       paymentPlans {
         id
+        title
+        paymentNumber
         installments {
           amount
           currency

@@ -26,6 +26,8 @@ export interface GetCalendarEvents_getCalendarEvents_client_paymentPlans_install
 
 export interface GetCalendarEvents_getCalendarEvents_client_paymentPlans {
   id: string;
+  title: string;
+  paymentNumber: number;
   installments: GetCalendarEvents_getCalendarEvents_client_paymentPlans_installments[] | null;
   notes: string | null;
 }

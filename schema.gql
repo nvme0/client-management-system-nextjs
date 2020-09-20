@@ -102,12 +102,16 @@ type PaymentPlan {
   id: ID!
   installments: [Installment!]
   notes: String
+  paymentNumber: Int!
+  title: String!
 }
 
 input PaymentPlanInput {
   id: ID!
   installments: [InstallmentInput!] = []
   notes: String
+  paymentNumber: Int!
+  title: String!
 }
 
 type Program {
