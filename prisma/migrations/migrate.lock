@@ -10,3 +10,9 @@
 20200916114403-remove-categories
 20200916124048-add-service-to-program-to-client--extension-of-service-to-program-for-client---modify-program-to-client--program-for-client
 20200916125533-remove-parent-program-field-from-program-to-client
+20200920040241-add-installments-to-client
+20200920051916-add-currency-to-installment
+20200920052509-change-installment-amount-to-type-string
+20200920053635-add-default-amount--0--and-currency--usd--to-installment
+20200920053844-add-notes-to-installment
+20200920065030-fix-typo-client----client-in-installment

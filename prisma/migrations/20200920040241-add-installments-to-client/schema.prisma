@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -149,11 +149,9 @@ model ServiceToProgramToClient {
 
 model Installment {
   id       String   @id
-  amount   String   @default("0")
-  currency String   @default("USD")
+  amount   Int
   date     DateTime
-  notes    String?
   //
-  client   Client?  @relation(fields: [clientId], references: [id])
+  Client   Client?  @relation(fields: [clientId], references: [id])
   clientId String?
 }

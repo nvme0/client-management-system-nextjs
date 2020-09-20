@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -154,6 +154,6 @@ model Installment {
   date     DateTime
   notes    String?
   //
-  client   Client?  @relation(fields: [clientId], references: [id])
+  Client   Client?  @relation(fields: [clientId], references: [id])
   clientId String?
 }
