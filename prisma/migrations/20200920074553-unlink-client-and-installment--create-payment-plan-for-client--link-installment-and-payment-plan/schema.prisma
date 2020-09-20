@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -161,8 +161,7 @@ model Installment {
 model PaymentPlan {
   id           String        @id
   installments Installment[]
-  notes        String?
-  //
-  client       Client?       @relation(fields: [clientId], references: [id])
-  clientId     String?
+
+  client   Client? @relation(fields: [clientId], references: [id])
+  clientId String?
 }
