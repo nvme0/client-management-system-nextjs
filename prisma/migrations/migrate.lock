@@ -18,3 +18,4 @@
 20200920065030-fix-typo-client----client-in-installment
 20200920074553-unlink-client-and-installment--create-payment-plan-for-client--link-installment-and-payment-plan
 20200920085818-add-notes-to-payment-plan
+20200920112919-add-title-and-payment-number-to-payment-plan
