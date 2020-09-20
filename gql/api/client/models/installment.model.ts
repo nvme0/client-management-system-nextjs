@@ -1,4 +1,4 @@
-import { ObjectType, InputType, Field, ID, Int } from "type-graphql";
+import { ObjectType, InputType, Field } from "type-graphql";
 import { Length } from "class-validator";
 
 @ObjectType()

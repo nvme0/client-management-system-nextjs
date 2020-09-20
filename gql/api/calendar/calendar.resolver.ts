@@ -30,7 +30,11 @@ export class CalendarEventResolver {
                   }
                 }
               },
-              installments: true
+              paymentPlans: {
+                include: {
+                  installments: true
+                }
+              }
             }
           },
           service: true
@@ -66,7 +70,11 @@ export class CalendarEventResolver {
                   }
                 }
               },
-              installments: true
+              paymentPlans: {
+                include: {
+                  installments: true
+                }
+              }
             }
           },
           service: true
@@ -142,7 +150,11 @@ export class CalendarEventResolver {
                   }
                 }
               },
-              installments: true
+              paymentPlans: {
+                include: {
+                  installments: true
+                }
+              }
             }
           },
           service: true

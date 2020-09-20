@@ -42,7 +42,11 @@ export class ClientResolver {
               }
             }
           },
-          installments: true
+          paymentPlans: {
+            include: {
+              installments: true
+            }
+          }
         }
       });
     } catch (error) {
@@ -59,7 +63,8 @@ export class ClientResolver {
     @CurrentUser() userId: string,
     @Arg("clientInput") clientInput: Client
   ): Promise<Client | null> {
-    const { programs, installments, ...client } = clientInput;
+    const { programs, paymentPlans, ...client } = clientInput;
+    console.log({ client });
     try {
       let entry = await prisma.client.findOne({
         where: { id: client.id },
@@ -73,7 +78,11 @@ export class ClientResolver {
               }
             }
           },
-          installments: true
+          paymentPlans: {
+            include: {
+              installments: true
+            }
+          }
         }
       });
 
@@ -102,48 +111,117 @@ export class ClientResolver {
                 }
               }
             },
-            installments: true
+            paymentPlans: {
+              include: {
+                installments: true
+              }
+            }
           }
         });
       }
 
-      // remove installments for client
-      await prisma.installment.deleteMany({
-        where: {
-          clientId: client.id
-        }
+      const paymentIds = paymentPlans.map(({ id }) => id);
+      const storedPaymentIds = entry.paymentPlans.map(({ id }) => id);
+      const {
+        addIds: addPaymentPlansIds,
+        updateIds: updatePaymentPlansIds,
+        removeIds: removePaymentPlansIds
+      } = generateAddUpdateRemoveIds({
+        current: paymentIds,
+        stored: storedPaymentIds
       });
 
-      // create installments for client
+      // remove paymentPlan connections in removePaymentPlansIds
       await Promise.all(
-        installments.map(
-          async (installment) =>
-            await prisma.installment.create({
-              data: {
-                id: uuid(),
-                amount: installment.amount,
-                currency: installment.currency,
-                date: installment.date,
-                client: {
-                  connect: {
-                    id: client.id
+        removePaymentPlansIds.map(async (id) => {
+          await prisma.installment.deleteMany({
+            where: {
+              paymentPlanId: id
+            }
+          });
+          return await prisma.paymentPlan.delete({
+            where: {
+              id
+            }
+          });
+        })
+      );
+
+      // update paymentPlan connections in updatePaymentPlansIds
+      await Promise.all(
+        updatePaymentPlansIds.map(async (id) => {
+          const installments = paymentPlans.find(({ id: _id }) => _id === id)!
+            .installments;
+          // remove installments for client
+          await prisma.installment.deleteMany({
+            where: {
+              paymentPlanId: id
+            }
+          });
+          // create installments for client
+          await Promise.all(
+            installments.map(
+              async (installment) =>
+                await prisma.installment.create({
+                  data: {
+                    id: uuid(),
+                    amount: installment.amount,
+                    currency: installment.currency,
+                    date: installment.date,
+                    paymentPlan: {
+                      connect: {
+                        id
+                      }
+                    }
                   }
+                })
+            )
+          );
+        })
+      );
+
+      // create paymentPlan connections in addPaymentPlansIds
+      await Promise.all(
+        addPaymentPlansIds.map(async (id) => {
+          const { installments, ...paymentPlan } = paymentPlans.find(
+            ({ id: paymentPlanId }) => paymentPlanId === id
+          )!;
+          return await prisma.paymentPlan.create({
+            data: {
+              id: paymentPlan.id,
+              notes: paymentPlan.notes,
+              installments: {
+                create: installments.map(({ amount, currency, date }) => ({
+                  id: uuid(),
+                  amount,
+                  currency,
+                  date
+                }))
+              },
+              client: {
+                connect: {
+                  id: client.id
                 }
               }
-            })
-        )
+            }
+          });
+        })
       );
 
       const programIds = programs.map(({ id }) => id);
       const storedProgramIds = entry.programs.map(({ id }) => id);
-      const { addIds, updateIds, removeIds } = generateAddUpdateRemoveIds({
+      const {
+        addIds: addProgramIds,
+        updateIds: updateProgramIds,
+        removeIds: removeProgramIds
+      } = generateAddUpdateRemoveIds({
         current: programIds,
         stored: storedProgramIds
       });
 
-      // remove programToClient connections in removeIds
+      // remove programToClient connections in removeProgramIds
       await Promise.all(
-        removeIds.map(async (id) => {
+        removeProgramIds.map(async (id) => {
           await prisma.serviceToProgramToClient.deleteMany({
             where: {
               programId: id
@@ -157,9 +235,9 @@ export class ClientResolver {
         })
       );
 
-      // update programToClient connections in updateIds
+      // update programToClient connections in updateProgramIds
       await Promise.all(
-        updateIds.map(async (id) => {
+        updateProgramIds.map(async (id) => {
           const { services, ...program } = programs.find(
             ({ id: programId }) => programId === id
           )!;
@@ -230,9 +308,9 @@ export class ClientResolver {
         })
       );
 
-      // create programToClient connections in addIds
+      // create programToClient connections in addProgramIds
       await Promise.all(
-        addIds.map(async (id) => {
+        addProgramIds.map(async (id) => {
           const { services, ...program } = programs.find(
             ({ id: programId }) => programId === id
           )!;
@@ -276,7 +354,11 @@ export class ClientResolver {
               }
             }
           },
-          installments: true
+          paymentPlans: {
+            include: {
+              installments: true
+            }
+          }
         }
       });
     } catch (error) {
@@ -308,7 +390,11 @@ export class ClientResolver {
               }
             }
           },
-          installments: true
+          paymentPlans: {
+            include: {
+              installments: true
+            }
+          }
         }
       });
       if (!checkEntryForDelete<Client>(deletedAt, { entry, userId })) {

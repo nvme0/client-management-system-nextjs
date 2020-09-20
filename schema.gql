@@ -37,9 +37,9 @@ type Client {
   email: String
   firstName: String!
   id: ID!
-  installments: [Installment!]
   lastName: String
   notes: String
+  paymentPlans: [PaymentPlan!]
   phone: String
   programs: [ProgramToClient!]
   updatedAt: DateTime!
@@ -51,9 +51,9 @@ input ClientInput {
   email: String
   firstName: String!
   id: ID!
-  installments: [InstallmentInput!] = []
   lastName: String
   notes: String
+  paymentPlans: [PaymentPlanInput!] = []
   phone: String
   programs: [ProgramToClientInput!] = []
   updatedAt: DateTime!
@@ -96,6 +96,18 @@ type MutationResponse {
   errors: [YupError]!
   payload: String
   status: Int!
+}
+
+type PaymentPlan {
+  id: ID!
+  installments: [Installment!]
+  notes: String
+}
+
+input PaymentPlanInput {
+  id: ID!
+  installments: [InstallmentInput!] = []
+  notes: String
 }
 
 type Program {

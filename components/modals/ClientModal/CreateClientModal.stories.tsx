@@ -28,7 +28,7 @@ export const Default = () => {
               email: "",
               phone: "",
               notes: "",
-              installments: [],
+              paymentPlans: [],
               programs: [],
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString()

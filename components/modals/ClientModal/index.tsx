@@ -33,7 +33,7 @@ import { BasicTable } from "components/Table";
 import {
   GetClients_getClients as Client,
   GetClients_getClients_programs as ProgramToClient,
-  GetClients_getClients_installments as Installment
+  GetClients_getClients_paymentPlans as PaymentPlan
 } from "gql/__generated__/GetClients";
 import { GetPrograms_getPrograms as Program } from "gql/__generated__/GetPrograms";
 import ProgramAddItem from "../ProgramModal/components/ProgramAddItem";
@@ -45,7 +45,7 @@ export const schema = yup.object().shape({
   phone: yup.string().min(0).max(255),
   notes: yup.string().max(255),
   programs: yup.array(),
-  installments: yup.array()
+  paymentPlans: yup.array()
 });
 
 export interface FormInputState {
@@ -56,7 +56,7 @@ export interface FormInputState {
   address: string;
   notes: string;
   programs: ProgramToClient[];
-  installments: Installment[];
+  paymentPlans: PaymentPlan[];
 }
 
 export interface ClientModalProps {
@@ -91,7 +91,7 @@ const ClientModal = ({
       phone: client.phone || "",
       notes: client.notes || "",
       programs: client.programs || [],
-      installments: client.installments || []
+      paymentPlans: client.paymentPlans || []
     },
     validationSchema: schema,
     validateOnBlur: true,
