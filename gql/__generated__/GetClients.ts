@@ -7,6 +7,21 @@
 // GraphQL query operation: GetClients
 // ====================================================
 
+export interface GetClients_getClients_paymentPlans_installments {
+  amount: string;
+  currency: string;
+  date: GqlDateTime;
+  notes: string | null;
+}
+
+export interface GetClients_getClients_paymentPlans {
+  id: string;
+  title: string;
+  paymentNumber: number;
+  installments: GetClients_getClients_paymentPlans_installments[] | null;
+  notes: string | null;
+}
+
 export interface GetClients_getClients_programs_services_service {
   id: string;
   name: string;
@@ -43,6 +58,7 @@ export interface GetClients_getClients {
   phone: string | null;
   address: string | null;
   notes: string | null;
+  paymentPlans: GetClients_getClients_paymentPlans[] | null;
   programs: GetClients_getClients_programs[] | null;
   createdAt: GqlDateTime;
   updatedAt: GqlDateTime;

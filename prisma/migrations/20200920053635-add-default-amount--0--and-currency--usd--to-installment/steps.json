@@ -1,0 +1,55 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Installment",
+          "field": "amount"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Installment",
+          "field": "amount"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"0\""
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Installment",
+          "field": "currency"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Installment",
+          "field": "currency"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"USD\""
+    }
+  ]
+}

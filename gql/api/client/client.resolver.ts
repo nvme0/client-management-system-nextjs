@@ -1,4 +1,5 @@
 import { Resolver, Query, Mutation, Arg } from "type-graphql";
+import { v4 as uuid } from "uuid";
 
 import { Client } from "./models/client.model";
 import { db } from "decorators/getPrismaClient.decorator";
@@ -40,6 +41,11 @@ export class ClientResolver {
                 }
               }
             }
+          },
+          paymentPlans: {
+            include: {
+              installments: true
+            }
           }
         }
       });
@@ -57,7 +63,7 @@ export class ClientResolver {
     @CurrentUser() userId: string,
     @Arg("clientInput") clientInput: Client
   ): Promise<Client | null> {
-    const { programs, ...client } = clientInput;
+    const { programs, paymentPlans, ...client } = clientInput;
     try {
       let entry = await prisma.client.findOne({
         where: { id: client.id },
@@ -69,6 +75,11 @@ export class ClientResolver {
                   service: true
                 }
               }
+            }
+          },
+          paymentPlans: {
+            include: {
+              installments: true
             }
           }
         }
@@ -98,21 +109,119 @@ export class ClientResolver {
                   }
                 }
               }
+            },
+            paymentPlans: {
+              include: {
+                installments: true
+              }
             }
           }
         });
       }
 
+      const paymentIds = paymentPlans.map(({ id }) => id);
+      const storedPaymentIds = entry.paymentPlans.map(({ id }) => id);
+      const {
+        addIds: addPaymentPlansIds,
+        updateIds: updatePaymentPlansIds,
+        removeIds: removePaymentPlansIds
+      } = generateAddUpdateRemoveIds({
+        current: paymentIds,
+        stored: storedPaymentIds
+      });
+
+      // remove paymentPlan connections in removePaymentPlansIds
+      await Promise.all(
+        removePaymentPlansIds.map(async (id) => {
+          await prisma.installment.deleteMany({
+            where: {
+              paymentPlanId: id
+            }
+          });
+          return await prisma.paymentPlan.delete({
+            where: {
+              id
+            }
+          });
+        })
+      );
+
+      // update paymentPlan connections in updatePaymentPlansIds
+      await Promise.all(
+        updatePaymentPlansIds.map(async (id) => {
+          const { installments, ...paymentPlan } = paymentPlans.find(
+            ({ id: _id }) => _id === id
+          )!;
+          // remove installments for client
+          await prisma.installment.deleteMany({
+            where: {
+              paymentPlanId: id
+            }
+          });
+          // update paymentPlans, create installments
+          await prisma.paymentPlan.update({
+            where: {
+              id
+            },
+            data: {
+              ...paymentPlan,
+              installments: {
+                create: installments.map((installment) => ({
+                  id: uuid(),
+                  amount: installment.amount,
+                  currency: installment.currency,
+                  date: installment.date
+                }))
+              }
+            }
+          });
+        })
+      );
+
+      // create paymentPlan connections in addPaymentPlansIds
+      await Promise.all(
+        addPaymentPlansIds.map(async (id) => {
+          const { installments, ...paymentPlan } = paymentPlans.find(
+            ({ id: paymentPlanId }) => paymentPlanId === id
+          )!;
+          return await prisma.paymentPlan.create({
+            data: {
+              id: paymentPlan.id,
+              title: paymentPlan.title,
+              paymentNumber: paymentPlan.paymentNumber,
+              notes: paymentPlan.notes,
+              installments: {
+                create: installments.map(({ amount, currency, date }) => ({
+                  id: uuid(),
+                  amount,
+                  currency,
+                  date
+                }))
+              },
+              client: {
+                connect: {
+                  id: client.id
+                }
+              }
+            }
+          });
+        })
+      );
+
       const programIds = programs.map(({ id }) => id);
       const storedProgramIds = entry.programs.map(({ id }) => id);
-      const { addIds, updateIds, removeIds } = generateAddUpdateRemoveIds({
+      const {
+        addIds: addProgramIds,
+        updateIds: updateProgramIds,
+        removeIds: removeProgramIds
+      } = generateAddUpdateRemoveIds({
         current: programIds,
         stored: storedProgramIds
       });
 
-      // remove programToClient connections in removeIds
+      // remove programToClient connections in removeProgramIds
       await Promise.all(
-        removeIds.map(async (id) => {
+        removeProgramIds.map(async (id) => {
           await prisma.serviceToProgramToClient.deleteMany({
             where: {
               programId: id
@@ -126,9 +235,9 @@ export class ClientResolver {
         })
       );
 
-      // update programToClient connections in updateIds
+      // update programToClient connections in updateProgramIds
       await Promise.all(
-        updateIds.map(async (id) => {
+        updateProgramIds.map(async (id) => {
           const { services, ...program } = programs.find(
             ({ id: programId }) => programId === id
           )!;
@@ -199,9 +308,9 @@ export class ClientResolver {
         })
       );
 
-      // create programToClient connections in addIds
+      // create programToClient connections in addProgramIds
       await Promise.all(
-        addIds.map(async (id) => {
+        addProgramIds.map(async (id) => {
           const { services, ...program } = programs.find(
             ({ id: programId }) => programId === id
           )!;
@@ -244,6 +353,11 @@ export class ClientResolver {
                 }
               }
             }
+          },
+          paymentPlans: {
+            include: {
+              installments: true
+            }
           }
         }
       });
@@ -274,6 +388,11 @@ export class ClientResolver {
                   service: true
                 }
               }
+            }
+          },
+          paymentPlans: {
+            include: {
+              installments: true
             }
           }
         }

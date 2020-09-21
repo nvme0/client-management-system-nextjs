@@ -29,6 +29,18 @@ export const GQL_GET_CALENDAR_EVENTS = gql`
         phone
         address
         notes
+        paymentPlans {
+          id
+          title
+          paymentNumber
+          installments {
+            amount
+            currency
+            date
+            notes
+          }
+          notes
+        }
         programs {
           id
           name
@@ -88,6 +100,18 @@ export const GQL_UPSERT_CALENDAR_EVENT = gql`
         phone
         address
         notes
+        paymentPlans {
+          id
+          title
+          paymentNumber
+          installments {
+            amount
+            currency
+            date
+            notes
+          }
+          notes
+        }
         programs {
           id
           name

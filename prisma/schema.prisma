@@ -87,22 +87,23 @@ model ProgramToClient {
 }
 
 model Client {
-  id        String            @id
-  firstName String
-  lastName  String?
-  email     String?
-  phone     String?
-  address   String?
-  notes     String?
-  createdAt DateTime          @default(now())
-  updatedAt DateTime          @default(now())
+  id           String            @id
+  firstName    String
+  lastName     String?
+  email        String?
+  phone        String?
+  address      String?
+  notes        String?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @default(now())
   //
-  user      User?             @relation(fields: [userId], references: [id])
-  userId    String?
+  user         User?             @relation(fields: [userId], references: [id])
+  userId       String?
   //
-  events    CalendarEvent[]
-  services  ServiceToClient[]
-  programs  ProgramToClient[]
+  events       CalendarEvent[]
+  services     ServiceToClient[]
+  programs     ProgramToClient[]
+  paymentPlans PaymentPlan[]
 }
 
 model ServiceToClient {
@@ -144,4 +145,26 @@ model ServiceToProgramToClient {
   programId String
 
   @@id([serviceId, programId])
+}
+
+model Installment {
+  id            String       @id
+  amount        String       @default("0")
+  currency      String       @default("USD")
+  date          DateTime
+  notes         String?
+  //
+  paymentPlan   PaymentPlan? @relation(fields: [paymentPlanId], references: [id])
+  paymentPlanId String?
+}
+
+model PaymentPlan {
+  id            String        @id
+  title         String
+  paymentNumber Int
+  installments  Installment[]
+  notes         String?
+  //
+  client        Client?       @relation(fields: [clientId], references: [id])
+  clientId      String?
 }

@@ -7,6 +7,7 @@ import { queryCache } from "react-query";
 import AppLayout from "layouts/AppLayout";
 import ClientList from "./ClientList";
 import Progress from "./Progress";
+import Payments from "./Payments";
 import Tab from "./components/Tab";
 import CreateClientModal from "components/modals/ClientModal/CreateClientModal";
 import EditClientModal from "components/modals/ClientModal/EditClientModal";
@@ -36,6 +37,13 @@ export const Clients = () => {
   const [state, setState] = useState<{
     Modal?: () => JSX.Element;
   }>({});
+
+  const setModal = (Modal?: () => JSX.Element) => {
+    setState({
+      ...state,
+      Modal
+    });
+  };
 
   const { data: clients } = useQuery<GetClients>(
     QueryKeys.GET_CLIENTS,
@@ -133,72 +141,67 @@ export const Clients = () => {
   };
 
   const handleCreateClient = () => {
-    setState({
-      ...state,
-      Modal: () => (
-        <CreateClientModal
-          {...{
-            client: {
-              id: uuid(),
-              firstName: "",
-              lastName: "",
-              address: "",
-              email: "",
-              phone: "",
-              notes: "",
-              programs: [],
-              createdAt: new Date().toISOString(),
-              updatedAt: new Date().toISOString()
-            },
-            programs: programs?.getPrograms || [],
-            modalProps: {
-              isOpen: true,
-              onClose: () => setState({ ...state, Modal: undefined })
-            },
-            handleSave: (clientInput) => {
-              upsertClient({
-                clientInput: {
-                  ...clientInput,
-                  updatedAt: new Date().toISOString()
-                }
-              });
-            }
-          }}
-        />
-      )
-    });
+    setModal(() => (
+      <CreateClientModal
+        {...{
+          client: {
+            id: uuid(),
+            firstName: "",
+            lastName: "",
+            address: "",
+            email: "",
+            phone: "",
+            notes: "",
+            programs: [],
+            paymentPlans: [],
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          },
+          programs: programs?.getPrograms || [],
+          modalProps: {
+            isOpen: true,
+            onClose: () => setModal()
+          },
+          handleSave: (clientInput) => {
+            upsertClient({
+              clientInput: {
+                ...clientInput,
+                updatedAt: new Date().toISOString()
+              }
+            });
+          }
+        }}
+      />
+    ));
   };
 
   const handleSelectClient = (client: Client) => {
-    setState({
-      ...state,
-      Modal: () => (
-        <EditClientModal
-          {...{
-            client,
-            programs: programs?.getPrograms || [],
-            modalProps: {
-              isOpen: true,
-              onClose: () => setState({ ...state, Modal: undefined })
-            },
-            handleSave: (clientInput) => {
-              upsertClient({
-                clientInput: {
-                  ...clientInput,
-                  updatedAt: new Date().toISOString()
-                }
-              });
-            },
-            handleDelete: () => {
-              deleteClient({
-                id: client.id,
-                deletedAt: new Date().toISOString()
-              });
-            }
-          }}
-        />
-      )
-    });
+    setModal(() => (
+      <EditClientModal
+        {...{
+          client,
+          programs: programs?.getPrograms || [],
+          modalProps: {
+            isOpen: true,
+            onClose: () => setModal()
+          },
+          handleSave: (clientInput) => {
+            upsertClient({
+              clientInput: {
+                ...clientInput,
+                updatedAt: new Date().toISOString()
+              }
+            });
+          },
+          handleDelete: () => {
+            deleteClient({
+              id: client.id,
+              deletedAt: new Date().toISOString()
+            });
+          }
+        }}
+      />
+    ));
   };
 
   return (
@@ -207,6 +210,7 @@ export const Clients = () => {
         <TabList>
           <Tab>List</Tab>
           <Tab>Progress</Tab>
+          <Tab>Payments</Tab>
         </TabList>
 
         <TabPanels>
@@ -224,6 +228,12 @@ export const Clients = () => {
 
           <TabPanel {...{ px: 0 }}>
             <Progress {...{ clients: clients?.getClients, upsertClient }} />
+          </TabPanel>
+
+          <TabPanel {...{ px: 0 }}>
+            <Payments
+              {...{ clients: clients?.getClients, upsertClient, setModal }}
+            />
           </TabPanel>
         </TabPanels>
       </Tabs>

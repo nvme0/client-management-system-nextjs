@@ -39,6 +39,7 @@ type Client {
   id: ID!
   lastName: String
   notes: String
+  paymentPlans: [PaymentPlan!]
   phone: String
   programs: [ProgramToClient!]
   updatedAt: DateTime!
@@ -52,6 +53,7 @@ input ClientInput {
   id: ID!
   lastName: String
   notes: String
+  paymentPlans: [PaymentPlanInput!] = []
   phone: String
   programs: [ProgramToClientInput!] = []
   updatedAt: DateTime!
@@ -61,6 +63,20 @@ input ClientInput {
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
 scalar DateTime
+
+type Installment {
+  amount: String!
+  currency: String!
+  date: DateTime!
+  notes: String
+}
+
+input InstallmentInput {
+  amount: String!
+  currency: String!
+  date: DateTime!
+  notes: String
+}
 
 type Mutation {
   deleteCalendarEvent(deletedAt: DateTime!, id: String!): Boolean!
@@ -80,6 +96,22 @@ type MutationResponse {
   errors: [YupError]!
   payload: String
   status: Int!
+}
+
+type PaymentPlan {
+  id: ID!
+  installments: [Installment!]
+  notes: String
+  paymentNumber: Int!
+  title: String!
+}
+
+input PaymentPlanInput {
+  id: ID!
+  installments: [InstallmentInput!] = []
+  notes: String
+  paymentNumber: Int!
+  title: String!
 }
 
 type Program {

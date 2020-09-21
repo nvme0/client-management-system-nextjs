@@ -10,6 +10,18 @@ export const GQL_GET_CLIENTS = gql`
       phone
       address
       notes
+      paymentPlans {
+        id
+        title
+        paymentNumber
+        installments {
+          amount
+          currency
+          date
+          notes
+        }
+        notes
+      }
       programs {
         id
         name
@@ -49,6 +61,18 @@ export const GQL_UPSERT_CLIENT = gql`
       phone
       address
       notes
+      paymentPlans {
+        id
+        title
+        paymentNumber
+        installments {
+          amount
+          currency
+          date
+          notes
+        }
+        notes
+      }
       programs {
         id
         name

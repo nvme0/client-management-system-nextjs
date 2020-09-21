@@ -1,0 +1,157 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url = "***"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String          @id
+  email     String          @unique
+  password  String
+  confirmed Boolean         @default(true)
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @default(now())
+  //
+  services  Service[]
+  programs  Program[]
+  clients   Client[]
+  events    CalendarEvent[]
+}
+
+model CalendarEvent {
+  id        String   @id
+  title     String
+  start     DateTime
+  end       DateTime
+  allDay    Boolean
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  //
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+  client    Client?  @relation(fields: [clientId], references: [id])
+  clientId  String?
+  service   Service? @relation(fields: [serviceId], references: [id])
+  serviceId String?
+}
+
+model Service {
+  id                        String                     @id
+  name                      String
+  duration                  String?
+  expires                   DateTime?
+  notes                     String?
+  createdAt                 DateTime                   @default(now())
+  updatedAt                 DateTime                   @default(now())
+  //
+  user                      User?                      @relation(fields: [userId], references: [id])
+  userId                    String?
+  //
+  events                    CalendarEvent[]
+  clients                   ServiceToClient[]
+  programs                  ServiceToProgram[]
+  serviceToProgramToClients ServiceToProgramToClient[]
+}
+
+model Program {
+  id        String             @id
+  name      String
+  notes     String?
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @default(now())
+  //
+  user      User?              @relation(fields: [userId], references: [id])
+  userId    String?
+  //
+  services  ServiceToProgram[]
+}
+
+model ProgramToClient {
+  id        String                     @id
+  name      String
+  notes     String?
+  createdAt DateTime                   @default(now())
+  updatedAt DateTime                   @default(now())
+  //
+  services  ServiceToProgramToClient[]
+  //
+  client    Client                     @relation(fields: [clientId], references: [id])
+  clientId  String
+}
+
+model Client {
+  id           String            @id
+  firstName    String
+  lastName     String?
+  email        String?
+  phone        String?
+  address      String?
+  notes        String?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @default(now())
+  //
+  user         User?             @relation(fields: [userId], references: [id])
+  userId       String?
+  //
+  events       CalendarEvent[]
+  services     ServiceToClient[]
+  programs     ProgramToClient[]
+  installments Installment[]
+}
+
+model ServiceToClient {
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  //
+  service   Service  @relation(fields: [serviceId], references: [id])
+  serviceId String
+  client    Client   @relation(fields: [clientId], references: [id])
+  clientId  String
+
+  @@id([serviceId, clientId])
+}
+
+model ServiceToProgram {
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  //
+  service   Service  @relation(fields: [serviceId], references: [id])
+  serviceId String
+  program   Program  @relation(fields: [programId], references: [id])
+  programId String
+
+  @@id([serviceId, programId])
+}
+
+model ServiceToProgramToClient {
+  quantity  Int
+  booked    Int
+  used      Int
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @default(now())
+  //
+  service   Service         @relation(fields: [serviceId], references: [id])
+  serviceId String
+  program   ProgramToClient @relation(fields: [programId], references: [id])
+  programId String
+
+  @@id([serviceId, programId])
+}
+
+model Installment {
+  id       String   @id
+  amount   Int
+  date     DateTime
+  //
+  Client   Client?  @relation(fields: [clientId], references: [id])
+  clientId String?
+}

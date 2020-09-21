@@ -1,0 +1,162 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateModel",
+      "model": "PaymentPlan"
+    },
+    {
+      "tag": "CreateField",
+      "model": "PaymentPlan",
+      "field": "id",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "PaymentPlan",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "PaymentPlan",
+      "field": "installments",
+      "type": "Installment",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "PaymentPlan",
+      "field": "client",
+      "type": "Client",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "PaymentPlan",
+          "field": "client"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "PaymentPlan",
+          "field": "client"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[clientId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "PaymentPlan",
+          "field": "client"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "PaymentPlan",
+      "field": "clientId",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Client",
+      "field": "paymentPlans",
+      "type": "PaymentPlan",
+      "arity": "List"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Client",
+      "field": "installments"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Installment",
+      "field": "paymentPlan",
+      "type": "PaymentPlan",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Installment",
+          "field": "paymentPlan"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Installment",
+          "field": "paymentPlan"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[paymentPlanId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Installment",
+          "field": "paymentPlan"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Installment",
+      "field": "paymentPlanId",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Installment",
+      "field": "clientId"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Installment",
+      "field": "client"
+    }
+  ]
+}

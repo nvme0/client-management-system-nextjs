@@ -29,6 +29,11 @@ export class CalendarEventResolver {
                     }
                   }
                 }
+              },
+              paymentPlans: {
+                include: {
+                  installments: true
+                }
               }
             }
           },
@@ -63,6 +68,11 @@ export class CalendarEventResolver {
                       service: true
                     }
                   }
+                }
+              },
+              paymentPlans: {
+                include: {
+                  installments: true
                 }
               }
             }
@@ -138,6 +148,11 @@ export class CalendarEventResolver {
                       service: true
                     }
                   }
+                }
+              },
+              paymentPlans: {
+                include: {
+                  installments: true
                 }
               }
             }
