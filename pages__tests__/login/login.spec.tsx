@@ -1,7 +1,7 @@
 import { render, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
-import Login from ".";
+import Login from "pages/login";
 import { OnlineStateProvider } from "lib/network";
 import { OutboxProvider } from "lib/outbox";
 import { LoggedInStateProvider } from "lib/loggedInState";

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import AppLayout from "layouts/AppLayout";
-import Program from "./program";
+import ProgramsComponent from "components/ProgramsComponent";
 import LoginModal from "components/modals/LoginModal";
 import { useLoggedInState } from "lib/loggedInState";
 import { useOnlineState } from "lib/network";
@@ -15,7 +15,7 @@ export const Programs = () => {
 
   return (
     <>
-      <Program {...{ state, setState }} />
+      <ProgramsComponent {...{ state, setState }} />
       {state.Modal && <state.Modal />}
       <LoginModal
         {...{

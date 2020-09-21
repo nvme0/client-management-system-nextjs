@@ -2,7 +2,7 @@ import { render, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import preloadAll from "jest-next-dynamic";
 
-import Progress, { Props } from ".";
+import Progress, { Props } from "components/Progress";
 
 describe("Progress on Clients Page", () => {
   beforeAll(async () => {

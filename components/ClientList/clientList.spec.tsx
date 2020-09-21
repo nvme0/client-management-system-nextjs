@@ -2,7 +2,7 @@ import { render, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import preloadAll from "jest-next-dynamic";
 
-import ClientList, { Props } from ".";
+import ClientList, { Props } from "components/ClientList";
 
 describe("ClientList on Clients Page", () => {
   beforeAll(async () => {

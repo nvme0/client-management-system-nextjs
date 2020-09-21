@@ -2,12 +2,12 @@ import { render, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import preloadAll from "jest-next-dynamic";
 
-import Programs from ".";
+import Calendar from "pages/app/calendar";
 import { OnlineStateProvider } from "lib/network";
 import { OutboxProvider } from "lib/outbox";
 import { LoggedInStateProvider } from "lib/loggedInState";
 
-describe("Programs Page", () => {
+describe("Calendar Page", () => {
   beforeAll(async () => {
     await preloadAll();
   });
@@ -19,7 +19,7 @@ describe("Programs Page", () => {
       <OnlineStateProvider>
         <LoggedInStateProvider>
           <OutboxProvider>
-            <Programs />
+            <Calendar />
           </OutboxProvider>
         </LoggedInStateProvider>
       </OnlineStateProvider>

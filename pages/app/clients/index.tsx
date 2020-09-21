@@ -5,10 +5,10 @@ import { v4 as uuid } from "uuid";
 import { queryCache } from "react-query";
 
 import AppLayout from "layouts/AppLayout";
-import ClientList from "./ClientList";
-import Progress from "./Progress";
-import Payments from "./Payments";
-import Tab from "./components/Tab";
+import Tab from "components/Tab";
+import Progress from "components/Progress";
+import Payments from "components/Payments";
+import ClientList from "components/ClientList";
 import CreateClientModal from "components/modals/ClientModal/CreateClientModal";
 import EditClientModal from "components/modals/ClientModal/EditClientModal";
 import { useQuery, useMutation } from "lib/outbox";
