@@ -119,8 +119,6 @@ export class ClientResolver {
         });
       }
 
-      console.log({ paymentPlans });
-
       const paymentIds = paymentPlans.map(({ id }) => id);
       const storedPaymentIds = entry.paymentPlans.map(({ id }) => id);
       const {

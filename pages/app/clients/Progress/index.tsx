@@ -109,7 +109,6 @@ const Progress = ({ clients, upsertClient }: Props) => {
             const columns = {};
             const columnOrder = [`column-${service.id}-0`];
 
-            // TODO taskIds needs to be tracked in the database
             columns[`column-${service.id}-0`] = {
               id: `column-${service.id}-0`,
               title: "Not Started",

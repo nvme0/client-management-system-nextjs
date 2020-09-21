@@ -300,7 +300,8 @@ describe("Client Resolver", () => {
       address: null,
       email: null,
       phone: null,
-      notes: null
+      notes: null,
+      paymentPlans: []
     });
     expect(getClients.find((client) => client.id === clientInput2.id)).toEqual({
       ...clientInput2,
@@ -309,7 +310,8 @@ describe("Client Resolver", () => {
       address: null,
       email: null,
       phone: null,
-      notes: null
+      notes: null,
+      paymentPlans: []
     });
     expect(getClients.find((client) => client.id === clientInput3.id)).toEqual({
       ...clientInput3,
@@ -318,7 +320,8 @@ describe("Client Resolver", () => {
       address: null,
       email: null,
       phone: null,
-      notes: null
+      notes: null,
+      paymentPlans: []
     });
   });
 });

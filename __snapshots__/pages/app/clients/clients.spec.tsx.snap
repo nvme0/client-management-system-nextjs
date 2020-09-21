@@ -33,6 +33,17 @@ exports[`Clients Page renders 1`] = `
       >
         Progress
       </button>
+      <button
+        aria-controls="tabs-1--tabpanel-2"
+        aria-disabled="false"
+        class="chakra-tabs__tab css-slgqxg"
+        id="tabs-1--tab-2"
+        role="tab"
+        tabindex="-1"
+        type="button"
+      >
+        Payments
+      </button>
     </div>
     <div
       class="chakra-tabs__tab-panels css-0"
@@ -444,6 +455,66 @@ exports[`Clients Page renders 1`] = `
           <div
             class="chakra-stack css-1k0yth1"
           />
+        </div>
+      </div>
+      <div
+        class="chakra-tabs__tab-panel css-1huthg8"
+        hidden=""
+        id="tabs-1--tabpanel-2"
+        role="tabpanel"
+      >
+        <div
+          class="chakra-stack css-1np2y6m"
+        >
+          <div
+            class="chakra-stack css-10q15"
+          >
+            <div
+              class="chakra-stack css-mpfrnm"
+            >
+              <button
+                class="chakra-button css-oqfhsh"
+                type="button"
+              >
+                New Payment Plan
+              </button>
+              <div>
+                <div
+                  class="chakra-select__wrapper css-42b2qy"
+                >
+                  <select
+                    class="chakra-select css-17atxkb"
+                  >
+                    <option
+                      value="-1"
+                    >
+                      Select a Client
+                    </option>
+                  </select>
+                  <div
+                    class="chakra-select__icon-wrapper css-gghxvr"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="chakra-select__icon"
+                      focusable="false"
+                      role="presentation"
+                      style="width: 1em; height: 1em; color: currentColor;"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="chakra-stack css-1k0yth1"
+            />
+          </div>
         </div>
       </div>
     </div>
