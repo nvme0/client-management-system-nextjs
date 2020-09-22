@@ -66,9 +66,9 @@ export const getFetcher = () => ({
             this.dequeue();
           })
           .catch((e) => {
-            delete this.resolvers[id];
             console.error(e);
             reject();
+            delete this.resolvers[id];
           });
       });
     } else {
@@ -92,8 +92,9 @@ export const getFetcher = () => ({
       this.ready = false;
       request(query, variables)
         .then((response) => {
-          this.ready = true;
           resolve(response);
+          delete this.resolvers[id];
+          this.ready = true;
           this.dequeue();
         })
         .catch((error) => {
@@ -121,12 +122,14 @@ export const getFetcher = () => ({
           // don't reject promise if user is not logged in
           if (getIsLoggedIn() === true) {
             reject(error);
+            delete this.resolvers[id];
             this.dequeue();
           }
         });
     } catch (error) {
-      this.ready = true;
       reject(error);
+      delete this.resolvers[id];
+      this.ready = true;
       this.dequeue();
     }
     return true;

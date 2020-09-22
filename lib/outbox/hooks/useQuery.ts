@@ -1,8 +1,7 @@
-// import { isEqual } from "lodash";
 import { useEffect } from "react";
 import { useQuery as q, QueryConfig } from "react-query";
 import { Variables, RequestDocument } from "graphql-request/dist/types";
-// import { useOutbox } from "..";
+
 import { request } from "../fetcher";
 
 const useGqlQuery = <T = any, V = Variables, E = Error>(
@@ -11,8 +10,6 @@ const useGqlQuery = <T = any, V = Variables, E = Error>(
   variables?: V,
   queryOptions?: QueryConfig<T, E>
 ) => {
-  // const { fetcher } = useOutbox();
-  // return q<T, E>(key, () => fetcher.enqueue(query, variables), queryOptions);
   return q<T, E>(key, () => request<any, V>(query, variables), queryOptions);
 };
 
