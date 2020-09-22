@@ -10,7 +10,7 @@ import {
 } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import moment from "moment";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { FiChevronLeft, FiChevronRight, FiRotateCw } from "react-icons/fi";
 
 import AppLayout from "layouts/AppLayout";
 import CreateEventModal from "components/modals/CalendarEventModal/CreateEventModal";
@@ -130,21 +130,23 @@ export const Calendar = () => {
     Modal?: () => JSX.Element;
   }>({});
 
-  const { data: clients } = useQuery<GetClients>(
+  const { data: clients, refetch: refetchClients } = useQuery<GetClients>(
     QueryKeys.GET_CLIENTS,
     GQL_GET_CLIENTS,
     {},
     { initialData: { getClients: [] } }
   );
 
-  const { data: services } = useQuery<GetServices>(
+  const { data: services, refetch: refetchServices } = useQuery<GetServices>(
     QueryKeys.GET_SERVICES,
     GQL_GET_SERVICES,
     {},
     { initialData: { getServices: [] } }
   );
 
-  const { data: calendarEvents } = useQuery<GetCalendarEvents>(
+  const { data: calendarEvents, refetch: refetchCalendarEvents } = useQuery<
+    GetCalendarEvents
+  >(
     QueryKeys.GET_CALENDAR_EVENTS,
     GQL_GET_CALENDAR_EVENTS,
     {},
@@ -304,6 +306,20 @@ export const Calendar = () => {
           <h2 className="prose" style={{ textAlign: "center" }}>
             Calendar
           </h2>
+          <div style={{ display: "flex", justifyContent: "right" }}>
+            <Button
+              {...{
+                templateStyle: "primary-outline",
+                onClick: () => {
+                  refetchServices();
+                  refetchClients();
+                  refetchCalendarEvents();
+                }
+              }}
+            >
+              <FiRotateCw />
+            </Button>
+          </div>
         </Stack>
       </Stack>
 

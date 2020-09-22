@@ -3,6 +3,7 @@ import { TableOptions } from "react-table";
 import { Stack } from "@chakra-ui/core";
 import { v4 as uuid } from "uuid";
 import { queryCache } from "react-query";
+import { FiRotateCw } from "react-icons/fi";
 
 import { Button } from "components/Button";
 import { PaginatedTable } from "components/Table";
@@ -37,14 +38,14 @@ export interface Props {
 }
 
 export const Programs = ({ state, setState }: Props) => {
-  const { data: programs } = useQuery<GetPrograms>(
+  const { data: programs, refetch: refetchPrograms } = useQuery<GetPrograms>(
     QueryKeys.GET_PROGRAMS,
     GQL_GET_PROGRAMS,
     {},
     { initialData: { getPrograms: [] } }
   );
 
-  const { data: services } = useQuery<GetServices>(
+  const { data: services, refetch: refetchServices } = useQuery<GetServices>(
     QueryKeys.GET_SERVICES,
     GQL_GET_SERVICES,
     {},
@@ -201,6 +202,17 @@ export const Programs = ({ state, setState }: Props) => {
               }}
             >
               New Program
+            </Button>
+            <Button
+              {...{
+                templateStyle: "primary-outline",
+                onClick: () => {
+                  refetchServices();
+                  refetchPrograms();
+                }
+              }}
+            >
+              <FiRotateCw />
             </Button>
           </Stack>
         </Stack>

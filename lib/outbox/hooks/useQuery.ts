@@ -32,7 +32,7 @@ const useGqlQuery = <T = any, V = Variables, E = Error>(
                 });
               }
             }
-            reject();
+            resolve(initialData as T);
           });
       }),
     queryOptions

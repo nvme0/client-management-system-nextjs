@@ -1,10 +1,12 @@
 import { useState, useMemo } from "react";
 import { TableOptions } from "react-table";
-import { Tabs, TabPanel, TabList, TabPanels } from "@chakra-ui/core";
+import { Tabs, TabPanel, TabList, TabPanels, Stack } from "@chakra-ui/core";
 import { v4 as uuid } from "uuid";
 import { queryCache } from "react-query";
+import { FiRotateCw } from "react-icons/fi";
 
 import AppLayout from "layouts/AppLayout";
+import { Button } from "components/Button";
 import Tab from "components/Tab";
 import Progress from "components/Progress";
 import Payments from "components/Payments";
@@ -45,14 +47,14 @@ export const Clients = () => {
     });
   };
 
-  const { data: clients } = useQuery<GetClients>(
+  const { data: clients, refetch: refetchClients } = useQuery<GetClients>(
     QueryKeys.GET_CLIENTS,
     GQL_GET_CLIENTS,
     {},
     { initialData: { getClients: [] } }
   );
 
-  const { data: programs } = useQuery<GetPrograms>(
+  const { data: programs, refetch: refetchPrograms } = useQuery<GetPrograms>(
     QueryKeys.GET_PROGRAMS,
     GQL_GET_PROGRAMS,
     {},
@@ -207,11 +209,24 @@ export const Clients = () => {
   return (
     <>
       <Tabs>
-        <TabList>
-          <Tab>List</Tab>
-          <Tab>Progress</Tab>
-          <Tab>Payments</Tab>
-        </TabList>
+        <Stack {...{ isInline: true, justifyContent: "space-between" }}>
+          <TabList {...{ w: "100%" }}>
+            <Tab>List</Tab>
+            <Tab>Progress</Tab>
+            <Tab>Payments</Tab>
+          </TabList>
+          <Button
+            {...{
+              templateStyle: "primary-outline",
+              onClick: () => {
+                refetchClients();
+                refetchPrograms();
+              }
+            }}
+          >
+            <FiRotateCw />
+          </Button>
+        </Stack>
 
         <TabPanels>
           <TabPanel {...{ px: 0 }}>
