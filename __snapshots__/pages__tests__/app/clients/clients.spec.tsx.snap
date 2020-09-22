@@ -6,43 +6,70 @@ exports[`Clients Page renders 1`] = `
     class="chakra-tabs css-0"
   >
     <div
-      aria-orientation="horizontal"
-      class="chakra-tabs__tablist css-k008qs"
-      role="tablist"
+      class="chakra-stack css-1tdah2b"
     >
+      <div
+        aria-orientation="horizontal"
+        class="chakra-tabs__tablist css-hboir5"
+        role="tablist"
+      >
+        <button
+          aria-controls="tabs-1--tabpanel-0"
+          aria-disabled="false"
+          aria-selected="true"
+          class="chakra-tabs__tab css-slgqxg"
+          id="tabs-1--tab-0"
+          role="tab"
+          tabindex="0"
+          type="button"
+        >
+          List
+        </button>
+        <button
+          aria-controls="tabs-1--tabpanel-1"
+          aria-disabled="false"
+          class="chakra-tabs__tab css-slgqxg"
+          id="tabs-1--tab-1"
+          role="tab"
+          tabindex="-1"
+          type="button"
+        >
+          Progress
+        </button>
+        <button
+          aria-controls="tabs-1--tabpanel-2"
+          aria-disabled="false"
+          class="chakra-tabs__tab css-slgqxg"
+          id="tabs-1--tab-2"
+          role="tab"
+          tabindex="-1"
+          type="button"
+        >
+          Payments
+        </button>
+      </div>
       <button
-        aria-controls="tabs-1--tabpanel-0"
-        aria-disabled="false"
-        aria-selected="true"
-        class="chakra-tabs__tab css-slgqxg"
-        id="tabs-1--tab-0"
-        role="tab"
-        tabindex="0"
+        class="chakra-button css-oqfhsh"
         type="button"
       >
-        List
-      </button>
-      <button
-        aria-controls="tabs-1--tabpanel-1"
-        aria-disabled="false"
-        class="chakra-tabs__tab css-slgqxg"
-        id="tabs-1--tab-1"
-        role="tab"
-        tabindex="-1"
-        type="button"
-      >
-        Progress
-      </button>
-      <button
-        aria-controls="tabs-1--tabpanel-2"
-        aria-disabled="false"
-        class="chakra-tabs__tab css-slgqxg"
-        id="tabs-1--tab-2"
-        role="tab"
-        tabindex="-1"
-        type="button"
-      >
-        Payments
+        <svg
+          fill="none"
+          height="1em"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polyline
+            points="23 4 23 10 17 10"
+          />
+          <path
+            d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"
+          />
+        </svg>
       </button>
     </div>
     <div

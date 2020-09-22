@@ -3,6 +3,7 @@ import { TableOptions } from "react-table";
 import { Stack } from "@chakra-ui/core";
 import { v4 as uuid } from "uuid";
 import { queryCache } from "react-query";
+import { FiRotateCw } from "react-icons/fi";
 
 import AppLayout from "layouts/AppLayout";
 import { Button } from "components/Button";
@@ -34,7 +35,7 @@ export const Services = () => {
     Modal?: () => JSX.Element;
   }>({});
 
-  const { data: services } = useQuery<GetServices>(
+  const { data: services, refetch: refetchServices } = useQuery<GetServices>(
     QueryKeys.GET_SERVICES,
     GQL_GET_SERVICES,
     {},
@@ -191,6 +192,16 @@ export const Services = () => {
               }}
             >
               New Service
+            </Button>
+            <Button
+              {...{
+                templateStyle: "primary-outline",
+                onClick: () => {
+                  refetchServices();
+                }
+              }}
+            >
+              <FiRotateCw />
             </Button>
           </Stack>
         </Stack>
