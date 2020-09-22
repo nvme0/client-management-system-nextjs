@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext, createContext } from "react";
 
-let isLoggedIn = false;
+let isLoggedIn = true;
 
 const listeners = new Set<() => void>();
 

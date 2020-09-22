@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useQuery as q, QueryConfig } from "react-query";
 import { Variables, RequestDocument } from "graphql-request/dist/types";
+import { setIsLoggedIn } from "lib/loggedInState";
 
 import { request } from "../fetcher";
 
@@ -10,7 +11,32 @@ const useGqlQuery = <T = any, V = Variables, E = Error>(
   variables?: V,
   queryOptions?: QueryConfig<T, E>
 ) => {
-  return q<T, E>(key, () => request<any, V>(query, variables), queryOptions);
+  const { initialData, ...rest } = queryOptions || {
+    initialData: undefined
+  };
+  return q<T, E>(
+    key,
+    () =>
+      new Promise<T>((resolve, reject) => {
+        request<any, V>(query, variables)
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            if (error.response) {
+              if (error.response.errors) {
+                error.response.errors.forEach((error) => {
+                  if (error.message === "Unauthorized") {
+                    setIsLoggedIn(false);
+                  }
+                });
+              }
+            }
+            resolve(initialData as T);
+          });
+      }),
+    queryOptions
+  );
 };
 
 export const useQuery = <T = any, V = Variables, E = Error>(
@@ -34,7 +60,8 @@ export const useQuery = <T = any, V = Variables, E = Error>(
   })();
 
   const queryResult = useGqlQuery(key, query, variables, {
-    ...rest
+    ...rest,
+    initialData
   });
 
   useEffect(() => {
