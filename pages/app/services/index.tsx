@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import Head from "next/head";
 import { TableOptions } from "react-table";
 import { Stack } from "@chakra-ui/core";
 import { v4 as uuid } from "uuid";
@@ -178,6 +179,9 @@ export const Services = () => {
 
   return (
     <>
+      <Head>
+        <title>Services - Client Management System</title>
+      </Head>
       <Stack {...{ spacing: 4 }}>
         <Stack>
           <h2 className="prose">Services</h2>
@@ -187,6 +191,7 @@ export const Services = () => {
           <Stack {...{ isInline: true, justifyContent: "space-between" }}>
             <Button
               {...{
+                "aria-label": "New Service",
                 templateStyle: "primary-outline",
                 onClick: handleCreateService
               }}
@@ -195,6 +200,7 @@ export const Services = () => {
             </Button>
             <Button
               {...{
+                "aria-label": "Refresh Services",
                 templateStyle: "primary-outline",
                 onClick: () => {
                   refetchServices();

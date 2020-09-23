@@ -24,6 +24,7 @@ const ProgramAddItem = <T extends { id: string; name: string }>({
       </Select>
       <Button
         {...{
+          "aria-label": "Add",
           templateStyle: "primary-outline",
           onClick: () => {
             const itemId = selectRef.current?.value;

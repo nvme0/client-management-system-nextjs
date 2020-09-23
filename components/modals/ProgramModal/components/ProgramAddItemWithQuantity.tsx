@@ -52,6 +52,7 @@ const ProgramAddItemWithQuantity = <T extends { id: string; name: string }>({
       </span>
       <Button
         {...{
+          "aria-label": "Add",
           templateStyle: "primary-outline",
           onClick: () => {
             const itemId = selectRef.current?.value;

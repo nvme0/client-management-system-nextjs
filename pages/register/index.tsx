@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useRouter } from "next/router";
+import Head from "next/head";
 import Link from "next/link";
 import {
   Stack,
@@ -124,6 +125,9 @@ const Register = () => {
   return (
     <OfflineFallbackWrapper>
       <Container>
+        <Head>
+          <title>Register - Client Management System</title>
+        </Head>
         <Header>Create a Free Account</Header>
         <Box>
           <Box
@@ -201,6 +205,7 @@ const Register = () => {
               <Stack {...{ isInline: true, spacing: 1 }}>
                 <Button
                   {...{
+                    "aria-label": "Sign Up",
                     templateStyle: "login",
                     type: "submit",
                     disabled: formik.isSubmitting

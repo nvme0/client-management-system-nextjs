@@ -307,6 +307,7 @@ export const CalendarEventModal = ({
                 {handleDelete && (
                   <Button
                     {...{
+                      "aria-label": "Delete",
                       "data-testid": `delete-${calendarEvent.id}`,
                       templateStyle: "danger-outline",
                       onClick: () => {
@@ -322,6 +323,7 @@ export const CalendarEventModal = ({
               <Stack {...{ isInline: true, spacing: 1 }}>
                 <Button
                   {...{
+                    "aria-label": successButtonText,
                     "data-testid": `submit-${calendarEvent.id}`,
                     templateStyle: "primary",
                     type: "submit"

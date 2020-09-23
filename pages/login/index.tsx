@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useRouter } from "next/router";
+import Head from "next/head";
 import Link from "next/link";
 import {
   Stack,
@@ -98,6 +99,9 @@ const Login = () => {
   return (
     <OfflineFallbackWrapper>
       <Container>
+        <Head>
+          <title>Login - Client Management System</title>
+        </Head>
         <Header>Welcome Back</Header>
         <Box>
           <Box
@@ -175,6 +179,7 @@ const Login = () => {
               <Stack {...{ isInline: true, spacing: 1 }}>
                 <Button
                   {...{
+                    "aria-label": "Login",
                     templateStyle: "login",
                     type: "submit",
                     disabled: formik.isSubmitting

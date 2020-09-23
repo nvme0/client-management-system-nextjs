@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Head from "next/head";
 import { Stack, Box, Select, IconButton, ButtonGroup } from "@chakra-ui/core";
 import { v4 as uuid } from "uuid";
 import { queryCache } from "react-query";
@@ -293,6 +294,9 @@ export const Calendar = () => {
 
   return (
     <>
+      <Head>
+        <title>Calendar - Client Management System</title>
+      </Head>
       <Stack
         {...{
           spacing: 4,
@@ -309,6 +313,7 @@ export const Calendar = () => {
           <div style={{ display: "flex", justifyContent: "right" }}>
             <Button
               {...{
+                "aria-label": "Refresh Services, Clients, and Calendar Events",
                 templateStyle: "primary-outline",
                 onClick: () => {
                   refetchServices();

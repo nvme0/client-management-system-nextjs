@@ -52,6 +52,7 @@ const ClientList = ({ setModal, clients, upsertClient }: Props) => {
         <Stack {...{ isInline: true }}>
           <Button
             {...{
+              "aria-label": "New Payment Plan",
               templateStyle: "primary-outline",
               onClick: () =>
                 setModal(() => (

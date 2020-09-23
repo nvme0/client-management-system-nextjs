@@ -509,6 +509,7 @@ const PaymentPlanModal = ({
                 {handleDelete && (
                   <Button
                     {...{
+                      "aria-label": "Delete",
                       "data-testid": `delete-`,
                       templateStyle: "danger-outline",
                       onClick: () => {
@@ -524,6 +525,7 @@ const PaymentPlanModal = ({
               <Stack {...{ isInline: true, spacing: 1 }}>
                 <Button
                   {...{
+                    "aria-label": successButtonText,
                     "data-testid": `submit-`,
                     templateStyle: "primary",
                     type: "submit"

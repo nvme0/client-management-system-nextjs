@@ -129,6 +129,7 @@ const ServiceModal = ({
                 {handleDelete && (
                   <Button
                     {...{
+                      "aria-label": "Delete",
                       "data-testid": `delete-${service.id}`,
                       templateStyle: "danger-outline",
                       onClick: () => {
@@ -144,6 +145,7 @@ const ServiceModal = ({
               <Stack {...{ isInline: true, spacing: 1 }}>
                 <Button
                   {...{
+                    "aria-label": successButtonText,
                     "data-testid": `submit-${service.id}`,
                     templateStyle: "primary",
                     type: "submit"

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Head from "next/head";
 
 import AppLayout from "layouts/AppLayout";
 import ProgramsComponent from "components/ProgramsComponent";
@@ -15,6 +16,9 @@ export const Programs = () => {
 
   return (
     <>
+      <Head>
+        <title>Programs - Client Management System</title>
+      </Head>
       <ProgramsComponent {...{ state, setState }} />
       {state.Modal && <state.Modal />}
       <LoginModal

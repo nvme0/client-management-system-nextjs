@@ -166,6 +166,7 @@ const LoginModal = ({ modalProps }: Props) => {
               <Stack {...{ isInline: true, spacing: 1 }}>
                 <Button
                   {...{
+                    "aria-label": "Login",
                     templateStyle: "login",
                     type: "submit",
                     disabled: formik.isSubmitting

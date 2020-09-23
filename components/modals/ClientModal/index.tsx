@@ -136,6 +136,7 @@ const ClientModal = ({
           <Box {...{ justifyContent: "right", display: "flex" }}>
             <Button
               {...{
+                "aria-label": "Delete",
                 size: "sm",
                 templateStyle: "danger-outline",
                 onClick: () => removeProgram(row.original)
@@ -356,6 +357,7 @@ const ClientModal = ({
                 {handleDelete && (
                   <Button
                     {...{
+                      "aria-label": "Delete",
                       "data-testid": `delete-${client.id}`,
                       templateStyle: "danger-outline",
                       onClick: () => {
@@ -371,6 +373,7 @@ const ClientModal = ({
               <Stack {...{ isInline: true, spacing: 1 }}>
                 <Button
                   {...{
+                    "aria-label": successButtonText,
                     "data-testid": `submit-${client.id}`,
                     templateStyle: "primary",
                     type: "submit"
