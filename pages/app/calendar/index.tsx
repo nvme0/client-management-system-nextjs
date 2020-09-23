@@ -74,6 +74,7 @@ const CustomToolbar = ({ label, onNavigate, onView, view }: ToolbarProps) => {
       >
         <Select
           {...{
+            "aria-label": "Select Time Frame",
             width: "auto",
             value: view,
             onChange: (event) => onView(event.target.value as View)

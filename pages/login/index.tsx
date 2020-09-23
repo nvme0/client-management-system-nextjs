@@ -139,6 +139,7 @@ const Login = () => {
                   <FormLabel>Email</FormLabel>
                   <Input
                     {...{
+                      "aria-label": "Email",
                       placeholder: "Email",
                       ...formik.getFieldProps("email"),
                       onInput: () => {
@@ -162,6 +163,7 @@ const Login = () => {
                   <FormLabel>Password</FormLabel>
                   <Input
                     {...{
+                      "aria-label": "Password",
                       type: "password",
                       placeholder: "Password",
                       ...formik.getFieldProps("password"),

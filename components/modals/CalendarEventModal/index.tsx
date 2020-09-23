@@ -150,6 +150,7 @@ export const CalendarEventModal = ({
                   <FormLabel>Title</FormLabel>
                   <Input
                     {...{
+                      "aria-label": "Title",
                       placeholder: "Title",
                       ...formik.getFieldProps("title")
                     }}
@@ -165,6 +166,7 @@ export const CalendarEventModal = ({
                   <FormLabel>Client</FormLabel>
                   <Select
                     {...{
+                      "aria-label": "Select a Client",
                       isInvalid:
                         formik.touched.client && !!formik.errors.client,
                       feedback: formik.errors.client,
@@ -200,6 +202,7 @@ export const CalendarEventModal = ({
                   <FormLabel>Service</FormLabel>
                   <Select
                     {...{
+                      "aria-label": "Select a Service",
                       disabled: !formik.values.client,
                       isInvalid:
                         formik.touched.service && !!formik.errors.service,
@@ -292,6 +295,7 @@ export const CalendarEventModal = ({
                   <FormLabel {...{ mb: 0 }}>Show in Top</FormLabel>
                   <input
                     {...{
+                      "aria-label": "Show in top",
                       type: "checkbox",
                       feedback: formik.errors.allDay,
                       ...formik.getFieldProps("allDay"),

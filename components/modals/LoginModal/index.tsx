@@ -121,6 +121,7 @@ const LoginModal = ({ modalProps }: Props) => {
                     <FormLabel>Email</FormLabel>
                     <Input
                       {...{
+                        "aria-label": "Email",
                         placeholder: "Email",
                         ...formik.getFieldProps("email"),
                         onInput: () => {
@@ -144,6 +145,7 @@ const LoginModal = ({ modalProps }: Props) => {
                     <FormLabel>Password</FormLabel>
                     <Input
                       {...{
+                        "aria-label": "Password",
                         type: "password",
                         placeholder: "Password",
                         ...formik.getFieldProps("password"),

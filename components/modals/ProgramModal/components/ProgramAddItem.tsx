@@ -15,7 +15,12 @@ const ProgramAddItem = <T extends { id: string; name: string }>({
   const selectRef = useRef<HTMLSelectElement>(null);
   return items.length > 0 ? (
     <Stack {...{ isInline: true }}>
-      <Select {...{ ref: selectRef }}>
+      <Select
+        {...{
+          "aria-label": "Select a Program",
+          ref: selectRef
+        }}
+      >
         {items.map((item) => (
           <option key={item.id} value={item.id}>
             {item.name}

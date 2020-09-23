@@ -180,6 +180,7 @@ const ProgramModal = ({
                   <FormLabel>Name</FormLabel>
                   <Input
                     {...{
+                      "aria-label": "Name",
                       placeholder: "Name",
                       ...formik.getFieldProps("name")
                     }}
