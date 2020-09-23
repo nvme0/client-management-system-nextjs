@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import Head from "next/head";
 import { TableOptions } from "react-table";
 import { Tabs, TabPanel, TabList, TabPanels, Stack } from "@chakra-ui/core";
 import { v4 as uuid } from "uuid";
@@ -208,6 +209,9 @@ export const Clients = () => {
 
   return (
     <>
+      <Head>
+        <title>Clients - Client Management System</title>
+      </Head>
       <Tabs>
         <Stack {...{ isInline: true, justifyContent: "space-between" }}>
           <TabList {...{ w: "100%" }}>
@@ -217,6 +221,7 @@ export const Clients = () => {
           </TabList>
           <Button
             {...{
+              "aria-label": "Refresh Clients and Programs",
               templateStyle: "primary-outline",
               onClick: () => {
                 refetchClients();

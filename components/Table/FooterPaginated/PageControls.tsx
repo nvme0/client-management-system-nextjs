@@ -46,6 +46,7 @@ const PageControls = ({
     {showPageSizeOptions && (
       <Select
         {...{
+          "aria-label": "Select number of items to show per page",
           value: pageSize,
           onChange: (e) => {
             setPageSize(Number(e.target.value));

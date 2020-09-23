@@ -26,6 +26,7 @@ const ClientList = ({
         <Stack {...{ isInline: true, justifyContent: "space-between" }}>
           <Button
             {...{
+              "aria-label": "New Client",
               templateStyle: "primary-outline",
               onClick: handleCreateClient
             }}

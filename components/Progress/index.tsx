@@ -52,6 +52,7 @@ const Progress = ({ clients, upsertClient }: Props) => {
           <div>
             <Select
               {...{
+                "aria-label": "Select a Client",
                 value: clientIndex,
                 onChange: (event) => {
                   const newClientIndex = Number(event.target.value);
@@ -76,6 +77,7 @@ const Progress = ({ clients, upsertClient }: Props) => {
           <div>
             <Select
               {...{
+                "aria-label": "Select a Program",
                 value: programIndex,
                 onChange: (event) => {
                   const value = Number(event.target.value);

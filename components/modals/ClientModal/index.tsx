@@ -136,6 +136,7 @@ const ClientModal = ({
           <Box {...{ justifyContent: "right", display: "flex" }}>
             <Button
               {...{
+                "aria-label": "Delete",
                 size: "sm",
                 templateStyle: "danger-outline",
                 onClick: () => removeProgram(row.original)
@@ -201,6 +202,7 @@ const ClientModal = ({
                         <FormLabel>First Name</FormLabel>
                         <Input
                           {...{
+                            "aria-label": "First Name",
                             placeholder: "First name",
                             ...formik.getFieldProps("firstName")
                           }}
@@ -218,6 +220,7 @@ const ClientModal = ({
                         <FormLabel>Last Name</FormLabel>
                         <Input
                           {...{
+                            "aria-label": "Last name",
                             placeholder: "Last name",
                             ...formik.getFieldProps("lastName")
                           }}
@@ -235,6 +238,7 @@ const ClientModal = ({
                         <FormLabel>Contact Email</FormLabel>
                         <Input
                           {...{
+                            "aria-label": "Email",
                             placeholder: "Email",
                             ...formik.getFieldProps("email")
                           }}
@@ -252,6 +256,7 @@ const ClientModal = ({
                         <FormLabel>Contact Number</FormLabel>
                         <Input
                           {...{
+                            "aria-label": "Contact Phone Number",
                             placeholder: "Phone number",
                             ...formik.getFieldProps("phone")
                           }}
@@ -269,6 +274,7 @@ const ClientModal = ({
                         <FormLabel>Address</FormLabel>
                         <Input
                           {...{
+                            "aria-label": "Address",
                             placeholder: "Address",
                             ...formik.getFieldProps("address")
                           }}
@@ -356,6 +362,7 @@ const ClientModal = ({
                 {handleDelete && (
                   <Button
                     {...{
+                      "aria-label": "Delete",
                       "data-testid": `delete-${client.id}`,
                       templateStyle: "danger-outline",
                       onClick: () => {
@@ -371,6 +378,7 @@ const ClientModal = ({
               <Stack {...{ isInline: true, spacing: 1 }}>
                 <Button
                   {...{
+                    "aria-label": successButtonText,
                     "data-testid": `submit-${client.id}`,
                     templateStyle: "primary",
                     type: "submit"

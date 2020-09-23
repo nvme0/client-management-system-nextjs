@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useRouter } from "next/router";
+import Head from "next/head";
 import Link from "next/link";
 import {
   Stack,
@@ -49,12 +50,7 @@ const Login = () => {
     type: "none"
   });
 
-  const { isLoggedIn, setIsLoggedIn } = useLoggedInState();
-  useEffect(() => {
-    if (isLoggedIn) {
-      router.push("/app/services");
-    }
-  }, [isLoggedIn]);
+  const { setIsLoggedIn } = useLoggedInState();
 
   const [login] = useMutation<
     TLogin,
@@ -98,6 +94,9 @@ const Login = () => {
   return (
     <OfflineFallbackWrapper>
       <Container>
+        <Head>
+          <title>Login - Client Management System</title>
+        </Head>
         <Header>Welcome Back</Header>
         <Box>
           <Box
@@ -135,6 +134,7 @@ const Login = () => {
                   <FormLabel>Email</FormLabel>
                   <Input
                     {...{
+                      "aria-label": "Email",
                       placeholder: "Email",
                       ...formik.getFieldProps("email"),
                       onInput: () => {
@@ -158,6 +158,7 @@ const Login = () => {
                   <FormLabel>Password</FormLabel>
                   <Input
                     {...{
+                      "aria-label": "Password",
                       type: "password",
                       placeholder: "Password",
                       ...formik.getFieldProps("password"),
@@ -175,6 +176,7 @@ const Login = () => {
               <Stack {...{ isInline: true, spacing: 1 }}>
                 <Button
                   {...{
+                    "aria-label": "Login",
                     templateStyle: "login",
                     type: "submit",
                     disabled: formik.isSubmitting

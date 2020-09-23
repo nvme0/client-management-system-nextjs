@@ -52,6 +52,7 @@ const ClientList = ({ setModal, clients, upsertClient }: Props) => {
         <Stack {...{ isInline: true }}>
           <Button
             {...{
+              "aria-label": "New Payment Plan",
               templateStyle: "primary-outline",
               onClick: () =>
                 setModal(() => (
@@ -85,6 +86,7 @@ const ClientList = ({ setModal, clients, upsertClient }: Props) => {
           <div>
             <Select
               {...{
+                "aria-label": "Select a Client",
                 value: clientIndex,
                 onChange: (event) => {
                   const newClientIndex = Number(event.target.value);

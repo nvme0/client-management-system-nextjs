@@ -49,6 +49,7 @@ exports[`Clients Page renders 1`] = `
         </button>
       </div>
       <button
+        aria-label="Refresh Clients and Programs"
         class="chakra-button css-oqfhsh"
         type="button"
       >
@@ -90,6 +91,7 @@ exports[`Clients Page renders 1`] = `
               class="chakra-stack css-1tdah2b"
             >
               <button
+                aria-label="New Client"
                 class="chakra-button css-oqfhsh"
                 type="button"
               >
@@ -283,6 +285,7 @@ exports[`Clients Page renders 1`] = `
                             class="chakra-select__wrapper css-xzaah7"
                           >
                             <select
+                              aria-label="Select number of items to show per page"
                               class="chakra-select css-17atxkb"
                             >
                               <option
@@ -418,6 +421,7 @@ exports[`Clients Page renders 1`] = `
                   class="chakra-select__wrapper css-42b2qy"
                 >
                   <select
+                    aria-label="Select a Client"
                     class="chakra-select css-17atxkb"
                   >
                     <option
@@ -450,6 +454,7 @@ exports[`Clients Page renders 1`] = `
                   class="chakra-select__wrapper css-42b2qy"
                 >
                   <select
+                    aria-label="Select a Program"
                     class="chakra-select css-17atxkb"
                   >
                     <option
@@ -500,6 +505,7 @@ exports[`Clients Page renders 1`] = `
               class="chakra-stack css-mpfrnm"
             >
               <button
+                aria-label="New Payment Plan"
                 class="chakra-button css-oqfhsh"
                 type="button"
               >
@@ -510,6 +516,7 @@ exports[`Clients Page renders 1`] = `
                   class="chakra-select__wrapper css-42b2qy"
                 >
                   <select
+                    aria-label="Select a Client"
                     class="chakra-select css-17atxkb"
                   >
                     <option

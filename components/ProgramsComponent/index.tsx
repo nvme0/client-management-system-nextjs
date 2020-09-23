@@ -197,6 +197,7 @@ export const Programs = ({ state, setState }: Props) => {
           <Stack {...{ isInline: true, justifyContent: "space-between" }}>
             <Button
               {...{
+                "aria-label": "New Program",
                 templateStyle: "primary-outline",
                 onClick: handleCreateProgram
               }}
@@ -205,6 +206,7 @@ export const Programs = ({ state, setState }: Props) => {
             </Button>
             <Button
               {...{
+                "aria-label": "Refresh Services and Programs",
                 templateStyle: "primary-outline",
                 onClick: () => {
                   refetchServices();

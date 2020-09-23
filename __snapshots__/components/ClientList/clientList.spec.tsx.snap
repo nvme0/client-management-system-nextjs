@@ -12,6 +12,7 @@ exports[`ClientList on Clients Page renders 1`] = `
         class="chakra-stack css-1tdah2b"
       >
         <button
+          aria-label="New Client"
           class="chakra-button css-oqfhsh"
           type="button"
         >
@@ -205,6 +206,7 @@ exports[`ClientList on Clients Page renders 1`] = `
                       class="chakra-select__wrapper css-xzaah7"
                     >
                       <select
+                        aria-label="Select number of items to show per page"
                         class="chakra-select css-17atxkb"
                       >
                         <option

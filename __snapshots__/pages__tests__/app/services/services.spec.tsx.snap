@@ -21,12 +21,14 @@ exports[`Services Page renders 1`] = `
         class="chakra-stack css-1tdah2b"
       >
         <button
+          aria-label="New Service"
           class="chakra-button css-oqfhsh"
           type="button"
         >
           New Service
         </button>
         <button
+          aria-label="Refresh Services"
           class="chakra-button css-oqfhsh"
           type="button"
         >
@@ -189,6 +191,7 @@ exports[`Services Page renders 1`] = `
                       class="chakra-select__wrapper css-xzaah7"
                     >
                       <select
+                        aria-label="Select number of items to show per page"
                         class="chakra-select css-17atxkb"
                       >
                         <option

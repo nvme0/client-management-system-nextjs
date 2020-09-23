@@ -16,6 +16,7 @@ exports[`Progress on Clients Page renders 1`] = `
             class="chakra-select__wrapper css-42b2qy"
           >
             <select
+              aria-label="Select a Client"
               class="chakra-select css-17atxkb"
             >
               <option
@@ -48,6 +49,7 @@ exports[`Progress on Clients Page renders 1`] = `
             class="chakra-select__wrapper css-42b2qy"
           >
             <select
+              aria-label="Select a Program"
               class="chakra-select css-17atxkb"
             >
               <option

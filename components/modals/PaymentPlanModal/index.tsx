@@ -242,6 +242,7 @@ const PaymentPlanModal = ({
                         <FormLabel>Title</FormLabel>
                         <Input
                           {...{
+                            "aria-label": "Title",
                             placeholder: "Title",
                             ...formik.getFieldProps("title")
                           }}
@@ -261,6 +262,7 @@ const PaymentPlanModal = ({
                         <FormLabel>Client</FormLabel>
                         <Select
                           {...{
+                            "aria-label": "Select a Client",
                             value: formik.values.clientIndex,
                             onChange: (event) => {
                               const newClientIndex = Number(event.target.value);
@@ -295,6 +297,7 @@ const PaymentPlanModal = ({
                         <FormLabel>Amount</FormLabel>
                         <Input
                           {...{
+                            "aria-label": "Amount",
                             placeholder: "0.00",
                             value: formik.values.amount || "",
                             disabled: true
@@ -350,6 +353,7 @@ const PaymentPlanModal = ({
                         <FormLabel>Total Amount</FormLabel>
                         <Input
                           {...{
+                            "aria-label": "Total Amount",
                             placeholder: "0.00",
                             value: formik.values.amount || "",
                             disabled: true
@@ -402,6 +406,7 @@ const PaymentPlanModal = ({
                                 <FormLabel>Amount</FormLabel>
                                 <Input
                                   {...{
+                                    "aria-label": "Installmant Amount",
                                     placeholder: "0.00",
                                     ...formik.getFieldProps(
                                       `installments[${i}].amount`
@@ -509,6 +514,7 @@ const PaymentPlanModal = ({
                 {handleDelete && (
                   <Button
                     {...{
+                      "aria-label": "Delete",
                       "data-testid": `delete-`,
                       templateStyle: "danger-outline",
                       onClick: () => {
@@ -524,6 +530,7 @@ const PaymentPlanModal = ({
               <Stack {...{ isInline: true, spacing: 1 }}>
                 <Button
                   {...{
+                    "aria-label": successButtonText,
                     "data-testid": `submit-`,
                     templateStyle: "primary",
                     type: "submit"

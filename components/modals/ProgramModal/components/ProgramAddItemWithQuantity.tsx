@@ -24,7 +24,12 @@ const ProgramAddItemWithQuantity = <T extends { id: string; name: string }>({
   const numberRef = useRef<HTMLInputElement>(null);
   return items.length > 0 ? (
     <Stack {...{ isInline: true }}>
-      <Select {...{ ref: selectRef }}>
+      <Select
+        {...{
+          "aria-label": "Select a Program",
+          ref: selectRef
+        }}
+      >
         {items.map((item) => (
           <option key={item.id} value={item.id}>
             {item.name}
@@ -52,6 +57,7 @@ const ProgramAddItemWithQuantity = <T extends { id: string; name: string }>({
       </span>
       <Button
         {...{
+          "aria-label": "Add",
           templateStyle: "primary-outline",
           onClick: () => {
             const itemId = selectRef.current?.value;
