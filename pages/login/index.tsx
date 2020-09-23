@@ -50,12 +50,7 @@ const Login = () => {
     type: "none"
   });
 
-  const { isLoggedIn, setIsLoggedIn } = useLoggedInState();
-  useEffect(() => {
-    if (isLoggedIn) {
-      router.push("/app/services");
-    }
-  }, [isLoggedIn]);
+  const { setIsLoggedIn } = useLoggedInState();
 
   const [login] = useMutation<
     TLogin,
