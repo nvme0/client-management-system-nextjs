@@ -22,9 +22,31 @@ const Navbar = ({ children }) => {
       }}
     >
       {isOnline ? (
-        <Badge {...{ colorScheme: "green", variant: "outline" }}>Online</Badge>
+        <Badge
+          {...{
+            mr: {
+              base: 2,
+              md: 0
+            },
+            colorScheme: "green",
+            variant: "outline"
+          }}
+        >
+          Online
+        </Badge>
       ) : (
-        <Badge {...{ colorScheme: "red", variant: "outline" }}>Offline</Badge>
+        <Badge
+          {...{
+            mr: {
+              base: 2,
+              md: 0
+            },
+            colorScheme: "red",
+            variant: "outline"
+          }}
+        >
+          Offline
+        </Badge>
       )}
       {children}
     </Flex>
