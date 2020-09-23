@@ -13,6 +13,7 @@ const MobileMenu = () => {
     <Menu>
       <MenuButton
         {...{
+          "aria-label": "Menu",
           as: IconButton,
           icon: <FiMenu />,
           variant: "outline",
