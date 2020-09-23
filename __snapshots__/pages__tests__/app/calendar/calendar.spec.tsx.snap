@@ -18,6 +18,7 @@ exports[`Calendar Page renders 1`] = `
         style="display: flex; justify-content: right;"
       >
         <button
+          aria-label="Refresh Services, Clients, and Calendar Events"
           class="chakra-button css-oqfhsh"
           type="button"
         >
@@ -60,6 +61,7 @@ exports[`Calendar Page renders 1`] = `
             class="chakra-select__wrapper css-1xrhsyg"
           >
             <select
+              aria-label="Select Time Frame"
               class="chakra-select css-17atxkb"
             >
               <option
@@ -548,10 +550,10 @@ exports[`Calendar Page renders 1`] = `
               class="rbc-day-bg"
             />
             <div
-              class="rbc-day-bg rbc-today"
+              class="rbc-day-bg"
             />
             <div
-              class="rbc-day-bg"
+              class="rbc-day-bg rbc-today"
             />
             <div
               class="rbc-day-bg"
@@ -588,7 +590,7 @@ exports[`Calendar Page renders 1`] = `
                 </a>
               </div>
               <div
-                class="rbc-date-cell rbc-now rbc-current"
+                class="rbc-date-cell"
               >
                 <a
                   href="#"
@@ -597,7 +599,7 @@ exports[`Calendar Page renders 1`] = `
                 </a>
               </div>
               <div
-                class="rbc-date-cell"
+                class="rbc-date-cell rbc-now rbc-current"
               >
                 <a
                   href="#"
