@@ -17,6 +17,7 @@
     "prebuild:build": "tsc --project ./service-worker/tsconfig.worker.json",
     "prebuild": "npm run clean:prebuild && npm run prebuild:build",
     "build": "npm run prebuild && npm run clean:build && next build",
+    "build:analyze": "ANALYZE=true npm run build",
     "develop": "npm run clean:build && next dev",
     "develop:sw": "tsc --watch --preserveWatchOutput --project ./service-worker/tsconfig.worker.json",
     "start": "next start",
@@ -37,6 +38,7 @@
   "dependencies": {
     "@chakra-ui/core": "^1.0.0-rc.3",
     "@chakra-ui/theme": "^1.0.0-rc.3",
+    "@next/bundle-analyzer": "^9.5.3",
     "@prisma/client": "^2.6.2",
     "apollo-server-micro": "^2.17.0",
     "bcrypt": "^5.0.0",
