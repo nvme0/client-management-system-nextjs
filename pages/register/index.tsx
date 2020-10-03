@@ -106,6 +106,7 @@ const Register = () => {
               }
               setAccessToken(payload);
               setIsLoggedIn(true);
+              router.push("/app/services");
             }
           });
         },

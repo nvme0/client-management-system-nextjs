@@ -80,6 +80,7 @@ const Login = () => {
           }
           setAccessToken(payload);
           setIsLoggedIn(true);
+          router.push("/app/services");
         },
         onError: () => {
           setLoginErrors({ type: "network" });
