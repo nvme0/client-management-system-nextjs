@@ -1,12 +1,11 @@
 {
   "name": "Client Management System",
-  "short_name": "Client Management",
+  "short_name": "CMS",
   "theme_color": "#3182ce",
   "background_color": "#fff",
   "display": "minimal-ui",
   "orientation": "portrait",
   "scope": "/",
-  "start_url": "/login",
   "icons": [
     {
       "src": "icons/icon-72x72.png",
