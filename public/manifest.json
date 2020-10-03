@@ -6,6 +6,7 @@
   "display": "minimal-ui",
   "orientation": "portrait",
   "scope": "/",
+  "start_url": "/app/calendar",
   "icons": [
     {
       "src": "icons/icon-72x72.png",
