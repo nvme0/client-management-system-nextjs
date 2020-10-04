@@ -15,6 +15,7 @@ import { precacheAndRoute } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
 import { NetworkFirst } from "workbox-strategies";
 // import {} from "workbox-streams";
+import * as googleAnalytics from "workbox-google-analytics";
 
 precacheAndRoute(self.__WB_MANIFEST);
 // Your other SW code goes here.
@@ -28,3 +29,9 @@ registerRoute(
     cacheName: "offlineCache"
   })
 );
+
+googleAnalytics.initialize({
+  parameterOverrides: {
+    cd1: "offline"
+  }
+});
