@@ -5,6 +5,8 @@ const APP_NAME = "Client Management System";
 const APP_DESCRIPTION = "An app that manages your clients relations";
 const APP_THEME_COLOR = "#3182ce";
 
+const GA_TRACKING_ID = "UA-179568776-1";
+
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx);
@@ -15,6 +17,22 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          {/* Global Site Tag (gtag.js) - Google Analytics */}
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_TRACKING_ID}');
+              `
+            }}
+          />
+
           <meta name="application-name" content={APP_NAME} />
 
           <meta name="description" content={APP_DESCRIPTION} />
